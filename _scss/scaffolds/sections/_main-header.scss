@@ -1,0 +1,41 @@
+.main-header {
+  padding: 20px 0;
+}
+
+.main-header--article {
+  position: absolute;
+  right: 0;
+  left: 0;
+}
+
+.main-header__container {
+  display: flex;
+  align-items: center;
+}
+
+.main-header__nav {
+  margin-left: auto;
+}
+
+.main-header__feature {
+  display: none;
+}
+
+@include from(sm) {
+  .main-header__nav {
+    order: 1;
+    margin-left: 30px;
+  }
+
+  .main-header__feature {
+    display: flex;
+    margin-left: auto;
+  }
+}
+
+@include from(md) {
+  .main-header__nav {
+    order: 0;
+    margin-left: auto;
+  }
+}

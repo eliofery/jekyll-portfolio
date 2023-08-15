@@ -1,0 +1,30 @@
+.logo {
+  display: flex;
+  align-items: center;
+  max-width: 220px;
+
+  color: rgba(var(--color-text), 0.7);
+  font-size: 10px;
+  text-decoration: none;
+  column-gap: 10px;
+}
+
+.logo__img {
+  flex-shrink: 0;
+  width: 42px;
+  height: 50px;
+}
+
+.logo__desc {
+  margin: 0;
+}
+
+.logo__desc b {
+  color: rgb(var(--color-text));
+}
+
+@include from(sm) {
+  .logo {
+    font-size: map-get($font-sizes, "xxs");
+  }
+}

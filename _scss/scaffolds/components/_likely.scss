@@ -1,0 +1,9 @@
+.likely {
+  justify-content: flex-start;
+}
+
+.likely__widget {
+  &:focus {
+    outline: 2px solid rgb(var(--color-text)) !important;
+  }
+}

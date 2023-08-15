@@ -2,7 +2,7 @@
 title: Портфолио Sergio Eliofery
 description: Портфолио и блог web разработчика Sergio Eliofery.
 lang: ru
-baseurl: ''
+baseurl: '/jekyll-portfolio/'
 url: 'http://127.0.0.1:4000'
 themecolor: '#000'
 google_analytics: UA-XXXXXXXXX-X
@@ -22,9 +22,12 @@ liquid:
   strict_filters: true
 
 # Стили sass
+# https://github.com/jekyll/jekyll-sass-converter
 sass:
-  sass_dir: _sass
+  sass_dir: _scss
   style: compressed
+  sourcemap: development # export JEKYLL_ENV=production|development
+  load_paths: [node_modules]
 
 # Настройки плагинов
 plugins:

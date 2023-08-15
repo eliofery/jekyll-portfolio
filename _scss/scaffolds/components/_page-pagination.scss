@@ -1,0 +1,106 @@
+.page-pagination {
+  @include list-reset;
+
+  display: flex;
+  align-items: center;
+
+  line-height: 0;
+  column-gap: 10px;
+}
+
+.page-pagination__item {
+  display: block;
+
+  color: rgb(var(--color-text));
+  font-size: map-get($font-sizes, "md");
+
+  &--prev {
+    margin-right: 10px;
+  }
+
+  &--next {
+    margin-left: 10px;
+  }
+
+  &:nth-child(n+6) {
+    display: none;
+  }
+
+  &:first-child,
+  &:last-child {
+    display: block;
+  }
+}
+
+.page-pagination__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+
+  color: rgb(var(--color-bg));
+  text-decoration: none;
+
+  background-color: rgb(var(--color-text));
+  border-radius: 50%;
+}
+
+.page-pagination__item--prev .page-pagination__link,
+.page-pagination__item--next .page-pagination__link {
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.page-pagination__item--active .page-pagination__link {
+  color: #fff;
+
+  background-color: rgb(var(--color-accent));
+}
+
+.page-pagination__icon {
+  fill: rgb(var(--color-text));
+}
+
+@include from(sm) {
+  .page-pagination__link,
+  .page-pagination__icon {
+    transition: $transition;
+  }
+
+  .page-pagination__link {
+    &:hover,
+    &:focus {
+      color: #fff;
+
+      background-color: rgba(var(--color-accent), 0.7);
+    }
+  }
+
+  .page-pagination__item--prev .page-pagination__link,
+  .page-pagination__item--next .page-pagination__link {
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      border-radius: 0;
+    }
+  }
+
+  .page-pagination__item--active .page-pagination__link {
+    &:hover,
+    &:focus {
+      color: #fff;
+
+      background-color: rgb(var(--color-accent));
+
+      cursor: default;
+    }
+  }
+
+  .page-pagination__item--prev .page-pagination__link:hover .page-pagination__icon,
+  .page-pagination__item--next .page-pagination__link:hover .page-pagination__icon,
+  .page-pagination__item--prev .page-pagination__link:focus .page-pagination__icon,
+  .page-pagination__item--next .page-pagination__link:focus .page-pagination__icon {
+    fill: rgba(var(--color-text), 0.5);
+  }
+}
