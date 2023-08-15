@@ -1,0 +1,33 @@
+{
+  "name": "Sergio Eliofery",
+  "short_name": "Sergio Eliofery",
+  "description": "Портфолио и блог web разработчика Sergio Eliofery",
+  "lang": "ru",
+  "dir": "ltr",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "minimal-ui",
+  "orientation": "any",
+  "theme_color": "#ee1b24",
+  "background_color": "#ee1b24",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "assets/img/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/img/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "assets/img/icon.svg",
+      "sizes": "any",
+      "type": "image/svg",
+      "purpose": "maskable"
+    }
+  ]
+}
