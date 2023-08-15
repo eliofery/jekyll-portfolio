@@ -2,11 +2,14 @@
 title: Портфолио Sergio Eliofery
 description: Портфолио и блог web разработчика Sergio Eliofery.
 lang: ru
-baseurl: '/jekyll-portfolio/'
 url: 'http://127.0.0.1:4000'
+baseurl: '/jekyll-portfolio/'
 themecolor: '#000'
-google_analytics: UA-XXXXXXXXX-X
 permalink: none # https://jekyllrb.com/docs/permalinks/#built-in-formats
+
+# export JEKYLL_ENV=production|development
+google_analytics: UA-XXXXXXXXX-X
+yandex_metrika: XXXXXX
 
 # Коллекции
 # См. параметр jekyll_compose ниже
@@ -21,14 +24,6 @@ liquid:
   strict_variables: false
   strict_filters: true
 
-# Стили sass
-# https://github.com/jekyll/jekyll-sass-converter
-sass:
-  sass_dir: _scss
-  style: compressed
-  sourcemap: development # export JEKYLL_ENV=production|development
-  load_paths: [node_modules]
-
 # Настройки плагинов
 plugins:
   - jekyll-paginate-v2
@@ -38,7 +33,6 @@ plugins:
   - jekyll-archives
   - jekyll-inline-svg
   - jekyll-webp
-  - jekyll-minifier
   - jekyll-image-size
 
 # Подсветка синтаксиса
@@ -113,11 +107,6 @@ webp:
   regenerate: false
   exclude: ['icons']
   append_ext: true
-
-# Минификация js
-jekyll-minifier:
-  uglifier_args:
-    harmony: true
 
 # Обрезка и изменение размера изображений
 mini_magick:

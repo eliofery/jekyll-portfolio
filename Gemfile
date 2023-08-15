@@ -68,7 +68,7 @@ group :jekyll_plugins do
   # Минификация js
   # https://github.com/digitalsparky/jekyll-minifier
   # gem install jekyll-minifier
-  gem "jekyll-minifier"
+  # gem "jekyll-minifier"
 
   # Resize изображения
   # https://github.com/MichaelCurrin/jekyll-resize
