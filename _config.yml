@@ -1,47 +1,148 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-#
-# If you need help with YAML syntax, here are some quick references for you:
-# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
-# https://learnxinyminutes.com/docs/yaml/
-#
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
+# Базовые настройки
+title: Портфолио Sergio Eliofery
+description: Портфолио и блог web разработчика Sergio Eliofery.
+lang: ru
+baseurl: ''
+url: 'http://127.0.0.1:4000'
+themecolor: '#000'
+google_analytics: UA-XXXXXXXXX-X
+permalink: none # https://jekyllrb.com/docs/permalinks/#built-in-formats
 
-title: Your awesome title
-email: your-email@example.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+# Коллекции
+# См. параметр jekyll_compose ниже
+#collections:
+#  staff_members:
+#    output: true
+#    permalink: /:collection/:name
 
-# Build settings
-theme: minima
+# Режим разработки
+liquid:
+  error_mode: strict
+  strict_variables: false
+  strict_filters: true
+
+# Стили sass
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Настройки плагинов
 plugins:
+  - jekyll-paginate-v2
+  - jekyll-seo-tag
+  - jekyll-sitemap
   - jekyll-feed
+  - jekyll-archives
+  - jekyll-inline-svg
+  - jekyll-webp
+  - jekyll-minifier
+  - jekyll-image-size
 
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
+# Подсветка синтаксиса
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Набор правил по умолчанию для создаваемых страниц через терминал
+jekyll_compose:
+  auto_open: true
+  default_front_matter:
+    drafts:
+      description:
+      image: cover.jpg
+      alt: Обложка статьи -
+      category:
+      tags: []
+      published: false
+      sitemap: false
+      excerpt_separator: <!--more-->
+    posts:
+      description:
+      image: cover.jpg
+      alt: Обложка статьи -
+      category:
+      tags: []
+      published: true
+      sitemap: true
+      excerpt_separator: <!--more-->
+#    staff_members:
+#      description:
+#      image: cover.jpg
+#      alt: Обложка статьи -
+#      categories: []
+#      tags: []
+#      excerpt_separator: <!--more-->
+
+# Пагинация
+pagination:
+  enabled: true
+  per_page: 4
+  permalink: '/page/:num/'
+  title: ':title - Страница :num'
+  limit: 0
+  sort_field: 'date'
+  sort_reverse: true
+  trail:
+    before: 2
+    after: 2
+
+# Архивные страницы по годам и т.д.
+jekyll-archives:
+  enabled: [year]
+  layout: archive
+  permalinks:
+    year: '/:year/'
+    month: '/:year/:month/'
+    day: '/:year/:month/:day/'
+    tag: '/tag/:name/'
+    category: '/category/:name/'
+
+# Оптимизация изображений
+svg:
+  optimize: true
+webp:
+  enabled: true
+  quality: 75
+  img_dir: ['/assets/img/', '/images/']
+  nested: true
+  formats: ['.jpeg', '.jpg', '.png']
+  regenerate: false
+  exclude: ['icons']
+  append_ext: true
+
+# Минификация js
+jekyll-minifier:
+  uglifier_args:
+    harmony: true
+
+# Обрезка и изменение размера изображений
+mini_magick:
+  thumbnail:
+    source: images/original
+    destination: images/thumbnail
+    resize: "600x300^"
+    gravity: "center" # NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast
+    extent: "600x300"
+  full:
+    source: images/original
+    destination: images/full
+    resize: "1920x500^"
+    gravity: "center"
+    extent: "1920x500"
+  slider:
+    source: images/original
+    destination: images/slider
+    resize: "768x400^"
+    gravity: "center"
+    extent: "768x400"
+
+# Включение файлов и каталогов в сборку _site
+include:
+  - _pages
+  - .htaccess
+
+# Исключение файлов и каталогов из сборки _site
 # exclude:
 #   - .sass-cache/
 #   - .jekyll-cache/
