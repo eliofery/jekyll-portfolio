@@ -1,0 +1,14 @@
+{%- if jekyll.environment == 'production' and site.google_analytics and site.google_analytics != 'UA-XXXXXXXXX-X' -%}
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ site.google_analytics }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+{%- endif -%}
+{%- if jekyll.environment == 'production' and site.yandex_metrika and site.yandex_metrika != 'XXXXXX' -%}
+<noscript><img src="https://mc.yandex.ru/watch/{{ site.yandex_metrika }}" style="position:absolute; left:-9999px;" height="0" width="0" alt=""></noscript>
+{%- endif -%}
+
+<div hidden>
+  {% include sprite/mono.svg %}
+  {% include sprite/multi.svg %}
+</div>
+
+<!--[if IE]><p class="browser-upgrade">Вы используете <strong>устаревший</strong> браузер, сайт может отображаться некорректно.<br>Пожалуйста, <a rel="nofollow" href="https://browsehappy.com/" target="_blank">обновите</a>!</p><![endif]-->
+<noscript><p class="browser-upgrade"><b>Javascript</b> отключен, некоторые функции сайта недоступны.<br>Пожалуйста <a rel="nofollow" href="https://support.google.com/adsense/answer/12654" target="_blank">включите javascript</a>!<br></p></noscript>

@@ -82,6 +82,11 @@ group :jekyll_plugins do
   # gem "jekyll-minimagick"
   # gem "jekyll-minimagick", github: "benubois/jekyll-minimagick", branch: "patch-1"
   gem "mini_magick"
+
+  # Предоставляет механизм для передачи содержимого со страниц в их родительские макеты.
+  # https://github.com/rustygeldmacher/jekyll-contentblocks
+  # gem install jekyll-contentblocks
+  gem 'jekyll-contentblocks'
 end
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem

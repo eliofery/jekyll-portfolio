@@ -1,10 +1,11 @@
 # Базовые настройки
+version: 0.0.6
 title: Портфолио Sergio Eliofery
 description: Портфолио и блог web разработчика Sergio Eliofery.
 lang: ru
-url: 'http://127.0.0.1:4000'
-baseurl: '/jekyll-portfolio/'
-themecolor: '#000'
+url: 'https://eliofery.github.io'
+baseurl: '/jekyll-portfolio'
+themecolor: '#ee1b24'
 permalink: none # https://jekyllrb.com/docs/permalinks/#built-in-formats
 
 # export JEKYLL_ENV=production|development

@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 Host: site.name
-Sitemap: http://site.name/sitemap.xml
+Sitemap: http://https://eliofery.github.io/jekyll-portfolio/sitemap.xml

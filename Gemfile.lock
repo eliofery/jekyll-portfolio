@@ -5,7 +5,6 @@ GEM
       public_suffix (>= 2.0.2, < 6.0)
     colorator (1.1.0)
     concurrent-ruby (1.2.2)
-    cssminify2 (2.0.1)
     em-websocket (0.5.3)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0)
@@ -15,7 +14,6 @@ GEM
     ffi (1.15.5)
     forwardable-extended (2.6.0)
     google-protobuf (3.24.0-x86_64-linux)
-    htmlcompressor (0.4.0)
     http_parser.rb (0.8.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -39,6 +37,8 @@ GEM
       jekyll (>= 3.6, < 5.0)
     jekyll-compose (0.12.0)
       jekyll (>= 3.7, < 5.0)
+    jekyll-contentblocks (1.2.0)
+      jekyll
     jekyll-feed (0.17.0)
       jekyll (>= 3.7, < 5.0)
     jekyll-image-size (1.2.1)
@@ -47,12 +47,6 @@ GEM
     jekyll-inline-svg (1.1.4)
       jekyll (>= 3.3, < 5.0)
       svg_optimizer (~> 0.2.5)
-    jekyll-minifier (0.1.10)
-      cssminify2 (~> 2.0)
-      htmlcompressor (~> 0.4)
-      jekyll (>= 3.5)
-      json-minify (~> 0.0.3)
-      uglifier (~> 4.1)
     jekyll-paginate-v2 (3.0.0)
       jekyll (>= 3.0, < 5.0)
     jekyll-sass-converter (3.0.0)
@@ -64,9 +58,6 @@ GEM
     jekyll-watch (2.2.1)
       listen (~> 3.0)
     jekyll-webp (1.0.0)
-    json (2.6.3)
-    json-minify (0.0.3)
-      json (> 0)
     kramdown (2.4.0)
       rexml
     kramdown-parser-gfm (1.1.0)
@@ -102,8 +93,6 @@ GEM
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
       ref
-    uglifier (4.2.0)
-      execjs (>= 0.3.0, < 3)
     unicode-display_width (2.4.2)
     webrick (1.8.1)
 
@@ -116,10 +105,10 @@ DEPENDENCIES
   jekyll (~> 4.3.2)
   jekyll-archives
   jekyll-compose
+  jekyll-contentblocks
   jekyll-feed (~> 0.12)
   jekyll-image-size
   jekyll-inline-svg
-  jekyll-minifier
   jekyll-paginate-v2
   jekyll-seo-tag
   jekyll-sitemap
