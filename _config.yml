@@ -1,12 +1,12 @@
 # Базовые настройки
-version: 0.0.7
+version: 0.0.8
 title: Портфолио Sergio Eliofery
 description: Портфолио и блог web разработчика Sergio Eliofery.
 lang: ru
 url: 'https://eliofery.github.io'
 baseurl: '/jekyll-portfolio'
 themecolor: '#ee1b24'
-permalink: none # https://jekyllrb.com/docs/permalinks/#built-in-formats
+permalink: /:categories/:name-:i_day:i_month:short_year # https://jekyllrb.com/docs/permalinks/#built-in-formats
 
 # export JEKYLL_ENV=production|development
 google_analytics: UA-XXXXXXXXX-X
@@ -14,10 +14,10 @@ yandex_metrika: XXXXXX
 
 # Коллекции
 # См. параметр jekyll_compose ниже
-#collections:
-#  staff_members:
-#    output: true
-#    permalink: /:collection/:name
+collections:
+  portfolio:
+    output: true
+    permalink: /:collection/:name-:i_day:i_month:short_year
 
 # Режим разработки
 liquid:
@@ -64,13 +64,15 @@ jekyll_compose:
       published: true
       sitemap: true
       excerpt_separator: <!--more-->
-#    staff_members:
-#      description:
-#      image: cover.jpg
-#      alt: Обложка статьи -
-#      categories: []
-#      tags: []
-#      excerpt_separator: <!--more-->
+    portfolio:
+      layout: portfolio
+      description:
+      image: cover.jpg
+      alt: Обложка портфолио -
+      work-year: 2023
+      roles: []
+      tags: []
+      excerpt_separator: <!--more-->
 
 # Пагинация
 pagination:

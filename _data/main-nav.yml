@@ -1,6 +1,6 @@
 items:
   - title: Портфолио
-    url: '/'
+    url: '#portfolion'
 
   - title: Обо мне
     url: '#about'

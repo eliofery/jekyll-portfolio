@@ -1,0 +1,14 @@
+{% assign language = include.lang | default: '' %}
+
+<div class="code-block">
+  <div class="code-block__header">
+    <div class="code-block__name">{{ language | upcase }}</div>
+    <button class="code-block__button" data-clipboard-action="copy" aria-label="Скопировать в буфер обмена">
+      {% include component/icon.html class="code-block__icon" width="12" height="12" icon="icon-copy" %}
+      <span>Копировать</span>
+    </button>
+  </div>
+  <div class="code-block__content">
+    <pre><code class="{{ language }}">{{ include.content | strip | default: '' }}</code></pre>
+  </div>
+</div>

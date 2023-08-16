@@ -1,0 +1,66 @@
+---
+layout: default
+---
+
+{% assign separator_size = '<!--more-->' | size %}
+{% assign size_excerpt = page.excerpt | size | plus: separator_size %}
+{% assign size_content = page.content | size %}
+
+{% contentfor header %}
+  {% include section/header.html class="main-header--article" %}
+{% endcontentfor %}
+
+{% contentfor content %}
+  <article class="main-article">
+    <header class="main-article__header">
+      <div class="main-article__header-container container">
+        <h1 class="main-article__title">
+          {% assign first_word = page.title | split: ' ' | first %}
+          {% assign size_first_word = first_word | size %}
+          {% assign size_page_title = page.title | size %}
+          <span class="main-article__title-accent">{{ first_word }}</span> {{ page.title | slice: size_first_word, size_page_title }}
+        </h1>
+        <div class="main-article__desc">
+          {{ page.content | slice: 0, size_excerpt }}
+        </div>
+        <dl class="main-article__info">
+          {% if page.work-year %}
+          <dt class="main-article__info-title">Год:</dt>
+          <dd class="main-article__info-desc">{{ page.work-year }}</dd>
+          {% endif %}
+          {% if page.roles %}
+          <dt class="main-article__info-title">Роль:</dt>
+          <dd class="main-article__info-desc">
+            <ul class="main-article__info-list">
+              {% for role in page.roles %}
+              <li class="main-article__info-item">{{ role }}</li>
+              {% endfor %}
+            </ul>
+          </dd>
+          {% endif %}
+          {% if page.tags %}
+          <dt class="main-article__info-title">Технологии:</dt>
+          <dd class="main-article__info-desc">
+            <ul class="main-article__info-list">
+              {% for tag in page.tags %}
+              <li class="main-article__info-item">{{ tag }}</li>
+              {% endfor %}
+            </ul>
+          </dd>
+          {% endif %}
+        </dl>
+        {% include component/share.html class="main-article__share" %}
+      </div>
+    </header>
+
+    <div class="main-article__content">
+      <div class="main-article__content-container container">
+        {{ page.content | slice: size_excerpt, size_content }}
+      </div>
+    </div>
+  </article>
+{% endcontentfor %}
+
+{% contentfor script %}
+  <script src="{{ '/assets/js/article.js?v=' | relative_url }}{{ site.version }}" type="module"></script>
+{% endcontentfor %}

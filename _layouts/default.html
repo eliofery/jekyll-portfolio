@@ -8,10 +8,10 @@
 {% include base/body-parts.html %}
 
 <div class="layout">
-  {% include section/header.html %}
+  {% contentblock header %}
 
   <main class="layout__main">
-    {{ content }}
+    {% contentblock content %}
   </main>
 
   {% include section/footer.html %}
@@ -19,7 +19,7 @@
 
 {% include section/search-modal.html %}
 
-<script src="{{ '/assets/js/main.js?v=' | relative_url }}{{ site.version }}" type="module"></script>
+{% contentblock script %}
 
 </body>
 </html>

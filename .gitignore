@@ -5,3 +5,6 @@ _site
 vendor
 .idea
 node_modules
+images/full
+images/slider
+images/thumbnail
