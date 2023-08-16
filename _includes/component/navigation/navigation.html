@@ -1,0 +1,29 @@
+{% if site.data.main-nav.items %}
+<nav class="navigation">
+  <button class="navigation__toggle menu-toggle" type="button" data-el="nav-toggle-open" aria-label="Переключатель меню" aria-controls="navigation"></button>
+
+  <div id="navigation" class="navigation__wrap" data-el="nav-wrap">
+    <div class="navigation__header">
+      <div class="navigation__logo">
+        {% include component/logo.html %}
+      </div>
+      <div class="navigation__feature">
+        {% include component/feature-menu.html %}
+      </div>
+      <button class="menu-toggle menu-toggle--close" type="button" data-el="nav-toggle-close" aria-label="Переключатель меню"></button>
+    </div>
+
+    <div class="navigation__content" data-el="nav-content">
+      <ul class="navigation__list">
+        {% include component/navigation/navigation-item.html items=site.data.main-nav.items %}
+      </ul>
+      <button class="navigation__search" type="button" data-el="search-open">
+        Поиск по сайту
+        {% include component/icon.html class="navigation__search-icon" width="24" height="24" icon="icon-search" %}
+      </button>
+    </div>
+  </div>
+
+  <div class="navigation__overlay overlay" data-el="nav-overlay" hidden></div>
+</nav>
+{% endif %}

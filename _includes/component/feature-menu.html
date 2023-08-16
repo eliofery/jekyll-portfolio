@@ -1,0 +1,15 @@
+<div class="feature-menu">
+  <button class="feature-menu__item feature-menu__item--mode" type="button" data-el="dark-mode" aria-label="Переключатель темы сайта">
+    {% include component/icon.html class="feature-menu__icon" width="25" height="25" icon="icon-sun" other="data-el=\"dark-mode-icon\"" %}
+  </button>
+
+  <a class="feature-menu__item feature-menu__item--github" href="https://github.com/eliofery" target="_blank" aria-label="Github профиль">
+    {% include component/icon.html class="feature-menu__icon" width="25" height="25" icon="icon-github" %}
+  </a>
+
+  <button class="feature-menu__item feature-menu__item--search" type="button" data-el="search-open" aria-label="Поиск по сайту">
+    {% include component/icon.html class="feature-menu__icon" width="25" height="25" icon="icon-search" %}
+  </button>
+
+  <button class="feature-menu__item feature-menu__item--lang" type="button" aria-label="Переключить язык сайта на английский" translate="no" data-google-lang="en" title="Английский">EN</button>
+</div>

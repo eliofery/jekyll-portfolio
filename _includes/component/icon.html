@@ -1,0 +1,5 @@
+<svg class="{{ include.class | default: '' }}" width="{{ include.width | default: 16 }}"
+     height="{{ include.height | default: 16 }}" aria-hidden="{{ include.aria-hidden | default: true }}" {{
+     include.other | default: '' }}>
+  <use href="#{{ include.icon }}"></use>
+</svg>

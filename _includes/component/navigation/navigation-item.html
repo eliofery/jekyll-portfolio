@@ -1,0 +1,14 @@
+{% for item in include.items %}
+  <li class="navigation__item {% if item.url == page.url %}navigation__item--active{% endif %}">
+    <a class="navigation__link" href="{{ item.url }}">{{ item.title }}</a>
+    {% if item.links %}
+      <button class="navigation__sub-toggle" type="button" data-el="nav-toggle-sub" aria-label="Переключатель вложенного меню"></button>
+      <ul class="navigation__sub-list">
+        <li class="navigation__item navigation__item--back">
+          <button class="navigation__link" type="button" data-el="nav-toggle-back">← Назад</button>
+        </li>
+        {% include component/navigation/navigation-item.html items=item.links %}
+      </ul>
+    {% endif %}
+  </li>
+{% endfor %}

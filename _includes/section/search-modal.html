@@ -1,0 +1,17 @@
+<div class="modal-search" data-el="search" hidden>
+  <div class="modal-search__content">
+    <p class="modal-search__field">
+      {% include component/icon.html class="modal-search__icon" width="24" height="24" icon="icon-search" %}
+      <label for="search-modal" class="sr-only">Поиск по сайту</label>
+      <input id="search-modal" class="modal-search__input" type="text" data-el="search-input" placeholder="Поиск по сайту">
+    </p>
+
+    <div class="modal-search__result" data-el="search-result">
+      <div class="modal-search__item modal-search__item--not-found">
+        <div class="modal-search__item-wrap">Введите ваш запрос</div>
+      </div>
+    </div>
+
+    <button class="modal-search__toggle" type="button" data-el="search-close" aria-label="Закрыть поиск"></button>
+  </div>
+</div>
