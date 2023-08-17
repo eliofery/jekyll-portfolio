@@ -1,12 +1,12 @@
 items:
   - title: Портфолио
-    url: '#portfolion'
+    url: '#portfolio'
 
   - title: Обо мне
     url: '#about'
 
   - title: Блог
-    url: /backend
+    url: '#blog'
     links:
       - title: Дизайн
         url: /design
