@@ -19,22 +19,19 @@ layout: inner
         {{ page.description | default: page.excerpt }}
       </div>
       <dl class="main-article__info">
-        {% if page.work-year %}
-        <dt class="main-article__info-title">Год:</dt>
-        <dd class="main-article__info-desc">{{ page.work-year }}</dd>
-        {% endif %}
-        {% if page.roles %}
-        <dt class="main-article__info-title">Роль:</dt>
+        <dt class="main-article__info-title">Дата:</dt>
+        <dd class="main-article__info-desc"><time datetime="{{ page.date | date: " %Y-%m-%dT%H:%M
+          " }}">{{ page.date | date: '%d.%m.%Y' }}</time></dd>
+        <dt class="main-article__info-title">Время чтения:</dt>
         <dd class="main-article__info-desc">
-          <ul class="main-article__info-list">
-            {% for role in page.roles %}
-            <li class="main-article__info-item">{{ role }}</li>
-            {% endfor %}
-          </ul>
+          {% include component/word-length.html content=page.content %}
         </dd>
+        {% if page.category %}
+        <dt class="main-article__info-title">Категория:</dt>
+        <dd class="main-article__info-desc">{{ page.category }}</dd>
         {% endif %}
         {% if page.tags %}
-        <dt class="main-article__info-title">Технологии:</dt>
+        <dt class="main-article__info-title">Теги:</dt>
         <dd class="main-article__info-desc">
           <ul class="main-article__info-list">
             {% for tag in page.tags %}

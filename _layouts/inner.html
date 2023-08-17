@@ -1,0 +1,15 @@
+---
+layout: default
+---
+
+{% contentfor header %}
+  {% include section/header.html class="main-header--article" %}
+{% endcontentfor %}
+
+{% contentfor content %}
+  {{ content }}
+{% endcontentfor %}
+
+{% contentfor script %}
+  <script src="{{ '/assets/js/article.js?v=' | relative_url }}{{ site.version }}" type="module"></script>
+{% endcontentfor %}

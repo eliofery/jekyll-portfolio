@@ -1,12 +1,12 @@
 # Базовые настройки
-version: 0.0.8
+version: 0.0.9
 title: Портфолио Sergio Eliofery
 description: Портфолио и блог web разработчика Sergio Eliofery.
 lang: ru
 url: 'https://eliofery.github.io'
 baseurl: '/jekyll-portfolio'
 themecolor: '#ee1b24'
-permalink: /:categories/:name-:i_day:i_month:short_year # https://jekyllrb.com/docs/permalinks/#built-in-formats
+permalink: /blog/:name-:categories # https://jekyllrb.com/docs/permalinks/#built-in-formats
 
 # export JEKYLL_ENV=production|development
 google_analytics: UA-XXXXXXXXX-X
@@ -77,7 +77,7 @@ jekyll_compose:
 # Пагинация
 pagination:
   enabled: true
-  per_page: 4
+  per_page: 3
   permalink: '/page/:num/'
   title: ':title - Страница :num'
   limit: 0
@@ -116,9 +116,9 @@ mini_magick:
   thumbnail:
     source: images/original
     destination: images/thumbnail
-    resize: "600x300^"
+    resize: "726x390^"
     gravity: "center" # NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast
-    extent: "600x300"
+    extent: "726x390"
   full:
     source: images/original
     destination: images/full

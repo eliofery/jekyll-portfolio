@@ -86,6 +86,7 @@ group :jekyll_plugins do
   # Предоставляет механизм для передачи содержимого со страниц в их родительские макеты.
   # https://github.com/rustygeldmacher/jekyll-contentblocks
   # gem install jekyll-contentblocks
+  #gem 'jekyll-contentblocks', path: './_plugins/jekyll-contentblocks-1.2.0'
   gem 'jekyll-contentblocks'
 end
 
