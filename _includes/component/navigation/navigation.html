@@ -1,4 +1,4 @@
-{% if site.data.main-nav.items %}
+{% if include.nav %}
 <nav class="navigation">
   <button class="navigation__toggle menu-toggle" type="button" data-el="nav-toggle-open" aria-label="Переключатель меню" aria-controls="navigation"></button>
 
@@ -15,7 +15,7 @@
 
     <div class="navigation__content" data-el="nav-content">
       <ul class="navigation__list">
-        {% include component/navigation/navigation-item.html items=site.data.main-nav.items %}
+        {% include component/navigation/navigation-item.html items=include.nav %}
       </ul>
       <button class="navigation__search" type="button" data-el="search-open">
         Поиск по сайту

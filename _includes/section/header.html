@@ -1,7 +1,9 @@
+{% assign list = include.nav | default: site.data.main-nav.items %}
+
 <header class="main-header {{ include.class }}">
   <div class="main-header__container container">
     <div class="main-header__logo">{% include component/logo.html %}</div>
-    <div class="main-header__nav">{% include component/navigation/navigation.html %}</div>
+    <div class="main-header__nav">{% include component/navigation/navigation.html nav=list %}</div>
     <div class="main-header__feature">{% include component/feature-menu.html %}</div>
   </div>
 </header>
