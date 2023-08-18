@@ -1,5 +1,5 @@
 # Базовые настройки
-version: 0.0.11
+version: 0.0.12
 title: Портфолио Sergio Eliofery
 description: Портфолио и блог web разработчика Sergio Eliofery.
 lang: ru
@@ -49,7 +49,7 @@ jekyll_compose:
     drafts:
       description:
       image: cover.jpg
-      alt: Обложка статьи -
+      alt: Основное изображение
       category:
       tags: []
       published: false
@@ -58,7 +58,7 @@ jekyll_compose:
     posts:
       description:
       image: cover.jpg
-      alt: Обложка статьи -
+      alt: Основное изображение
       category:
       tags: []
       published: true
@@ -68,7 +68,7 @@ jekyll_compose:
       layout: portfolio
       description:
       image: cover.jpg
-      alt: Обложка портфолио -
+      alt: Основное изображение
       work-year: 2023
       roles: []
       tags: []
@@ -116,21 +116,21 @@ mini_magick:
   thumbnail:
     source: images/original
     destination: images/thumbnail
-    resize: "726x390^"
+    resize: "530x390^"
     gravity: "center" # NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast
-    extent: "726x390"
+    extent: "530x390"
+  portfolio:
+    source: images/original
+    destination: images/portfolio
+    resize: "550x450^"
+    gravity: "center"
+    extent: "550x450"
   full:
     source: images/original
     destination: images/full
     resize: "1920x500^"
     gravity: "center"
     extent: "1920x500"
-  slider:
-    source: images/original
-    destination: images/slider
-    resize: "768x400^"
-    gravity: "center"
-    extent: "768x400"
 
 # Включение файлов и каталогов в сборку _site
 include:

@@ -1,0 +1,36 @@
+<section id="portfolio" class="main-slider main-section">
+  <div class="main-slider__container container">
+    <div class="main-slider__wrap main-section__wrap">
+      <h2 class="main-slider__title main-section__title title">
+        <a href="portfolio">Портфолио</a>
+      </h2>
+      <div class="main-slider__list main-section__content swiper">
+        <div class="swiper-wrapper">
+          {% for post in site.portfolio limit: 5 offset: 0 %}
+          <a class="main-slider__slide swiper-slide" href="{{ post.url }}">
+            <p class="main-slider__img">
+              {% include component/picture.html slug=post.slug img=post.image type='portfolio' alt=post.alt %}
+            </p>
+            <div class="main-slider__info">
+              <h3 class="main-slider__subtitle">{{ post.title }}</h3>
+              <p class="main-slider__desc">{{ post.description }}</p>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+        <div class="main-slider__toggles">
+          <div class="swiper-pagination"></div>
+          <button class="swiper-button-prev" type="button" aria-label="Предыдущее портфолио">
+            {% include component/icon.html width="30" height="30" icon="icon-arrow-left" %}
+          </button>
+          <button class="swiper-button-next" type="button" aria-label="Следующее портфолио">
+            {% include component/icon.html width="30" height="30" icon="icon-arrow-right" %}
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>

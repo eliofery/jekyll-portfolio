@@ -6,5 +6,5 @@ vendor
 .idea
 node_modules
 images/full
-images/slider
+images/portfolio
 images/thumbnail

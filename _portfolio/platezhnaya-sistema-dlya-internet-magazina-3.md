@@ -1,7 +1,7 @@
 ---
 layout: portfolio
-title: Платежная система для интернет магазина
-date: 2023-08-16 15:39 +0600
+title: Платежная система для интернет магазина 3
+date: 2023-08-18 10:39 +0600
 description: Цель создание интернет магазина детской одежды для онлайн продаж.
 image: cover.jpg
 alt: Обложка портфолио - Платежная система для интернет магазина
@@ -44,10 +44,10 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet commodi distincti
 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ex, incidunt magni molestias reiciendis repudiandae? Aperiam beatae dignissimos ipsum tenetur? Ex facere laborum modi nam necessitatibus obcaecati quod sapiente sequi.
 
 {% capture code %}
-  const test = (value) => {
-    let x = value;
+const test = (value) => {
+let x = value;
 
     returt x++;
-  }
+}
 {% endcapture %}
 {% include component/code.html lang="js" content=code %}
