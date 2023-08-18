@@ -5,17 +5,15 @@
       <div class="main-footer__content main-section__content">
         <div class="main-footer__email">Контакты: <a href="#">some@email.domen</a></div>
         <ul class="main-footer__social social">
-          <li class="social__item"><a class="social__link" href="#" aria-label="Профиль Github">
-            <svg class="icon icon-github social__icon" width="20" height="20" aria-hidden="true">
-              <use xlink:href="#icon-github"></use>
-            </svg>
-          </a>
+          <li class="social__item">
+            <a class="social__link" href="https://github.com/eliofery" target="_blank" rel="nofollow" aria-label="Профиль Github">
+              {% include component/icon.html class="social__icon" width="20" height="20" icon="icon-github" %}
+            </a>
           </li>
-          <li class="social__item"><a class="social__link" href="#" aria-label="Профиль Linkedin">
-            <svg class="icon icon-linkedin social__icon" width="20" height="20" aria-hidden="true">
-              <use xlink:href="#icon-linkedin"></use>
-            </svg>
-          </a>
+          <li class="social__item">
+            <a class="social__link" href="#" target="_blank" rel="nofollow" aria-label="Профиль Linkedin">
+              {% include component/icon.html class="social__icon" width="20" height="20" icon="icon-linkedin" %}
+            </a>
           </li>
         </ul>
       </div>
