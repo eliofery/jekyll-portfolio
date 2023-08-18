@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Название страницы Название страницы Название страницы Название страницы Название страницы
-description: PUG to HTML Converter Online helps to convert HTML to PUG whitespace sensitive syntax for writing HTML and helps to save and share PUG.
+title: Некий пост
+description: Некое описание поста.
 date: 2023-08-17 12:53 +0600
 image: cover.jpg
 alt: Обложка статьи -
-category: frontend
-tags: [html, css]
+category: design
+tags: [figma, photoshop]
 published: true
 sitemap: true
 excerpt_separator: "<!--more-->"

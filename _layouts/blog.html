@@ -25,11 +25,12 @@ layout: default
                   <time class="card-article__date" datetime="{{ post.date | date: " %Y-%m-%dT%H:%M
                   " }}">{{ post.date | date: '%d.%m.%Y' }}</time>
                   <span class="card-article__read">
-                    {% include component/word-length.html content=post.content %}</span>
+                    {% include component/word-length.html content=post.content %}
+                  </span>
                 </footer>
                 <h3 class="card-article__title">{{ post.title | markdownify | strip_html | truncatewords: 5 }}</h3>
                 <div class="card-article__desc">{{ post.description | default: post.excerpt | markdownify | strip_html |
-                  truncatewords: 20 }}
+                  truncatewords: 30 }}
                 </div>
               </a>
             </article>

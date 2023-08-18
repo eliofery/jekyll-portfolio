@@ -1,0 +1,37 @@
+<section id="blog" class="main-blog main-section">
+  <div class="main-blog__container container">
+    <div class="main-blog__wrap main-section__wrap">
+      <h2 class="main-blog__title main-section__title title">
+        <a href="blog.html">Блог</a>
+      </h2>
+      <div class="main-blog__content main-section__content">
+        <h3 class="main-blog__subtitle main-blog__subtitle--article">Последние записи</h3>
+        {% for post in site.posts limit: 4 offset: 0 %}
+        <article class="main-blog__block card-article">
+          <a class="card-article__link" href="{{ post.uri }}">
+            <footer class="card-article__meta">
+              <time class="card-article__date" datetime="{{ post.date | date: " %Y-%m-%dT%H:%M
+              " }}">{{ post.date | date: '%d.%m.%Y' }}</time>
+              <span class="card-article__read">
+                {% include component/word-length.html content=post.content %}
+              </span>
+            </footer>
+            <h3 class="card-article__title">{{ post.title | markdownify | strip_html | truncatewords: 9 }}</h3>
+            <div class="card-article__desc">
+              {{ post.description | default: post.excerpt | markdownify | strip_html |
+              truncatewords: 30 }}
+            </div>
+          </a>
+        </article>
+        {% endfor %}
+        <h3 class="main-blog__subtitle main-blog__subtitle--blog">Категории</h3>
+        <div class="main-blog__list category-list">
+          {% for category in site.categories %}
+          {% capture category_name %}{{ category | first | slugify }}{% endcapture %}
+          <a class="category-list__link" href="{{ site.baseurl }}/{{ category_name }}">{{ category_name }} ({{ category[1].size }})</a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

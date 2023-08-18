@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Название страницы Название страницы Название страницы Название страницы Название страницы
-description: PUG to HTML Converter Online helps to convert HTML to PUG whitespace sensitive syntax for writing HTML and helps to save and share PUG.
+title: What can you do with PUG HTML Converter?
+description: Pug is a high-performance template engine heavily influenced by Haml and implemented with JavaScript for Node.js and browsers.
 date: 2023-08-17 12:53 +0600
 image: cover.jpg
 alt: Обложка статьи -
-category: frontend
-tags: [html, css]
+category: backend
+tags: [vue, laravel]
 published: true
 sitemap: true
 excerpt_separator: "<!--more-->"
