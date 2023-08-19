@@ -1,4 +1,4 @@
 {% assign words = include.content | default: '' | number_of_words %}
 {% if words < 250 %} 1
-{% else %} {{ words | divided_by: 250 | plus: 1 }}
+{% else %} {{ words | divided_by: 250 }}
 {% endif %} мин.

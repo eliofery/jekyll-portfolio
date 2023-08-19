@@ -1,0 +1,36 @@
+<script src="{{ '/assets/js/Search.js?v=' | relative_url }}{{ site.version }}"></script>
+<script>
+  const searchJson = `[
+    {% for post in site.posts %}
+      {
+        "title"           : "{% if post.title != "" %}{{ post.title | strip_html | escape }}{% else %}{{ post.excerpt | strip_html | escape | strip }}{%endif%}",
+        "category"        : "{{ post.tags | join: ', ' }}",
+        "url"             : "{{ site.baseurl }}{{ post.url }}",
+        "date"            : "{{ post.date | date: '%d.%m.%Y' | default: '' }}",
+        "description"     : "{{ post.description | default: '' }}"
+      },
+    {% endfor %}
+    {% for post in site.portfolio %}
+      {
+        "title"           : "{% if post.title != "" %}{{ post.title | strip_html | escape }}{% else %}{{ post.excerpt | strip_html | escape | strip }}{%endif%}",
+        "category"        : "{{ post.tags | join: ', ' }}",
+        "url"             : "{{ site.baseurl }}{{ post.url }}",
+        "date"            : "{{ post.date | date: '%d.%m.%Y' | default: '' }}",
+        "description"     : "{{ post.description | default: '' }}"
+      },
+    {% endfor %}
+    {% for page in site.html_pages %}
+      {% if page.title != "" and page.title != "Страница не найдена 404" and page.title != "Sergio Eliofery" %}
+        {
+          "title"           : "{% if page.title != "" %}{{ page.title | strip_html | escape }}{% else %}{{ page.excerpt | strip_html | escape | strip }}{% endif %}",
+          "category"        : "{% if page.tags %}{{ page.tags | join: ', ' }}{% else %}page{% endif %}",
+          "url"             : "{{ site.baseurl }}{{ page.url }}",
+          "date"            : "{{ page.date | date: '%d.%m.%Y' | default: '' }}",
+          "description"     : "{{ page.description | default: '' }}"
+        }{% unless forloop.last %},{% endunless %}
+      {% endif %}
+    {% endfor %}
+  ]`
+
+  new Search(searchJson)
+</script>
