@@ -7,6 +7,7 @@ items:
 
   - title: Блог
     url: '/blog'
+
     links:
       - title: Дизайн
         url: /design
@@ -17,8 +18,9 @@ items:
             url: /design-2
           - title: Дизайн 3
             url: /design-3
-      - title: Frontend 1
-        url: /frontend-1
+
+      - title: Frontend
+        url: /frontend
         links:
           - title: Frontend 1
             url: /frontend-1
@@ -37,6 +39,15 @@ items:
             url: /frontend-4
           - title: Frontend 5
             url: /frontend-5
+
+      - title: Backend
+        url: /backend
+
+      - title: SEO
+        url: /seo
+
+      - title: DevOps
+        url: /devops
 
   - title: Контакты
     url: '/#contacts'

@@ -1,5 +1,6 @@
 {% for item in include.items %}
-  <li class="navigation__item {% if item.url == page.url %}navigation__item--active{% endif %}">
+  {% assign url = page.url | replace: '/index.html', '' %}
+  <li class="navigation__item {% if item.url == url %}navigation__item--active{% endif %}">
     <a class="navigation__link" href="{{ site.baseurl}}{{ item.url }}">{{ item.title }}</a>
     {% if item.links %}
       <button class="navigation__sub-toggle" type="button" data-el="nav-toggle-sub" aria-label="Переключатель вложенного меню"></button>
