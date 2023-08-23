@@ -28,7 +28,7 @@ layout: inner
         </dd>
         {% if page.category %}
         <dt class="main-article__info-title">Категория:</dt>
-        <dd class="main-article__info-desc">{{ page.category }}</dd>
+        <dd class="main-article__info-desc"><a href="{{ site.baseurl }}/{{ page.category }}">{{ page.category }}</a></dd>
         {% endif %}
         {% if page.tags %}
         <dt class="main-article__info-title">Теги:</dt>

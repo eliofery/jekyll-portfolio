@@ -8,7 +8,7 @@
         <h3 class="main-blog__subtitle main-blog__subtitle--article">Последние записи</h3>
         {% for post in site.posts limit: 4 offset: 0 %}
         <article class="main-blog__block card-article">
-          <a class="card-article__link" href="{{ post.uri }}">
+          <a class="card-article__link" href="{{ post.url }}">
             <footer class="card-article__meta">
               <time class="card-article__date" datetime="{{ post.date | date: " %Y-%m-%dT%H:%M
               " }}">{{ post.date | date: '%d.%m.%Y' }}</time>
@@ -16,10 +16,10 @@
                 {% include component/word-length.html content=post.content %}
               </span>
             </footer>
-            <h3 class="card-article__title">{{ post.title | markdownify | strip_html | truncatewords: 9 }}</h3>
+            <h3 class="card-article__title">{{ post.title | markdownify | strip_html | truncatewords: 15 }}</h3>
             <div class="card-article__desc">
               {{ post.description | default: post.excerpt | markdownify | strip_html |
-              truncatewords: 30 }}
+              truncatewords: 40 }}
             </div>
           </a>
         </article>

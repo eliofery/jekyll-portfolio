@@ -4,5 +4,5 @@
 
 <picture>
   <source srcset="{{ webp | relative_url }}" type="image/webp">
-  <img src="{{ image | relative_url }}" {{ size }} alt="{{ include.alt | default: '' }}">
+  <img src="{{ image | relative_url }}" {{ size }} alt="{{ include.alt | default: '' }}" loading="lazy">
 </picture>

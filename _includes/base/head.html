@@ -65,3 +65,89 @@
 <!-- Шрифты -->
 <link rel="preload" as="font" href="{{ '/assets/fonts/roboto/roboto-regular.woff2' | relative_url }}" type="font/woff2" crossorigin="anonymous">
 <link rel="preload" as="font" href="{{ '/assets/fonts/oswald/Oswaldmedium.woff2' | relative_url }}" type="font/woff2" crossorigin="anonymous">
+
+<!-- todo вынести в файл css -->
+<style>
+  .card-article__img {
+    position: relative;
+  }
+
+  .card-article__img:before {
+    background-image: radial-gradient(ellipse at center, rgba(181, 189, 200, 0) 0%, hsla(208, 8%, 55%, 0) 50%, #28343b 100%);
+    background-repeat: no-repeat, repeat;
+    background-size: 100% 100%, 30px 30px;
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  .main-article__content-container > * + :not(h1, h2, h3, h4, h5, h6) {
+    margin-top: 25px;
+  }
+
+  .main-article__content-container h3 + p {
+    margin-top: 0;
+  }
+
+  .main-article__content-container a {
+    color: #ee1b24;
+  }
+
+  .main-article__content-container a:hover,
+  .main-article__content-container a:focus {
+    text-decoration: none;
+  }
+
+  .main-article__content-container .attention {
+    color: #ee1b24;
+  }
+
+  .main-article__content-container figure {
+    margin: 50px auto;
+  }
+
+  @media screen and (max-width: 768px) {
+    .main-article__content-container figure {
+      margin: 30px auto;
+    }
+  }
+
+  .main-article__content-container figure img {
+    min-height: auto;
+    margin: 0 auto;
+  }
+
+  .main-article__content-container figcaption {
+    margin-top: 30px;
+
+    color: #646464;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  kbd {
+    display: inline-block;
+    padding: 2px 4px;
+    color: #333;
+    font-weight: 500;
+    font-size: .85em;
+    line-height: 1;
+    white-space: nowrap;
+    background-color: #eee;
+    border: 1px solid #b4b4b4;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.2), 0 2px 0 0 rgba(255,255,255,.7) inset;
+  }
+
+  .main-article__info-desc a {
+    color: #ee1b24;
+  }
+
+  .main-article__info-desc a:hover,
+  .main-article__info-desc a:focus {
+    text-decoration: none;
+  }
+</style>
