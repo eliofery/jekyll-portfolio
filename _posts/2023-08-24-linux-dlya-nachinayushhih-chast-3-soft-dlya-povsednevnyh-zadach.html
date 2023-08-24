@@ -680,6 +680,87 @@ Categories=Utility;
 
 <p>Теперь программу можно будет запустить нажав клавишу <kbd>Window</kbd> и введя слово <b>Icon Shelf</b>.</p>
 
+<h2 id="screen-reader">Экранный диктор в Pop!_OS</h2>
+
+<p>При создании сайтов, доступных для людей с ограниченными возможностями, хорошо было бы протестировать их работоспособность через программу <b>экранный диктор</b>. В дистрибутив <b>Pop!_OS</b> предустановлен <b>экранный диктор</b>, но по умолчанию выключен. Включить его можно нажав горячие клавиши <kbd>Alt + Windows + S</kbd>. Только есть небольшая проблема, стандартные голоса дикторов ужасны, благо можно скачать приемлемые голоса в <b>opensource</b> проектах, чем мы и займемся. Отдельное спасибо автору <a href="https://vk.com/wall-167338334_31" target="_blank" rel="nofollow">этого материала</a>.</p>
+
+<p>Открываем терминал и клонируем репозиторий.</p>
+
+{% include component/code.html lang='bash' content='git clone https://github.com/Olga-Yakovleva/RHVoice.git --recursive' %}
+
+<p>Переходим в каталог склонированного репозитория.</p>
+
+{% include component/code.html lang='bash' content='cd RHVoice/' %}
+
+<p>Устанавливаем зависимости.</p>
+
+{% include component/code.html lang='bash' content='sudo apt-get install git scons g++ libglibmm-2.4-dev libpulse-dev pkg-config' %}
+
+<p>Далее необходимо скомпилировать и установить скаченный код.</p>
+
+{% capture code %}
+scons
+sudo scons install
+sudo ldconfig
+sudo cp -a /usr/local/bin/sd_rhvoice /usr/lib/speech-dispatcher-modules
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Создадим конфигурационный файл <b>rhvoice.conf</b> со следующим содержимым.</p>
+
+{% capture code %}
+sudo gedit /etc/speech-dispatcher/modules/rhvoice.conf
+
+RHVoiceDataPath "/usr/local/share/RHVoice"
+RHVoiceConfigPath "/usr/local/etc/RHVoice/"
+RHVoicePunctuationMode
+#RHVoicePunctuationList "@+_"
+RHVoiceDefaultVoice "Aleksandr"
+RHVoiceDefaultVariant "Pseudo-English"
+Debug
+{% endcapture %}
+{% include component/code.html lang='conf' content=code %}
+
+<p>Добавим голоса новых дикторов в конфигурационный файл <b>speechd.conf</b>.</p>
+
+{% include component/code.html lang='bash' content='sudo gedit /etc/speech-dispatcher/speechd.conf' %}
+
+<p>Найдем перечень модулей, начинающихся на слово <b>#AddModule</b> и добавим к ним новый модуль.</p>
+
+{% include component/code.html lang='conf' content='#AddModule "rhvoice" "sd_rhvoice" "rhvoice.conf"' %}
+
+<p>Перезагрузим компьютер.</p>
+
+{% include component/code.html lang='bash' content='reboot' %}
+
+<p>После перезагрузки компьютера включим <b>экранный диктор</b>, нажав клавиши <kbd>Alt + Windows + S</kbd>. Затем зайдем в настройки экранного диктора, нажав по рабочему столу <kbd>Левой кнопкой мыши + Пробел</kbd>. Важно нажать именно по рабочему столу иначе настройки не откроются.</p>
+
+<figure>
+  {% include component/picture.html slug=page.slug img='img-5.jpg' type='original' alt='Окно настроек экранного диктора, вкладка Общие' %}
+  <figcaption>После перезагрузки компьютера включим <b>экранного диктора</b>, нажав клавиши <kbd>Alt + Windows + S</kbd>.</figcaption>
+</figure>
+
+<p>Ниже скриншотами я покажу свои настройки <b>экранного диктора</b>, которые обычно ставлю, если какую то из вкладок я не показал, значит содержимое ее параметров осталось без изменения.</p>
+
+<figure>
+  {% include component/picture.html slug=page.slug img='img-6.jpg' type='original' alt='Окно настроек экранного диктора, вкладка Голос' %}
+  <figcaption>Здесь выбирается голос экранного диктора, скорость его чтения и т.п.</figcaption>
+</figure>
+
+<figure>
+  {% include component/picture.html slug=page.slug img='img-7.jpg' type='original' alt='Окно настроек экранного диктора, вкладка Речь' %}
+  <figcaption>Здесь определяется речевой контекст, какие символы читать какие пропускать.</figcaption>
+</figure>
+
+<figure>
+  {% include component/picture.html slug=page.slug img='img-8.jpg' type='original' alt='Окно настроек экранного диктора, вкладка Озвучивание' %}
+  <figcaption>Здесь определяется озвучивание нажимаемых клавиш.</figcaption>
+</figure>
+
+<p>После изменений нажимаем на кнопку <b>Применить</b>.</p>
+
+<p>Готово, мы успешно настроили <b>экранный диктор</b>. Теперь когда он нам понадобится достаточно будет только его включить <kbd>Alt + Windows + S</kbd>. Отключается он теме же самыми клавишами.</p>
+
 <h2>Расширения для браузера</h2>
 
 <p>Список расширений для браузера <b>Google Chrome</b> которые я использую в работе и не только.</p>
