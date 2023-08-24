@@ -1,0 +1,708 @@
+---
+layout: post
+title: 'Linux для начинающих с уклоном в веб разработку. Часть 3: Софт для дистрибутива Pop!_OS'
+date: 2023-08-24 10:00 +0600
+description: В этой части речь пойдет об установке программ на дистрибутив <b>Pop!_OS</b>. Установим различный софт как для повседневных дел, так и для веб разработки.
+image: cover.jpg
+alt: Linux для начинающих - Часть 3
+category: devops
+tags: [linux, popos, программы, софт, расширения]
+published: true
+sitemap: true
+excerpt_separator: "<!--more-->"
+---
+
+<p>В этой части речь пойдет об установке программ на дистрибутив <b>Pop!_OS</b>. Установим различный софт как для повседневных дел, так и для веб разработки.</p>
+
+<!--more-->
+
+<h2>Вводная часть</h2>
+
+<p>Серия статей о том как безболезненно перейти с операционной системы <b>Windows</b> на <b>Linux</b> дистрибутив <b>Pop!_OS</b>, для разработки веб приложений и повседневного использования в качестве основной операционной системы.</p>
+
+{% include reference/linux-tutorial.html %}
+
+<h3>В предыдущей статье</h3>
+
+<p>В предыдущей статье мы научились делать бэкап и восстановление системы, настроили <b>NVIDIA</b>, обновили систему, ознакомились с настройками, привели горячие клавиши системы к соответствию горячим клавишам в операционной системе <b>Windows</b>. Добавили шаблоны для удобного создания новых файлов, кастомизировали тему установив, различные виджеты. Создали файл подкачки и настроили гибернацию.</p>
+
+<h2>Системные программы</h2>
+
+<h3>Timeshift</h3>
+
+<p><b>Timeshift</b> - бэкап системы, мы уже познакомились с этой программой, но я так же включу ее в этот список.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install timeshift' %}
+
+<h3>Шрифты</h3>
+
+<p><b>Шрифты</b> - стандартные шрифты из <b>Windows</b> к которым мы все привыкли <b>Arial</b>, <b>Time New Roman</b> и другие.</p>
+
+<p>По умолчанию в <b>Linux</b> дистрибутиве <b>Pop!_OS</b> нет <b>Windows</b> шрифтов, но их можно установить дополнительно. Для их установки вводим в терминале следующие команды друг за другом.</p>
+
+{% capture code %}
+sudo apt update
+sudo apt install cabextract
+sudo apt --fix-broken install
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Файлы со шрифтами находятся <a href="http://ftp.us.debian.org/debian/pool/contrib/m/msttcorefonts/" target="_blank" rel="nofollow">здесь</a>. Скачиваем самую последнюю версию с расширением <b>deb</b>, на момент написания статьи это была <b>ttf-mscorefonts-installer_3.8.1_all.deb</b>.</p>
+
+<p>Открываем скачанный файл и устанавливаем/обновляем пакет.</p>
+
+<p>Откроем программу <b>LibreOffice Writer</b> и проверим наличие <b>Windows</b> шрифтов.</p>
+
+<h3>Мультимедийные кодеки</h3>
+
+<p><b>Мультимедийные кодеки</b> - позволяют просматривать видео различных форматов.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install ubuntu-restricted-extras' %}
+
+<p>Пакет <b>libdvd-pkg</b> используется для установки поддержки воспроизведения <b>DVD-дисков</b> на операционной системе <b>Linux</b>. При установке нужно будет принять условия для этого нажмите на клавишу <kbd>Tab</kbd> для выбора пункта и <kbd>Пробел</kbd> для активации пункта.</p>
+
+{% capture code %}
+sudo apt install libdvd-pkg
+sudo dpkg-reconfigure libdvd-pkg
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>Bleachbit</h3>
+
+<p><b>Bleachbit</b> - аналог <b>Cсleaner</b>. Позволяет производить очистку системы от лишнего мусора.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install bleachbit' %}
+
+<h3>Файрвол</h3>
+
+<p><b>Файрвол</b> - используется для обеспечения защиты доступа по сети, закрытие портов и т.п.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install gufw' %}
+
+<h3>Tilix</h3>
+
+<p><b>Tilix</b> - улучшенный терминал по сравнению со стандартным который предоставляет дистрибутив <b>Pop!_OS</b>.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install tilix' %}
+
+<p>Чтобы сделать терминал <b>Tilix</b> терминалом по умолчанию, чтобы именно он открывался по нажатию на клавиши <kbd>Window + T</kbd>, введем в терминале команду.</p>
+
+{% include component/code.html lang='bash' content='sudo update-alternatives --config x-terminal-emulator' %}
+
+<p>Пропишем цифру обозначающую пункт <b>Tilix</b> и нажмем <b>Enter</b>.</p>
+
+<p>Для того чтобы терминал <b>Tilix</b> открывался через <b>Linux</b> проводник <b>nautilus</b> установим еще один пакет:</p>
+
+{% include component/code.html lang='bash' content='sudo apt install python3-nautilus' %}
+
+<figure>
+  {% include component/picture.html slug=page.slug img='img-1.jpg' type='original' alt='Терминал Tilix в проводнике nautilus.' %}
+  <figcaption>Открытие терминала <b>Tilix</b> через <b>Linux</b> проводник <b>nautilus</b>.</figcaption>
+</figure>
+
+<p>Откроем терминал и настроем его, нажав в правом верхнем углу на значок бургера. Выберем пункт <b>Параметры</b>. Появится окно с ошибкой, просто нажимаем <b>Ок</b> игнорируя ее.</p>
+
+<p>Далее нужно перейти в раздел <b>Профили / По умолчанию</b>, затем <b>Команда</b> и поставить галочку пункту <b>Запускать команду как оболочку входа</b>. Теперь ошибка должна пропасть.</p>
+
+<p>Так же перейдем в раздел <b>Цвета</b> и выберем любую понравившуюся тему, мне лично нравится <b>base16: Twilight (dark)</b>, и немного подкрутим Прозрачность чтобы терминал стал прозрачным.</p>
+
+<h3>Stacer</h3>
+
+<p><b>Stacer</b> - многоплановая программа которая позволит управлять установленными программами, автозагрузкой, так же как <b>Bleachbit</b> чистит кэш и еще много чего. </p>
+
+{% include component/code.html lang='bash' content='sudo apt install stacer' %}
+
+<h3>Virtual Box</h3>
+
+<p><b>Virtual Box</b> - для создания виртуальных машин.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install virtualbox-qt' %}
+
+<h3>TeamViewer</h3>
+
+<p><b>TeamViewer</b> - для удаленного доступа к компьютеру.</p>
+
+<p>Переходим на <a href="https://www.teamviewer.com/ru/скачать/linux/" target="_blank" rel="nofollow">официальный сайт</a> и скачиваем версию <b>Ubuntu/Debian</b> 32 или 64 битную в зависимости от вашей архитектуры. Как правило на всех современных компьютерах 64 битная архитектура.</p>
+
+<p>Открываем скачанный файл и устанавливаем.</p>
+
+<h3>Any Desk</h3>
+
+<p><b>Any Desk</b> - аналог TeamViewer последнее время чаще пользуюсь им.</p>
+
+<p>Переходим на <a href="https://anydesk.com/ru/downloads/linux" target="_blank" rel="nofollow">официальный сайт</a> и скачиваем версию <b>Debian / Ubuntu / Mint (64 Bit)</b>.</p>
+
+<p>Открываем скачанный файл и устанавливаем.</p>
+
+<h3>Snap пакеты</h3>
+
+<p><b>Snap пакеты</b> - дополнительный репозиторий с софтом, используется когда мы не можем найти нужную программу в репозиториях дистрибутива или же там находится устаревшая версия, а мы хотим новую. С помощью него мы в дальнейшем установим ряд программ.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install snapd' %}
+
+<h2>Общие программы</h2>
+
+<h3>KeePassXC</h3>
+
+<p><b>KeePassXC</b> - удобное хранилище паролей.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install keepassxc' %}
+
+<h3>KDENlive</h3>
+
+<p><b>KDENlive</b> - видео редактор, аналог Adobe Premiere для Linux.</p>
+
+<p>Откроем программу <b>Pop!_Shop</b> и в поле поиска введем <b>kdenlive</b>. Выберем найденную программу, она представлена в двух версиях <b>flatpak</b> и <b>deb</b>. Установим <b>flatpak</b> версию.</p>
+
+<figure>
+  {% include component/picture.html slug=page.slug img='img-2.jpg' type='original' alt='Установка программы KDENlive через Pop!_Shop.' %}
+  <figcaption>Установим <b>flatpak</b> версию.</figcaption>
+</figure>
+
+<h3>Go For IT!</h3>
+
+<p><b>Go For IT!</b> - todo лист с таймером помидоро.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install go-for-it' %}
+
+<h3>qBittorrent</h3>
+
+<p><b>qBittorrent</b> - торрент трекер.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install qbittorrent' %}
+
+<h3><b>Handbrake</b></h3>
+
+<p><b>Handbrake</b> - оптимизация видео файлов.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install handbrake' %}
+
+<h3><b>Яндекс диск</b></h3>
+
+<p>Инструкция по установке Яндекс диска в Linux дистрибутивах <a href="https://yandex.ru/support/disk-desktop-linux/installation.html" target="_blank" rel="nofollow">взята отсюда</a>.</p>
+
+<p>Приступим к установке, откройте терминал и введите следующую команду.</p>
+
+{% capture code %}
+echo "deb http://repo.yandex.ru/yandex-disk/deb/ stable main" |
+sudo tee -a /etc/apt/sources.list.d/yandex-disk.list > /dev/null &&
+wget http://repo.yandex.ru/yandex-disk/YANDEX-DISK-KEY.GPG -O- |
+sudo apt-key add - &&
+sudo apt-get update &&
+sudo apt-get install -y yandex-disk
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>После добавления репозитория <b>Яндекс диска</b> у нас начала появляться ошибка.</p>
+
+<p><b>W: http://repo.yandex.ru/yandex-disk/deb/dists/stable/InRelease:</b> Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.</p>
+
+<p>Чтобы ее устранить вводим в терминале следующую команду.</p>
+
+{% include component/code.html lang='bash' content='sudo apt-key list' %}
+
+<p>Находим запись <b>Yandex Disk Repository Key</b> и ее идентификатор <b>EE2C 95AB 58DC 2B01 38D1 6B4F EFC4 571D 7C90 E5AF</b>. Нам нужны последние восемь цифр <b>7C90 E5AF</b>.</p>
+
+<p>Вводим в терминале следующую команду. Обратите внимание, что в ней используются найденные последние 8 цифр 7C90E5AF.</p>
+
+{% include component/code.html lang='bash' content='sudo apt-key export 7C90E5AF | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/YANDEX-DISK-KEY.gpg' %}
+
+<p>Пробуем обновиться.</p>
+
+{% include component/code.html lang='bash' content='sudo apt update' %}
+
+<p>Как видим ошибка исчезла можно приступать к установке <b>Яндекс диска</b>. Необходимо будет следовать инструкции в терминале.</p>
+
+{% include component/code.html lang='bash' content='yandex-disk setup' %}
+
+<p>Установим теперь <a href="https://yandex.ru/support/disk-desktop-linux/cli-gui.html" target="_blank" rel="nofollow">Яндекс диск GUI</a>, я использую <b>yd-tools</b>. Вводим в терминале по очереди следующие команды.</p>
+
+{% capture code %}
+sudo add-apt-repository ppa:slytomcat/ppa
+sudo apt-get update
+sudo apt install yd-tools
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Все необходимое мы установили, теперь можем запустить синхронизацию с <b>Яндекс диском</b>, нажмем клавишу <kbd>Window</kbd> и вводим слово <b>Yandex</b>, открываем найденное приложение, готово.</p>
+
+<h3>Сторонние шрифты</h3>
+
+<p>Бывает что в систему хочется добавить нестандартные шрифты. По аналогии с <b>Windows</b> когда мы добавляли шрифты в папку <b>windows/fonts</b>. В <b>Linux</b> тоже можно добавить кастомные шрифты, для этого создадим через терминал каталог с шрифтами.</p>
+
+{% include component/code.html lang='bash' content='sudo mkdir /usr/share/fonts/kingsoft' %}
+
+<p>Сделаем чтобы у нас были права на этот каталог и на все вложенные каталоги и файлы.</p>
+
+{% include component/code.html lang='bash' content='sudo chown -R $USER:$USER /usr/share/fonts/kingsoft' %}
+
+<p>Перенесем кастомные шрифты в созданный каталог, например предположим что наши шрифты находятся в каталоге <b>~/Загрузки/roboto</b>.</p>
+
+{% include component/code.html lang='bash' content='sudo cp ~/Загрузки/roboto /usr/share/fonts/kingsoft' %}
+
+<p>Установим шрифты.</p>
+
+{% include component/code.html lang='bash' content='sudo fc-cache -vfs' %}
+
+<p>Теперь мы можем воспользоваться кастомными шрифтами например в программе в <b>LibreOffice Writer</b>.</p>
+
+<h3>Double commander</h3>
+
+<p><b>Double commander</b> - проводник наподобие Total Commander.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install doublecmd-qt' %}
+
+<h3>OBS Studios</h3>
+
+<p><b>OBS Studios</b> - программа для стриминга и съема экрана.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install obs-studio' %}
+
+<h3>Диктофон - программа записи голоса.</h3>
+
+{% include component/code.html lang='bash' content='flatpak install flathub org.gnome.SoundRecorder' %}
+
+<h3>Flameshot</h3>
+
+<p><b>Flameshot</b> - делает скриншоты экрана с возможностью отправить снимок в облако и поделиться им через ссылку.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install flameshot' %}
+
+<p>Кстати скриншоты удобно делать через горячую клавишу <kbd>Print Scr</kbd>, стандартным способом дистрибутива.</p>
+
+<h3>Steam</h3>
+
+<p><b>Steam</b> - игровая платформа, благодаря технологии <b>Proton</b> позволяет запускать любимые игры даже в <b>Linux</b>.</p>
+
+<p>Переходим на <a href="https://store.steampowered.com/about/" target="_blank" rel="nofollow">официальный сайт</a>, скачиваем установщик и устанавливаем.</p>
+
+<h3>Persepolis</h3>
+
+<p><b>Persepolis</b> - менеджер скачивания, наподобие <b>Download Master</b> для <b>Windows</b>.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install persepolis' %}
+
+<h3>Lollypop</h3>
+
+<p><b>Lollypop</b> - музыкальный проигрыватель.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install lollypop' %}
+
+<h2>Программы для WEB</h2>
+
+<h3>Настройка www-data</h3>
+
+<p>Это не программа скорей правило. Обычно я вручную создаю пользователя <b>www-data</b> и каталог <b>www</b>. Раньше когда устанавливал вручную <b>Apache</b> или <b>Nginx</b> они вместо меня это создавали, но сейчас в основном работаю через <b>Docker</b> поэтому напрямую не устанавливаю веб сервер.</p>
+
+<p>И так создадим новую группу и добавим нашего пользователя в нее.</p>
+
+{% include component/code.html lang='bash' content='sudo usermod -a -G www-data $USER' %}
+
+<p>Чтобы группа подхватилась необходимо выйти из системы и снова войти, либо перезагрузить компьютер.</p>
+
+<p>Далее в корневом каталоге пользователя создадим каталог <b>www</b>. В нем будут храниться все наши веб проекты.</p>
+
+{% include component/code.html lang='bash' content='mkdir ~/www' %}
+
+<p>Зададим для каталога <b>www</b> пользователя и группу <b>www-data</b>.</p>
+
+{% include component/code.html lang='bash' content='sudo chown -R www-data:www-data ~/www' %}
+
+<p>И зададим права доступа.</p>
+
+{% include component/code.html lang='bash' content='sudo chmod -R 775 ~/www' %}
+
+<p>Создадим символьную ссылку, чтобы каталог <b>www</b> который создают <b>Nginx</b> и <b>Apache</b> был связан с нашим рабочим каталогом <b>www</b>.</p>
+
+{% include component/code.html lang='bash' content='sudo ln -s ~/www /var/www' %}
+
+<p>Попробуем создать какие-либо файлы в любом из <b>www</b> каталоге. Каталоги <b>/var/www</b> и <b>~/www</b> должны отобразить одно и тоже.</p>
+
+<h3>Google Chrome</h3>
+
+<p><b>Google Chrome</b> - браузер для повседневного интернет серфинга.</p>
+
+<p>Зайдем на <a href="https://www.google.ru/intl/ru/chrome/" target="_blank" rel="nofollow">официальный сайт</a>, скачаем <b>DEB</b> пакет и установим браузер.</p>
+
+<h3>Git</h3>
+
+<p><b>Git</b> - управление контролем версии.</p>
+
+{% capture code %}
+sudo add-apt-repository ppa:git-core/ppa
+sudo apt update
+sudo apt install git
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Проверим <b>git</b> введя команду.</p>
+
+{% include component/code.html lang='bash' content='git -v' %}
+
+<h3>Composer</h3>
+
+<p><b>Composer</b> - пакет менеджер для php.</p>
+
+<p>Установим зависимости.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install php-cli unzip' %}
+
+<p>Скачаем файл <b>composer-setup.php</b>, введя команду.</p>
+
+{% include component/code.html lang='bash' content='curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php' %}
+
+<p>Получим <b>HASH</b>.</p>
+
+{% include component/code.html lang='bash' content='HASH=`curl -sS https://composer.github.io/installer.sig`' %}
+
+<p>Сравним хэши.</p>
+
+{% capture code %}
+php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Если все сделали правильно хэши должны совпасть, а на экране отобразиться надпись: <b>Installer verified</b>.</p>
+
+<p>Переносим файл композер в директорию <b>bin</b> для того, чтобы мы могли в дальнейшем обращаться к скрипту не указывая полный путь до него, а только его имя <b>composer</b>.</p>
+
+{% include component/code.html lang='bash' content='sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer' %}
+
+<p>Проверим <b>composer</b> введя команду.</p>
+
+{% include component/code.html lang='bash' content='composer --version' %}
+
+<h3>FileZilla</h3>
+
+<p>FileZilla - <b>ftp</b> клиент, для загрузки файлов на хостинг.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install filezilla' %}
+
+<h3>Wine</h3>
+
+<p><b>Wine</b> - для запуска <b>Window</b> приложений в среде <b>Linux</b>.</p>
+
+<p>Выполним поочередно следующие команды.</p>
+
+{% capture code %}
+sudo dpkg --add-architecture i386
+wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add - sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ impish main'
+sudo apt update
+sudo apt install --install-recommends winehq-stable
+winecfg
+sudo apt install winetricks
+sudo apt-key list
+sudo apt-key export F987672F | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/wine.gpg
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>Photoshop</h3>
+
+<p><b>Photoshop</b> - благодаря <b>wine</b> мы имеем возможность установить <b>Photoshop</b> в <b>Linux</b>.</p>
+
+<p>Photoshop будет установлен <a href="https://github.com/Gictorbit/photoshopCClinux" target="_blank" rel="nofollow">по этому репозиторию</a>.</p>
+
+<p>Клонируем репозиторий.</p>
+
+{% include component/code.html lang='bash' content='git clone https://github.com/Gictorbit/photoshopCClinux.git' %}
+
+<p>Переходим в каталог с клонированного репозитория.</p>
+
+{% include component/code.html lang='bash' content='cd photoshopCClinux' %}
+
+<p>Даем разрешение скрипту на выполнение.</p>
+
+{% include component/code.html lang='bash' content='chmod +x setup.sh' %}
+
+<p>Запускаем скрипт.</p>
+
+{% include component/code.html lang='bash' content='./setup.sh' %}
+
+<figure>
+  {% include component/picture.html slug=page.slug img='img-3.jpg' type='original' alt='Установка Photoshop через терминал.' %}
+  <figcaption>Запускаем скрипт.</figcaption>
+</figure>
+
+<p>Вводим цифру один для установки <b>Photoshop</b> и следуем дальнейшей инструкции. В целом установка интуитивно понятна, нет смысла ее описывать подробно. Нажимаете далее, ок до полной установки.</p>
+
+<h3>Figma</h3>
+
+<p><b>Figma</b> - приложение для дизайна интерфейсов и прототипирования.</p>
+
+<p>Необходимо будет скачать <b>deb</b> пакет с <a href="https://github.com/Figma-Linux/figma-linux/releases" target="_blank" rel="nofollow">официального репозитория</a> и установить его.</p>
+
+<figure>
+  {% include component/picture.html slug=page.slug img='img-4.jpg' type='original' alt='Репозиторий Figma.' %}
+  <figcaption>Необходимо будет скачать <b>deb</b> пакет.</figcaption>
+</figure>
+
+<h3>NodeJS</h3>
+
+<p><b>NodeJS</b> - среда для создания веб приложений.</p>
+
+<p>Перейдем в <a href="https://github.com/nvm-sh/nvm/releases" target="_blank" rel="nofollow">репозиторий nvm</a> и посмотрим какая самая последняя версия, на момент написания статьи это <b>0.39.5</b>.</p>
+
+<p>Скачаем и установим ее введя в терминал команду, подставьте в ссылку актуальный номер версии.</p>
+
+{% include component/code.html lang='bash' content='wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.39.5/install.sh | bash' %}
+
+<p>Обновим среду оболочки, для чего требуется закрыть и снова открыть терминал, либо выполнить команду:</p>
+
+{% include component/code.html lang='bash' content='source ~/.profile' %}
+
+<p>Проверяем версию.</p>
+
+{% include component/code.html lang='bash' content='nvm --version' %}
+
+<p>Получаем список всех доступных версий <b>NodeJS</b> можно следующим образом:</p>
+
+{% include component/code.html lang='bash' content='nvm ls-remote' %}
+
+<p>Ещё лучше - вывести лишь список версий с долгосрочной поддержкой.</p>
+
+{% include component/code.html lang='bash' content='nvm ls-remote | grep -i "latest lts"' %}
+
+<p>Теперь можно выбрать желаемый вариант и установить, например:</p>
+
+{% include component/code.html lang='bash' content='nvm install 18.17.1' %}
+
+<p>Вывести список установленных версий.</p>
+
+{% include component/code.html lang='bash' content='nvm ls' %}
+
+<p>Переключить на другую версию.</p>
+
+{% include component/code.html lang='bash' content='nvm use &lt;version_number&gt;' %}
+
+<p>Чтобы удалить версию, нужно предварительно переключиться на другую и затем выполнить:</p>
+
+{% include component/code.html lang='bash' content='nvm uninstall &lt;version_number&gt;' %}
+
+<p>Чтобы обновить версию.</p>
+
+{% include component/code.html lang='bash' content='npm update -g npm' %}
+
+<p>Если устанавливать <b>NodeJS</b> из репозитория дистрибутива, то он установится в каталог <b>/bin/node|npm|npx</b> и некоторые программы будут пытаться обратиться по этим путям. Но так как мы установили <b>NodeJS</b> с участием <b>nvm</b>, то необходимо создать символические ссылки. Для этого в терминале вводим поочереди следующие команды. Обратите внимание, что <b>18.16.1</b> это версия активной <b>NodeJS</b>, если необходимо замените версию на свою.</p>
+
+{% capture code %}
+sudo ln -s ~/.nvm/versions/node/v18.16.1/bin/node /bin/node
+sudo ln -s ~/.nvm/versions/node/v18.16.1/bin/npm /bin/npm
+sudo ln -s ~/.nvm/versions/node/v18.16.1/bin/npx /bin/npx
+
+hash -r
+
+export PATH=$PATH:'/bin/node'
+source ~/.bashrc && source ~/.profile
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>PHP Storm</h3>
+
+<p><b>PHP Storm</b> - IDE для веб разработки.</p>
+
+{% include component/code.html lang='bash' content='sudo snap install phpstorm --classic' %}
+
+<p>Для установки предыдущей версии введите в терминале.</p>
+
+{% include component/code.html lang='bash' content='sudo snap install phpstorm --channel=2021.1/stable --classic' %}
+
+<p>Чтобы открыть каталог через <b>PHP Storm</b> по нажатию на него правой кнопкой мыши, как в <b>Windows</b>. Нужно скачать и установить скрипт.</p>
+
+{% include component/code.html lang='bash' content='wget -qO- https://raw.githubusercontent.com/Jayuda/idea-nautilus/master/install.sh | bash' %}
+
+<p>Откроем файл <b>idea-nautilus.py</b> и изменим значение переменной <b>INTELJIDEA</b>.</p>
+
+{% capture code %}
+gedit ~/.local/share/nautilus-python/extensions/idea-nautilus.py
+
+// Изменим значение переменной
+INTELJIDEA = 'phpstorm'
+
+// Закоментируем эти строчки
+# if os.path.isdir(filepath) and os.path.exists(filepath):
+# args = '--new-window '
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Перезапустим проводник.</p>
+
+{% include component/code.html lang='bash' content='nautilus -q' %}
+
+<h3>Visual Studio</h3>
+
+<p><b>Visual Studio</b> - редактор кода.</p>
+
+{% include component/code.html lang='bash' content='sudo snap install code --classic' %}
+
+<p>Чтобы открыть каталог через <b>VSCode</b> по нажатию на него правой кнопкой мыши, как в <b>Windows</b>. Нужно скачать и установить скрипт.</p>
+
+{% include component/code.html lang='bash' content='wget -qO- https://raw.githubusercontent.com/harry-cpp/code-nautilus/master/install.sh | bash' %}
+
+<p>Перезапустим проводник.</p>
+
+{% include component/code.html lang='bash' content='nautilus -q' %}
+
+<h3>Poedit 2</h3>
+
+<p><b>Poedit 2</b> - используется для интернализации программного обеспечения. Будет полезен при создании мультиязычных сайтов.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install poedit' %}
+
+<h3>Оптимизация изображений</h3>
+
+<p>Программа уменьшения веса изображения.</p>
+
+{% include component/code.html lang='bash' content='sudo snap install image-optimizer' %}
+
+<h3>Пипетка</h3>
+
+<p><b>Пипетка</b> - позволяет скопировать цвет какого либо элемента.</p>
+
+{% include component/code.html lang='bash' content='sudo snap install pick-colour-picker' %}
+
+<h3>Изменение размера картинок</h3>
+
+<p>Позволяет без графического редактора очень быстро и просто изменить пропорции картинки, повернуть ее т.п. Для этого достаточно нажать на картинку правой кнопкой мыши и выбрать в контекстном меню пункт <b>Масштабировать изображение</b> или <b>Rotate Images</b>.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install nautilus-image-converter' %}
+
+<p>Перезапустим проводник.</p>
+
+{% include component/code.html lang='bash' content='nautilus -q' %}
+
+<h3>DB SQL dbeaver</h3>
+
+<p><b>DB SQL dbeaver</b> - администрирования баз данных.</p>
+
+{% include component/code.html lang='bash' content='sudo snap install dbeaver-ce' %}
+
+<h3>Docker</h3>
+
+<p><b>Docker</b> - контейнер для создания изолированных окружений с необходимыми зависимостями.</p>
+
+<p>Установим <b>Docker</b> согласно <a href="https://docs.docker.com/engine/install/ubuntu/#install-docker-engine" target="_blank" rel="nofollow">официальной документации</a>.</p>
+
+<p>Создадим группу <b>docker</b> и добавим в нее нашего пользователя.</p>
+
+{% capture code %}
+sudo groupadd docker
+sudo usermod -aG docker $USER
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Чтобы группа подхватилась необходимо выйти из системы и снова войти, либо перезагрузить компьютер. Также можно ввести команду.</p>
+
+{% include component/code.html lang='bash' content='newgrp docker' %}
+
+<p>Далее установим <b>Docker</b>, введя поочередно следующие команды.</p>
+
+{% capture code %}
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg
+
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+echo \
+"deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+"$(. /etc/os-release && echo "$UBUNTU_CODENAME")" stable" | \
+sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt update
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Проверим успешно ли установился <b>Docker</b>.</p>
+
+{% include component/code.html lang='bash' content='docker compose version' %}
+
+<p>Далее по желанию можно установить <a href="https://docs.docker.com/desktop/install/ubuntu/" target="_blank" rel="nofollow">GUI версию</a>, скачав <b>deb</b> пакет и установив его.</p>
+
+<h3>PHP</h3>
+
+<p><b>PHP</b> - так как я занимаюсь разработкой на <b>php</b>, то буду устанавливать базовые пакеты для этого языка.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install php php-cli php-curl php-gd php-mbstring php-xml php-xmlrpc' %}
+
+<p>Отредактируем временную зону в конфигурационном файле <b>php.ini</b>.</p>
+
+{% capture code %}
+sudo gedit /etc/php/8.1/cli/php.ini
+
+date.timezone = "Asia/Almaty"
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>Icon Shelf</h3>
+
+<p><b>Icon Shelf</b> - хранилище svg иконок.</p>
+
+<p>Скачать можно с <a href="https://github.com/Icon-Shelf/icon-shelf/releases/tag/v0.1.18" target="_blank" rel="nofollow">официального репозитория</a>. Скачиваем файл с типом <b>*.AppImage</b>.</p>
+
+<p>Переименуем файл в <b>icon-shelf.AppImage</b> и перенесем его в каталог <b>/usr/bin</b></p>
+
+{% include component/code.html lang='bash' content='sudo mv ~/Загрузки/icon-shelf.AppImage /usr/bin' %}
+
+<p>Дадим файлу права на запуск.</p>
+
+{% include component/code.html lang='bash' content='sudo chmod +x /usr/bin/icon-shelf.AppImage' %}
+
+<p>Создадим ярлык для запуска <b>icon-shelf</b>, чтобы по нажатию клавиши <kbd>Windows</kbd> или <kbd>Ctrl + A</kbd> мы могли найти программу <b>icon-shelf</b> в общем списке.</p>
+
+{% capture code %}
+sudo touch ~/.local/share/applications/icon-shelf.desktop
+sudo chmod +x ~/.local/share/applications/icon-shelf.desktop
+sudo gedit ~/.local/share/applications/icon-shelf.desktop
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>И введем в созданный файл следующее содержимое.</p>
+
+{% capture code %}
+[Desktop Entry]
+Name=Icon Shelf
+Comment=Svg icons library
+Exec=/usr/bin/icon-shelf.AppImage
+Type=Application
+StartupNotify=true
+Icon=/home/eliofery/Изображения/icon-shelf.svg
+Terminal=false
+Encoding=UTF-8
+Categories=Utility;
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Для значения <b>Icon</b> укажите свой путь к изображению формата <b>jpg</b>, <b>png</b>, <b>svg</b>. Эта картинка будет использоваться в качестве иконки для программы.</p>
+
+<p>Теперь программу можно будет запустить нажав клавишу <kbd>Window</kbd> и введя слово <b>Icon Shelf</b>.</p>
+
+<h2>Расширения для браузера</h2>
+
+<p>Список расширений для браузера <b>Google Chrome</b> которые я использую в работе и не только.</p>
+
+<ul>
+  <li><a href="https://chrome.google.com/webstore/detail/take-webpage-screenshots/mcbpblocgmgfnpjjppndjkmgjaogfceg" target="_blank" rel="nofollow">FireShot</a> - скриншот страницы</li>
+  <li><a href="https://chrome.google.com/webstore/detail/imtranslator-translator-d/noaijdpnepcgjemiklgfkcfbkokogabh" target="_blank" rel="nofollow">ImTranslator</a> - переводчик</li>
+  <li><a href="https://chrome.google.com/webstore/detail/jsonview/gmegofmjomhknnokphhckolhcffdaihd" target="_blank" rel="nofollow">JsonView</a> - просмотр формата json в браузере</li>
+  <li><a href="https://chrome.google.com/webstore/detail/page-ruler/jcbmcnpepaddcedmjdcmhbekjhbfnlff" target="_blank" rel="nofollow">Page Ruler</a> - линейка, для измерения элементов на странице сайта</li>
+  <li><a href="https://chrome.google.com/webstore/detail/perfectpixel-by-welldonec/dkaagdgjmgdmbnecmcefdhjekcoceebi" target="_blank" rel="nofollow">PerfectPixel</a> - сравнение верстки с макетом посредством наложения картинки макета на сверстанную страницу</li>
+  <li><a href="https://chrome.google.com/webstore/detail/seoquake/akdgnmcogleenhbclghghlkkdndkjdjc?hl=ru" target="_blank" rel="nofollow">SEOquake</a> - статистика по <b>SEO</b></li>
+  <li><a href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm" target="_blank" rel="nofollow">uBlock Origin</a> - блокировка рекламы на сайтах</li>
+  <li><a href="https://chrome.google.com/webstore/detail/validity/bbicmjjbohdfglopkidebfccilipgeif" target="_blank" rel="nofollow">Validity</a> - валидация страницы в браузере</li>
+  <li><a href="https://chrome.google.com/webstore/detail/video-speed-controller/nffaoalbilbmmfgbnbgppjihopabppdk" target="_blank" rel="nofollow">Video Speed Controller</a> - увеличение скорости любого видео в браузере</li>
+  <li><a href="https://chrome.google.com/webstore/detail/web-developer/bfbameneiokkgbdmiekhjnmfkcnldhhm" target="_blank" rel="nofollow">Web Developer</a> - инструмент для веб разработчика</li>
+  <li><a href="https://ru.savefrom.net/20/userjs-for-google-chrome.php" target="_blank" rel="nofollow">Save From</a> - скачивание видео из браузера</li>
+  <li><a href="https://chrome.google.com/webstore/detail/video-downloadhelper/lmjnegcaeklhafolokijcfjliaokphfk" target="_blank" rel="nofollow">Video Download Helper</a> - скачивание видео из браузера, более продвинутый плагин чем Save From</li>
+  <li><a href="https://chrome.google.com/webstore/detail/printfriendly-print-and-p/ohlencieiipommannpdfcmfdpjjmeolj" target="_blank" rel="nofollow">Print Friendly & PDF</a> - сохранение html страницы в pdf</li>
+  <li><a href="https://chrome.google.com/webstore/detail/whatfont/jabopobgcpjmedljpbcaablpmlmfcogm" target="_blank" rel="nofollow">WhatFont</a> - позволяет узнать какой шрифт использует страница сайта</li>
+  <li><a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=ru" target="_blank" rel="nofollow">Xdebug helper</a> - для дебага php кода</li>
+  <li><a href="https://chrome.google.com/webstore/detail/css-shapes-editor/nenndldnbcncjmeacmnondmkkfedmgmp" target="_blank" rel="nofollow">CSS Shapes Editor</a> - позволяет создавать clip css стили</li>
+</ul>
+
+<h2>Вся серия</h2>
+
+{% include reference/linux-tutorial.html %}
