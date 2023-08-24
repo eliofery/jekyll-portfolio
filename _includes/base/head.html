@@ -150,4 +150,37 @@
   .main-article__info-desc a:focus {
     text-decoration: none;
   }
+
+  .main-article__info-item {
+    position: relative;
+  }
+
+  .main-article__info-item::before {
+    position: absolute;
+    right: -4px;
+    content: ",";
+  }
+
+  .main-article__info-item:last-child::before {
+    display: none;
+  }
+
+  .main-article__content-container .code-block, .main-article__content-container iframe, .main-article__content-container img, .main-article__content-container video {
+    margin: 40px auto;
+    max-width: 80%;
+  }
+
+  .code-block + pre {
+    margin: 0 auto !important;
+  }
+
+  .main-article__content-container ol li,
+  .main-article__content-container ul li {
+    margin-bottom: 5px;
+  }
+
+  .main-article__content-container ol li:last-child,
+  .main-article__content-container ul li:last-child {
+    margin-bottom: 0;
+  }
 </style>
