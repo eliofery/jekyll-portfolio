@@ -1,8 +1,9 @@
 ---
 layout: post
-title: 'Linux для начинающих с уклоном в веб разработку. Часть 3: Софт для дистрибутива Pop!_OS'
+title: 'Linux для начинающих с уклоном в веб разработку. Часть 3: Установка программ в Pop!_OS'
 date: 2023-08-24 10:00 +0600
-description: В этой части речь пойдет об установке программ на дистрибутив <b>Pop!_OS</b>. Установим различный софт как для повседневных дел, так и для веб разработки.
+description: 'В этой части речь пойдет об установке программ на дистрибутив
+<b>Pop!_OS</b>. Установим различный софт как для повседневных дел, так и для веб разработки.'
 image: cover.jpg
 alt: Linux для начинающих - Часть 3
 category: devops
@@ -12,21 +13,26 @@ sitemap: true
 excerpt_separator: "<!--more-->"
 ---
 
-<p>В этой части речь пойдет об установке программ на дистрибутив <b>Pop!_OS</b>. Установим различный софт как для повседневных дел, так и для веб разработки.</p>
+<p>В этой части речь пойдет об установке программ на дистрибутив <b>Pop!_OS</b>. Установим различный софт как для
+  повседневных дел, так и для веб разработки.</p>
 
 <!--more-->
 
-<h2>Вводная часть</h2>
+<h2><span class="attention">Вводная</span> часть</h2>
 
-<p>Серия статей о том как безболезненно перейти с операционной системы <b>Windows</b> на <b>Linux</b> дистрибутив <b>Pop!_OS</b>, для разработки веб приложений и повседневного использования в качестве основной операционной системы.</p>
+<p>Серия статей о том как безболезненно перейти с операционной системы <b>Windows</b> на <b>Linux</b> дистрибутив <b>Pop!_OS</b>,
+  для разработки веб приложений и повседневного использования в качестве основной операционной системы.</p>
 
 {% include reference/linux-tutorial.html %}
 
 <h3>В предыдущей статье</h3>
 
-<p>В предыдущей статье мы научились делать бэкап и восстановление системы, настроили <b>NVIDIA</b>, обновили систему, ознакомились с настройками, привели горячие клавиши системы к соответствию горячим клавишам в операционной системе <b>Windows</b>. Добавили шаблоны для удобного создания новых файлов, кастомизировали тему установив, различные виджеты. Создали файл подкачки и настроили гибернацию.</p>
+<p>В предыдущей статье мы научились делать бэкап и восстановление системы, настроили <b>NVIDIA</b>, обновили систему,
+  ознакомились с настройками, привели горячие клавиши системы к соответствию горячим клавишам в операционной системе <b>Windows</b>.
+  Добавили шаблоны для удобного создания новых файлов, кастомизировали тему установив, различные виджеты. Создали файл
+  подкачки и настроили гибернацию.</p>
 
-<h2>Системные программы</h2>
+<h2><span class="attention">Системные</span> программы</h2>
 
 <h3>Timeshift</h3>
 
@@ -36,9 +42,11 @@ excerpt_separator: "<!--more-->"
 
 <h3>Шрифты</h3>
 
-<p><b>Шрифты</b> - стандартные шрифты из <b>Windows</b> к которым мы все привыкли <b>Arial</b>, <b>Time New Roman</b> и другие.</p>
+<p><b>Шрифты</b> - стандартные шрифты из <b>Windows</b> к которым мы все привыкли <b>Arial</b>, <b>Time New Roman</b> и
+  другие.</p>
 
-<p>По умолчанию в <b>Linux</b> дистрибутиве <b>Pop!_OS</b> нет <b>Windows</b> шрифтов, но их можно установить дополнительно. Для их установки вводим в терминале следующие команды друг за другом.</p>
+<p>По умолчанию в <b>Linux</b> дистрибутиве <b>Pop!_OS</b> нет <b>Windows</b> шрифтов, но их можно установить
+  дополнительно. Для их установки вводим в терминале следующие команды друг за другом.</p>
 
 {% capture code %}
 sudo apt update
@@ -47,7 +55,9 @@ sudo apt --fix-broken install
 {% endcapture %}
 {% include component/code.html lang='bash' content=code %}
 
-<p>Файлы со шрифтами находятся <a href="http://ftp.us.debian.org/debian/pool/contrib/m/msttcorefonts/" target="_blank" rel="nofollow">здесь</a>. Скачиваем самую последнюю версию с расширением <b>deb</b>, на момент написания статьи это была <b>ttf-mscorefonts-installer_3.8.1_all.deb</b>.</p>
+<p>Файлы со шрифтами находятся <a href="http://ftp.us.debian.org/debian/pool/contrib/m/msttcorefonts/" target="_blank"
+                                  rel="nofollow">здесь</a>. Скачиваем самую последнюю версию с расширением <b>deb</b>,
+  на момент написания статьи это была <b>ttf-mscorefonts-installer_3.8.1_all.deb</b>.</p>
 
 <p>Открываем скачанный файл и устанавливаем/обновляем пакет.</p>
 
@@ -59,7 +69,9 @@ sudo apt --fix-broken install
 
 {% include component/code.html lang='bash' content='sudo apt install ubuntu-restricted-extras' %}
 
-<p>Пакет <b>libdvd-pkg</b> используется для установки поддержки воспроизведения <b>DVD-дисков</b> на операционной системе <b>Linux</b>. При установке нужно будет принять условия для этого нажмите на клавишу <kbd>Tab</kbd> для выбора пункта и <kbd>Пробел</kbd> для активации пункта.</p>
+<p>Пакет <b>libdvd-pkg</b> используется для установки поддержки воспроизведения <b>DVD-дисков</b> на операционной
+  системе <b>Linux</b>. При установке нужно будет принять условия для этого нажмите на клавишу <kbd>Tab</kbd> для выбора
+  пункта и <kbd>Пробел</kbd> для активации пункта.</p>
 
 {% capture code %}
 sudo apt install libdvd-pkg
@@ -85,30 +97,37 @@ sudo dpkg-reconfigure libdvd-pkg
 
 {% include component/code.html lang='bash' content='sudo apt install tilix' %}
 
-<p>Чтобы сделать терминал <b>Tilix</b> терминалом по умолчанию, чтобы именно он открывался по нажатию на клавиши <kbd>Window + T</kbd>, введем в терминале команду.</p>
+<p>Чтобы сделать терминал <b>Tilix</b> терминалом по умолчанию, чтобы именно он открывался по нажатию на клавиши <kbd>Window
+  + T</kbd>, введем в терминале команду.</p>
 
 {% include component/code.html lang='bash' content='sudo update-alternatives --config x-terminal-emulator' %}
 
 <p>Пропишем цифру обозначающую пункт <b>Tilix</b> и нажмем <b>Enter</b>.</p>
 
-<p>Для того чтобы терминал <b>Tilix</b> открывался через <b>Linux</b> проводник <b>nautilus</b> установим еще один пакет:</p>
+<p>Для того чтобы терминал <b>Tilix</b> открывался через <b>Linux</b> проводник <b>nautilus</b> установим еще один
+  пакет:</p>
 
 {% include component/code.html lang='bash' content='sudo apt install python3-nautilus' %}
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-1.jpg' type='original' alt='Терминал Tilix в проводнике nautilus.' %}
+  {% include component/picture.html slug=page.slug img='img-1.jpg' type='original' alt='Терминал Tilix в проводнике
+  nautilus.' %}
   <figcaption>Открытие терминала <b>Tilix</b> через <b>Linux</b> проводник <b>nautilus</b>.</figcaption>
 </figure>
 
-<p>Откроем терминал и настроем его, нажав в правом верхнем углу на значок бургера. Выберем пункт <b>Параметры</b>. Появится окно с ошибкой, просто нажимаем <b>Ок</b> игнорируя ее.</p>
+<p>Откроем терминал и настроем его, нажав в правом верхнем углу на значок бургера. Выберем пункт <b>Параметры</b>.
+  Появится окно с ошибкой, просто нажимаем <b>Ок</b> игнорируя ее.</p>
 
-<p>Далее нужно перейти в раздел <b>Профили / По умолчанию</b>, затем <b>Команда</b> и поставить галочку пункту <b>Запускать команду как оболочку входа</b>. Теперь ошибка должна пропасть.</p>
+<p>Далее нужно перейти в раздел <b>Профили / По умолчанию</b>, затем <b>Команда</b> и поставить галочку пункту <b>Запускать
+  команду как оболочку входа</b>. Теперь ошибка должна пропасть.</p>
 
-<p>Так же перейдем в раздел <b>Цвета</b> и выберем любую понравившуюся тему, мне лично нравится <b>base16: Twilight (dark)</b>, и немного подкрутим Прозрачность чтобы терминал стал прозрачным.</p>
+<p>Так же перейдем в раздел <b>Цвета</b> и выберем любую понравившуюся тему, мне лично нравится <b>base16: Twilight
+  (dark)</b>, и немного подкрутим Прозрачность чтобы терминал стал прозрачным.</p>
 
 <h3>Stacer</h3>
 
-<p><b>Stacer</b> - многоплановая программа которая позволит управлять установленными программами, автозагрузкой, так же как <b>Bleachbit</b> чистит кэш и еще много чего. </p>
+<p><b>Stacer</b> - многоплановая программа которая позволит управлять установленными программами, автозагрузкой, так же
+  как <b>Bleachbit</b> чистит кэш и еще много чего. </p>
 
 {% include component/code.html lang='bash' content='sudo apt install stacer' %}
 
@@ -122,7 +141,9 @@ sudo dpkg-reconfigure libdvd-pkg
 
 <p><b>TeamViewer</b> - для удаленного доступа к компьютеру.</p>
 
-<p>Переходим на <a href="https://www.teamviewer.com/ru/скачать/linux/" target="_blank" rel="nofollow">официальный сайт</a> и скачиваем версию <b>Ubuntu/Debian</b> 32 или 64 битную в зависимости от вашей архитектуры. Как правило на всех современных компьютерах 64 битная архитектура.</p>
+<p>Переходим на <a href="https://www.teamviewer.com/ru/скачать/linux/" target="_blank" rel="nofollow">официальный
+  сайт</a> и скачиваем версию <b>Ubuntu/Debian</b> 32 или 64 битную в зависимости от вашей архитектуры. Как правило на
+  всех современных компьютерах 64 битная архитектура.</p>
 
 <p>Открываем скачанный файл и устанавливаем.</p>
 
@@ -130,17 +151,20 @@ sudo dpkg-reconfigure libdvd-pkg
 
 <p><b>Any Desk</b> - аналог TeamViewer последнее время чаще пользуюсь им.</p>
 
-<p>Переходим на <a href="https://anydesk.com/ru/downloads/linux" target="_blank" rel="nofollow">официальный сайт</a> и скачиваем версию <b>Debian / Ubuntu / Mint (64 Bit)</b>.</p>
+<p>Переходим на <a href="https://anydesk.com/ru/downloads/linux" target="_blank" rel="nofollow">официальный сайт</a> и
+  скачиваем версию <b>Debian / Ubuntu / Mint (64 Bit)</b>.</p>
 
 <p>Открываем скачанный файл и устанавливаем.</p>
 
 <h3>Snap пакеты</h3>
 
-<p><b>Snap пакеты</b> - дополнительный репозиторий с софтом, используется когда мы не можем найти нужную программу в репозиториях дистрибутива или же там находится устаревшая версия, а мы хотим новую. С помощью него мы в дальнейшем установим ряд программ.</p>
+<p><b>Snap пакеты</b> - дополнительный репозиторий с софтом, используется когда мы не можем найти нужную программу в
+  репозиториях дистрибутива или же там находится устаревшая версия, а мы хотим новую. С помощью него мы в дальнейшем
+  установим ряд программ.</p>
 
 {% include component/code.html lang='bash' content='sudo apt install snapd' %}
 
-<h2>Общие программы</h2>
+<h2><span class="attention">Общие</span> программы</h2>
 
 <h3>KeePassXC</h3>
 
@@ -152,10 +176,12 @@ sudo dpkg-reconfigure libdvd-pkg
 
 <p><b>KDENlive</b> - видео редактор, аналог Adobe Premiere для Linux.</p>
 
-<p>Откроем программу <b>Pop!_Shop</b> и в поле поиска введем <b>kdenlive</b>. Выберем найденную программу, она представлена в двух версиях <b>flatpak</b> и <b>deb</b>. Установим <b>flatpak</b> версию.</p>
+<p>Откроем программу <b>Pop!_Shop</b> и в поле поиска введем <b>kdenlive</b>. Выберем найденную программу, она
+  представлена в двух версиях <b>flatpak</b> и <b>deb</b>. Установим <b>flatpak</b> версию.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-2.jpg' type='original' alt='Установка программы KDENlive через Pop!_Shop.' %}
+  {% include component/picture.html slug=page.slug img='img-2.jpg' type='original' alt='Установка программы KDENlive
+  через Pop!_Shop.' %}
   <figcaption>Установим <b>flatpak</b> версию.</figcaption>
 </figure>
 
@@ -179,7 +205,9 @@ sudo dpkg-reconfigure libdvd-pkg
 
 <h3><b>Яндекс диск</b></h3>
 
-<p>Инструкция по установке Яндекс диска в Linux дистрибутивах <a href="https://yandex.ru/support/disk-desktop-linux/installation.html" target="_blank" rel="nofollow">взята отсюда</a>.</p>
+<p>Инструкция по установке Яндекс диска в Linux дистрибутивах <a
+  href="https://yandex.ru/support/disk-desktop-linux/installation.html" target="_blank" rel="nofollow">взята отсюда</a>.
+</p>
 
 <p>Приступим к установке, откройте терминал и введите следующую команду.</p>
 
@@ -195,15 +223,18 @@ sudo apt-get install -y yandex-disk
 
 <p>После добавления репозитория <b>Яндекс диска</b> у нас начала появляться ошибка.</p>
 
-<p><b>W: http://repo.yandex.ru/yandex-disk/deb/dists/stable/InRelease:</b> Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.</p>
+<p><b>W: http://repo.yandex.ru/yandex-disk/deb/dists/stable/InRelease:</b> Key is stored in legacy trusted.gpg keyring
+  (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.</p>
 
 <p>Чтобы ее устранить вводим в терминале следующую команду.</p>
 
 {% include component/code.html lang='bash' content='sudo apt-key list' %}
 
-<p>Находим запись <b>Yandex Disk Repository Key</b> и ее идентификатор <b>EE2C 95AB 58DC 2B01 38D1 6B4F EFC4 571D 7C90 E5AF</b>. Нам нужны последние восемь цифр <b>7C90 E5AF</b>.</p>
+<p>Находим запись <b>Yandex Disk Repository Key</b> и ее идентификатор <b>EE2C 95AB 58DC 2B01 38D1 6B4F EFC4 571D 7C90
+  E5AF</b>. Нам нужны последние восемь цифр <b>7C90 E5AF</b>.</p>
 
-<p>Вводим в терминале следующую команду. Обратите внимание, что в ней используются найденные последние 8 цифр 7C90E5AF.</p>
+<p>Вводим в терминале следующую команду. Обратите внимание, что в ней используются найденные последние 8 цифр
+  7C90E5AF.</p>
 
 {% include component/code.html lang='bash' content='sudo apt-key export 7C90E5AF | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/YANDEX-DISK-KEY.gpg' %}
 
@@ -211,11 +242,13 @@ sudo apt-get install -y yandex-disk
 
 {% include component/code.html lang='bash' content='sudo apt update' %}
 
-<p>Как видим ошибка исчезла можно приступать к установке <b>Яндекс диска</b>. Необходимо будет следовать инструкции в терминале.</p>
+<p>Как видим ошибка исчезла можно приступать к установке <b>Яндекс диска</b>. Необходимо будет следовать инструкции в
+  терминале.</p>
 
 {% include component/code.html lang='bash' content='yandex-disk setup' %}
 
-<p>Установим теперь <a href="https://yandex.ru/support/disk-desktop-linux/cli-gui.html" target="_blank" rel="nofollow">Яндекс диск GUI</a>, я использую <b>yd-tools</b>. Вводим в терминале по очереди следующие команды.</p>
+<p>Установим теперь <a href="https://yandex.ru/support/disk-desktop-linux/cli-gui.html" target="_blank" rel="nofollow">Яндекс
+  диск GUI</a>, я использую <b>yd-tools</b>. Вводим в терминале по очереди следующие команды.</p>
 
 {% capture code %}
 sudo add-apt-repository ppa:slytomcat/ppa
@@ -224,11 +257,14 @@ sudo apt install yd-tools
 {% endcapture %}
 {% include component/code.html lang='bash' content=code %}
 
-<p>Все необходимое мы установили, теперь можем запустить синхронизацию с <b>Яндекс диском</b>, нажмем клавишу <kbd>Window</kbd> и вводим слово <b>Yandex</b>, открываем найденное приложение, готово.</p>
+<p>Все необходимое мы установили, теперь можем запустить синхронизацию с <b>Яндекс диском</b>, нажмем клавишу <kbd>Window</kbd>
+  и вводим слово <b>Yandex</b>, открываем найденное приложение, готово.</p>
 
 <h3>Сторонние шрифты</h3>
 
-<p>Бывает что в систему хочется добавить нестандартные шрифты. По аналогии с <b>Windows</b> когда мы добавляли шрифты в папку <b>windows/fonts</b>. В <b>Linux</b> тоже можно добавить кастомные шрифты, для этого создадим через терминал каталог с шрифтами.</p>
+<p>Бывает что в систему хочется добавить нестандартные шрифты. По аналогии с <b>Windows</b> когда мы добавляли шрифты в
+  папку <b>windows/fonts</b>. В <b>Linux</b> тоже можно добавить кастомные шрифты, для этого создадим через терминал
+  каталог с шрифтами.</p>
 
 {% include component/code.html lang='bash' content='sudo mkdir /usr/share/fonts/kingsoft' %}
 
@@ -236,7 +272,8 @@ sudo apt install yd-tools
 
 {% include component/code.html lang='bash' content='sudo chown -R $USER:$USER /usr/share/fonts/kingsoft' %}
 
-<p>Перенесем кастомные шрифты в созданный каталог, например предположим что наши шрифты находятся в каталоге <b>~/Загрузки/roboto</b>.</p>
+<p>Перенесем кастомные шрифты в созданный каталог, например предположим что наши шрифты находятся в каталоге <b>~/Загрузки/roboto</b>.
+</p>
 
 {% include component/code.html lang='bash' content='sudo cp ~/Загрузки/roboto /usr/share/fonts/kingsoft' %}
 
@@ -272,9 +309,11 @@ sudo apt install yd-tools
 
 <h3>Steam</h3>
 
-<p><b>Steam</b> - игровая платформа, благодаря технологии <b>Proton</b> позволяет запускать любимые игры даже в <b>Linux</b>.</p>
+<p><b>Steam</b> - игровая платформа, благодаря технологии <b>Proton</b> позволяет запускать любимые игры даже в
+  <b>Linux</b>.</p>
 
-<p>Переходим на <a href="https://store.steampowered.com/about/" target="_blank" rel="nofollow">официальный сайт</a>, скачиваем установщик и устанавливаем.</p>
+<p>Переходим на <a href="https://store.steampowered.com/about/" target="_blank" rel="nofollow">официальный сайт</a>,
+  скачиваем установщик и устанавливаем.</p>
 
 <h3>Persepolis</h3>
 
@@ -288,11 +327,13 @@ sudo apt install yd-tools
 
 {% include component/code.html lang='bash' content='sudo apt install lollypop' %}
 
-<h2>Программы для WEB</h2>
+<h2><span class="attention">Программы</span> для WEB</h2>
 
 <h3>Настройка www-data</h3>
 
-<p>Это не программа скорей правило. Обычно я вручную создаю пользователя <b>www-data</b> и каталог <b>www</b>. Раньше когда устанавливал вручную <b>Apache</b> или <b>Nginx</b> они вместо меня это создавали, но сейчас в основном работаю через <b>Docker</b> поэтому напрямую не устанавливаю веб сервер.</p>
+<p>Это не программа скорей правило. Обычно я вручную создаю пользователя <b>www-data</b> и каталог <b>www</b>. Раньше
+  когда устанавливал вручную <b>Apache</b> или <b>Nginx</b> они вместо меня это создавали, но сейчас в основном работаю
+  через <b>Docker</b> поэтому напрямую не устанавливаю веб сервер.</p>
 
 <p>И так создадим новую группу и добавим нашего пользователя в нее.</p>
 
@@ -312,21 +353,24 @@ sudo apt install yd-tools
 
 {% include component/code.html lang='bash' content='sudo chmod -R 775 ~/www' %}
 
-<p>Создадим символьную ссылку, чтобы каталог <b>www</b> который создают <b>Nginx</b> и <b>Apache</b> был связан с нашим рабочим каталогом <b>www</b>.</p>
+<p>Создадим символьную ссылку, чтобы каталог <b>www</b> который создают <b>Nginx</b> и <b>Apache</b> был связан с нашим
+  рабочим каталогом <b>www</b>.</p>
 
 {% include component/code.html lang='bash' content='sudo ln -s ~/www /var/www' %}
 
-<p>Попробуем создать какие-либо файлы в любом из <b>www</b> каталоге. Каталоги <b>/var/www</b> и <b>~/www</b> должны отобразить одно и тоже.</p>
+<p>Попробуем создать какие-либо файлы в любом из <b>www</b> каталоге. Каталоги <b>/var/www</b> и <b>~/www</b> должны
+  отобразить одно и тоже.</p>
 
 <h3>Google Chrome</h3>
 
 <p><b>Google Chrome</b> - браузер для повседневного интернет серфинга.</p>
 
-<p>Зайдем на <a href="https://www.google.ru/intl/ru/chrome/" target="_blank" rel="nofollow">официальный сайт</a>, скачаем <b>DEB</b> пакет и установим браузер.</p>
+<p>Зайдем на <a href="https://www.google.ru/intl/ru/chrome/" target="_blank" rel="nofollow">официальный сайт</a>,
+  скачаем <b>DEB</b> пакет и установим браузер.</p>
 
 <h3>Git</h3>
 
-<p><b>Git</b> - управление контролем версии.</p>
+<p><b>Git</b> - управление контролем версий.</p>
 
 {% capture code %}
 sudo add-apt-repository ppa:git-core/ppa
@@ -364,7 +408,8 @@ php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo '
 
 <p>Если все сделали правильно хэши должны совпасть, а на экране отобразиться надпись: <b>Installer verified</b>.</p>
 
-<p>Переносим файл композер в директорию <b>bin</b> для того, чтобы мы могли в дальнейшем обращаться к скрипту не указывая полный путь до него, а только его имя <b>composer</b>.</p>
+<p>Переносим файл композер в директорию <b>bin</b> для того, чтобы мы могли в дальнейшем обращаться к скрипту не
+  указывая полный путь до него, а только его имя <b>composer</b>.</p>
 
 {% include component/code.html lang='bash' content='sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer' %}
 
@@ -400,7 +445,8 @@ sudo apt-key export F987672F | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/win
 
 <p><b>Photoshop</b> - благодаря <b>wine</b> мы имеем возможность установить <b>Photoshop</b> в <b>Linux</b>.</p>
 
-<p>Photoshop будет установлен <a href="https://github.com/Gictorbit/photoshopCClinux" target="_blank" rel="nofollow">по этому репозиторию</a>.</p>
+<p>Photoshop будет установлен <a href="https://github.com/Gictorbit/photoshopCClinux" target="_blank" rel="nofollow">по
+  этому репозиторию</a>.</p>
 
 <p>Клонируем репозиторий.</p>
 
@@ -419,17 +465,21 @@ sudo apt-key export F987672F | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/win
 {% include component/code.html lang='bash' content='./setup.sh' %}
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-3.jpg' type='original' alt='Установка Photoshop через терминал.' %}
+  {% include component/picture.html slug=page.slug img='img-3.jpg' type='original' alt='Установка Photoshop через
+  терминал.' %}
   <figcaption>Запускаем скрипт.</figcaption>
 </figure>
 
-<p>Вводим цифру один для установки <b>Photoshop</b> и следуем дальнейшей инструкции. В целом установка интуитивно понятна, нет смысла ее описывать подробно. Нажимаете далее, ок до полной установки.</p>
+<p>Вводим цифру один для установки <b>Photoshop</b> и следуем дальнейшей инструкции. В целом установка интуитивно
+  понятна, нет смысла ее описывать подробно. Нажимаете далее, ок до полной установки.</p>
 
 <h3>Figma</h3>
 
 <p><b>Figma</b> - приложение для дизайна интерфейсов и прототипирования.</p>
 
-<p>Необходимо будет скачать <b>deb</b> пакет с <a href="https://github.com/Figma-Linux/figma-linux/releases" target="_blank" rel="nofollow">официального репозитория</a> и установить его.</p>
+<p>Необходимо будет скачать <b>deb</b> пакет с <a href="https://github.com/Figma-Linux/figma-linux/releases"
+                                                  target="_blank" rel="nofollow">официального репозитория</a> и
+  установить его.</p>
 
 <figure>
   {% include component/picture.html slug=page.slug img='img-4.jpg' type='original' alt='Репозиторий Figma.' %}
@@ -440,7 +490,8 @@ sudo apt-key export F987672F | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/win
 
 <p><b>NodeJS</b> - среда для создания веб приложений.</p>
 
-<p>Перейдем в <a href="https://github.com/nvm-sh/nvm/releases" target="_blank" rel="nofollow">репозиторий nvm</a> и посмотрим какая самая последняя версия, на момент написания статьи это <b>0.39.5</b>.</p>
+<p>Перейдем в <a href="https://github.com/nvm-sh/nvm/releases" target="_blank" rel="nofollow">репозиторий nvm</a> и
+  посмотрим какая самая последняя версия, на момент написания статьи это <b>0.39.5</b>.</p>
 
 <p>Скачаем и установим ее введя в терминал команду, подставьте в ссылку актуальный номер версии.</p>
 
@@ -482,7 +533,10 @@ sudo apt-key export F987672F | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/win
 
 {% include component/code.html lang='bash' content='npm update -g npm' %}
 
-<p>Если устанавливать <b>NodeJS</b> из репозитория дистрибутива, то он установится в каталог <b>/bin/node|npm|npx</b> и некоторые программы будут пытаться обратиться по этим путям. Но так как мы установили <b>NodeJS</b> с участием <b>nvm</b>, то необходимо создать символические ссылки. Для этого в терминале вводим поочереди следующие команды. Обратите внимание, что <b>18.16.1</b> это версия активной <b>NodeJS</b>, если необходимо замените версию на свою.</p>
+<p>Если устанавливать <b>NodeJS</b> из репозитория дистрибутива, то он установится в каталог <b>/bin/node|npm|npx</b> и
+  некоторые программы будут пытаться обратиться по этим путям. Но так как мы установили <b>NodeJS</b> с участием
+  <b>nvm</b>, то необходимо создать символические ссылки. Для этого в терминале вводим поочереди следующие команды.
+  Обратите внимание, что <b>18.16.1</b> это версия активной <b>NodeJS</b>, если необходимо замените версию на свою.</p>
 
 {% capture code %}
 sudo ln -s ~/.nvm/versions/node/v18.16.1/bin/node /bin/node
@@ -506,7 +560,8 @@ source ~/.bashrc && source ~/.profile
 
 {% include component/code.html lang='bash' content='sudo snap install phpstorm --channel=2021.1/stable --classic' %}
 
-<p>Чтобы открыть каталог через <b>PHP Storm</b> по нажатию на него правой кнопкой мыши, как в <b>Windows</b>. Нужно скачать и установить скрипт.</p>
+<p>Чтобы открыть каталог через <b>PHP Storm</b> по нажатию на него правой кнопкой мыши, как в <b>Windows</b>. Нужно
+  скачать и установить скрипт.</p>
 
 {% include component/code.html lang='bash' content='wget -qO- https://raw.githubusercontent.com/Jayuda/idea-nautilus/master/install.sh | bash' %}
 
@@ -534,7 +589,8 @@ INTELJIDEA = 'phpstorm'
 
 {% include component/code.html lang='bash' content='sudo snap install code --classic' %}
 
-<p>Чтобы открыть каталог через <b>VSCode</b> по нажатию на него правой кнопкой мыши, как в <b>Windows</b>. Нужно скачать и установить скрипт.</p>
+<p>Чтобы открыть каталог через <b>VSCode</b> по нажатию на него правой кнопкой мыши, как в <b>Windows</b>. Нужно скачать
+  и установить скрипт.</p>
 
 {% include component/code.html lang='bash' content='wget -qO- https://raw.githubusercontent.com/harry-cpp/code-nautilus/master/install.sh | bash' %}
 
@@ -544,7 +600,8 @@ INTELJIDEA = 'phpstorm'
 
 <h3>Poedit 2</h3>
 
-<p><b>Poedit 2</b> - используется для интернализации программного обеспечения. Будет полезен при создании мультиязычных сайтов.</p>
+<p><b>Poedit 2</b> - используется для интернализации программного обеспечения. Будет полезен при создании мультиязычных
+  сайтов.</p>
 
 {% include component/code.html lang='bash' content='sudo apt install poedit' %}
 
@@ -562,7 +619,9 @@ INTELJIDEA = 'phpstorm'
 
 <h3>Изменение размера картинок</h3>
 
-<p>Позволяет без графического редактора очень быстро и просто изменить пропорции картинки, повернуть ее т.п. Для этого достаточно нажать на картинку правой кнопкой мыши и выбрать в контекстном меню пункт <b>Масштабировать изображение</b> или <b>Rotate Images</b>.</p>
+<p>Позволяет без графического редактора очень быстро и просто изменить пропорции картинки, повернуть ее т.п. Для этого
+  достаточно нажать на картинку правой кнопкой мыши и выбрать в контекстном меню пункт <b>Масштабировать изображение</b>
+  или <b>Rotate Images</b>.</p>
 
 {% include component/code.html lang='bash' content='sudo apt install nautilus-image-converter' %}
 
@@ -580,7 +639,8 @@ INTELJIDEA = 'phpstorm'
 
 <p><b>Docker</b> - контейнер для создания изолированных окружений с необходимыми зависимостями.</p>
 
-<p>Установим <b>Docker</b> согласно <a href="https://docs.docker.com/engine/install/ubuntu/#install-docker-engine" target="_blank" rel="nofollow">официальной документации</a>.</p>
+<p>Установим <b>Docker</b> согласно <a href="https://docs.docker.com/engine/install/ubuntu/#install-docker-engine"
+                                       target="_blank" rel="nofollow">официальной документации</a>.</p>
 
 <p>Создадим группу <b>docker</b> и добавим в нее нашего пользователя.</p>
 
@@ -590,7 +650,8 @@ sudo usermod -aG docker $USER
 {% endcapture %}
 {% include component/code.html lang='bash' content=code %}
 
-<p>Чтобы группа подхватилась необходимо выйти из системы и снова войти, либо перезагрузить компьютер. Также можно ввести команду.</p>
+<p>Чтобы группа подхватилась необходимо выйти из системы и снова войти, либо перезагрузить компьютер. Также можно ввести
+  команду.</p>
 
 {% include component/code.html lang='bash' content='newgrp docker' %}
 
@@ -620,7 +681,8 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 
 {% include component/code.html lang='bash' content='docker compose version' %}
 
-<p>Далее по желанию можно установить <a href="https://docs.docker.com/desktop/install/ubuntu/" target="_blank" rel="nofollow">GUI версию</a>, скачав <b>deb</b> пакет и установив его.</p>
+<p>Далее по желанию можно установить <a href="https://docs.docker.com/desktop/install/ubuntu/" target="_blank"
+                                        rel="nofollow">GUI версию</a>, скачав <b>deb</b> пакет и установив его.</p>
 
 <h3>PHP</h3>
 
@@ -641,7 +703,8 @@ date.timezone = "Asia/Almaty"
 
 <p><b>Icon Shelf</b> - хранилище svg иконок.</p>
 
-<p>Скачать можно с <a href="https://github.com/Icon-Shelf/icon-shelf/releases/tag/v0.1.18" target="_blank" rel="nofollow">официального репозитория</a>. Скачиваем файл с типом <b>*.AppImage</b>.</p>
+<p>Скачать можно с <a href="https://github.com/Icon-Shelf/icon-shelf/releases/tag/v0.1.18" target="_blank"
+                      rel="nofollow">официального репозитория</a>. Скачиваем файл с типом <b>*.AppImage</b>.</p>
 
 <p>Переименуем файл в <b>icon-shelf.AppImage</b> и перенесем его в каталог <b>/usr/bin</b></p>
 
@@ -651,7 +714,8 @@ date.timezone = "Asia/Almaty"
 
 {% include component/code.html lang='bash' content='sudo chmod +x /usr/bin/icon-shelf.AppImage' %}
 
-<p>Создадим ярлык для запуска <b>icon-shelf</b>, чтобы по нажатию клавиши <kbd>Windows</kbd> или <kbd>Ctrl + A</kbd> мы могли найти программу <b>icon-shelf</b> в общем списке.</p>
+<p>Создадим ярлык для запуска <b>icon-shelf</b>, чтобы по нажатию клавиши <kbd>Windows</kbd> или <kbd>Ctrl + A</kbd> мы
+  могли найти программу <b>icon-shelf</b> в общем списке.</p>
 
 {% capture code %}
 sudo touch ~/.local/share/applications/icon-shelf.desktop
@@ -676,13 +740,19 @@ Categories=Utility;
 {% endcapture %}
 {% include component/code.html lang='bash' content=code %}
 
-<p>Для значения <b>Icon</b> укажите свой путь к изображению формата <b>jpg</b>, <b>png</b>, <b>svg</b>. Эта картинка будет использоваться в качестве иконки для программы.</p>
+<p>Для значения <b>Icon</b> укажите свой путь к изображению формата <b>jpg</b>, <b>png</b>, <b>svg</b>. Эта картинка
+  будет использоваться в качестве иконки для программы.</p>
 
 <p>Теперь программу можно будет запустить нажав клавишу <kbd>Window</kbd> и введя слово <b>Icon Shelf</b>.</p>
 
 <h2 id="screen-reader">Экранный диктор в Pop!_OS</h2>
 
-<p>При создании сайтов, доступных для людей с ограниченными возможностями, хорошо было бы протестировать их работоспособность через программу <b>экранный диктор</b>. В дистрибутив <b>Pop!_OS</b> предустановлен <b>экранный диктор</b>, но по умолчанию выключен. Включить его можно нажав горячие клавиши <kbd>Alt + Windows + S</kbd>. Только есть небольшая проблема, стандартные голоса дикторов ужасны, благо можно скачать приемлемые голоса в <b>opensource</b> проектах, чем мы и займемся. Отдельное спасибо автору <a href="https://vk.com/wall-167338334_31" target="_blank" rel="nofollow">этого материала</a>.</p>
+<p>При создании сайтов, доступных для людей с ограниченными возможностями, хорошо было бы протестировать их
+  работоспособность через программу <b>экранный диктор</b>. В дистрибутив <b>Pop!_OS</b> предустановлен <b>экранный
+    диктор</b>, но по умолчанию выключен. Включить его можно нажав горячие клавиши <kbd>Alt + Windows + S</kbd>. Только
+  есть небольшая проблема, стандартные голоса дикторов ужасны, благо можно скачать приемлемые голоса в <b>opensource</b>
+  проектах, чем мы и займемся. Отдельное спасибо автору <a href="https://vk.com/wall-167338334_31" target="_blank"
+                                                           rel="nofollow">этого материала</a>.</p>
 
 <p>Открываем терминал и клонируем репозиторий.</p>
 
@@ -733,57 +803,99 @@ Debug
 
 {% include component/code.html lang='bash' content='reboot' %}
 
-<p>После перезагрузки компьютера включим <b>экранный диктор</b>, нажав клавиши <kbd>Alt + Windows + S</kbd>. Затем зайдем в настройки экранного диктора, нажав по рабочему столу <kbd>Левой кнопкой мыши + Пробел</kbd>. Важно нажать именно по рабочему столу иначе настройки не откроются.</p>
+<p>После перезагрузки компьютера включим <b>экранный диктор</b>, нажав клавиши <kbd>Alt + Windows + S</kbd>. Затем
+  зайдем в настройки экранного диктора, нажав по рабочему столу <kbd>Левой кнопкой мыши + Пробел</kbd>. Важно нажать
+  именно по рабочему столу иначе настройки не откроются.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-5.jpg' type='original' alt='Окно настроек экранного диктора, вкладка Общие' %}
-  <figcaption>После перезагрузки компьютера включим <b>экранного диктора</b>, нажав клавиши <kbd>Alt + Windows + S</kbd>.</figcaption>
+  {% include component/picture.html slug=page.slug img='img-5.jpg' type='original' alt='Окно настроек экранного диктора,
+  вкладка Общие' %}
+  <figcaption>После перезагрузки компьютера включим <b>экранного диктора</b>, нажав клавиши <kbd>Alt + Windows + S</kbd>.
+  </figcaption>
 </figure>
 
-<p>Ниже скриншотами я покажу свои настройки <b>экранного диктора</b>, которые обычно ставлю, если какую то из вкладок я не показал, значит содержимое ее параметров осталось без изменения.</p>
+<p>Ниже скриншотами я покажу свои настройки <b>экранного диктора</b>, которые обычно ставлю, если какую то из вкладок я
+  не показал, значит содержимое ее параметров осталось без изменения.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-6.jpg' type='original' alt='Окно настроек экранного диктора, вкладка Голос' %}
+  {% include component/picture.html slug=page.slug img='img-6.jpg' type='original' alt='Окно настроек экранного диктора,
+  вкладка Голос' %}
   <figcaption>Здесь выбирается голос экранного диктора, скорость его чтения и т.п.</figcaption>
 </figure>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-7.jpg' type='original' alt='Окно настроек экранного диктора, вкладка Речь' %}
+  {% include component/picture.html slug=page.slug img='img-7.jpg' type='original' alt='Окно настроек экранного диктора,
+  вкладка Речь' %}
   <figcaption>Здесь определяется речевой контекст, какие символы читать какие пропускать.</figcaption>
 </figure>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-8.jpg' type='original' alt='Окно настроек экранного диктора, вкладка Озвучивание' %}
+  {% include component/picture.html slug=page.slug img='img-8.jpg' type='original' alt='Окно настроек экранного диктора,
+  вкладка Озвучивание' %}
   <figcaption>Здесь определяется озвучивание нажимаемых клавиш.</figcaption>
 </figure>
 
 <p>После изменений нажимаем на кнопку <b>Применить</b>.</p>
 
-<p>Готово, мы успешно настроили <b>экранный диктор</b>. Теперь когда он нам понадобится достаточно будет только его включить <kbd>Alt + Windows + S</kbd>. Отключается он теме же самыми клавишами.</p>
+<p>Готово, мы успешно настроили <b>экранный диктор</b>. Теперь когда он нам понадобится достаточно будет только его
+  включить <kbd>Alt + Windows + S</kbd>. Отключается он теме же самыми клавишами.</p>
 
-<h2>Расширения для браузера</h2>
+<h2><span class="attention">Расширения</span> для браузера</h2>
 
 <p>Список расширений для браузера <b>Google Chrome</b> которые я использую в работе и не только.</p>
 
 <ul>
-  <li><a href="https://chrome.google.com/webstore/detail/take-webpage-screenshots/mcbpblocgmgfnpjjppndjkmgjaogfceg" target="_blank" rel="nofollow">FireShot</a> - скриншот страницы</li>
-  <li><a href="https://chrome.google.com/webstore/detail/imtranslator-translator-d/noaijdpnepcgjemiklgfkcfbkokogabh" target="_blank" rel="nofollow">ImTranslator</a> - переводчик</li>
-  <li><a href="https://chrome.google.com/webstore/detail/jsonview/gmegofmjomhknnokphhckolhcffdaihd" target="_blank" rel="nofollow">JsonView</a> - просмотр формата json в браузере</li>
-  <li><a href="https://chrome.google.com/webstore/detail/page-ruler/jcbmcnpepaddcedmjdcmhbekjhbfnlff" target="_blank" rel="nofollow">Page Ruler</a> - линейка, для измерения элементов на странице сайта</li>
-  <li><a href="https://chrome.google.com/webstore/detail/perfectpixel-by-welldonec/dkaagdgjmgdmbnecmcefdhjekcoceebi" target="_blank" rel="nofollow">PerfectPixel</a> - сравнение верстки с макетом посредством наложения картинки макета на сверстанную страницу</li>
-  <li><a href="https://chrome.google.com/webstore/detail/seoquake/akdgnmcogleenhbclghghlkkdndkjdjc?hl=ru" target="_blank" rel="nofollow">SEOquake</a> - статистика по <b>SEO</b></li>
-  <li><a href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm" target="_blank" rel="nofollow">uBlock Origin</a> - блокировка рекламы на сайтах</li>
-  <li><a href="https://chrome.google.com/webstore/detail/validity/bbicmjjbohdfglopkidebfccilipgeif" target="_blank" rel="nofollow">Validity</a> - валидация страницы в браузере</li>
-  <li><a href="https://chrome.google.com/webstore/detail/video-speed-controller/nffaoalbilbmmfgbnbgppjihopabppdk" target="_blank" rel="nofollow">Video Speed Controller</a> - увеличение скорости любого видео в браузере</li>
-  <li><a href="https://chrome.google.com/webstore/detail/web-developer/bfbameneiokkgbdmiekhjnmfkcnldhhm" target="_blank" rel="nofollow">Web Developer</a> - инструмент для веб разработчика</li>
-  <li><a href="https://ru.savefrom.net/20/userjs-for-google-chrome.php" target="_blank" rel="nofollow">Save From</a> - скачивание видео из браузера</li>
-  <li><a href="https://chrome.google.com/webstore/detail/video-downloadhelper/lmjnegcaeklhafolokijcfjliaokphfk" target="_blank" rel="nofollow">Video Download Helper</a> - скачивание видео из браузера, более продвинутый плагин чем Save From</li>
-  <li><a href="https://chrome.google.com/webstore/detail/printfriendly-print-and-p/ohlencieiipommannpdfcmfdpjjmeolj" target="_blank" rel="nofollow">Print Friendly & PDF</a> - сохранение html страницы в pdf</li>
-  <li><a href="https://chrome.google.com/webstore/detail/whatfont/jabopobgcpjmedljpbcaablpmlmfcogm" target="_blank" rel="nofollow">WhatFont</a> - позволяет узнать какой шрифт использует страница сайта</li>
-  <li><a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=ru" target="_blank" rel="nofollow">Xdebug helper</a> - для дебага php кода</li>
-  <li><a href="https://chrome.google.com/webstore/detail/css-shapes-editor/nenndldnbcncjmeacmnondmkkfedmgmp" target="_blank" rel="nofollow">CSS Shapes Editor</a> - позволяет создавать clip css стили</li>
+  <li><a href="https://chrome.google.com/webstore/detail/take-webpage-screenshots/mcbpblocgmgfnpjjppndjkmgjaogfceg"
+         target="_blank" rel="nofollow">FireShot</a> - скриншот страницы
+  </li>
+  <li><a href="https://chrome.google.com/webstore/detail/imtranslator-translator-d/noaijdpnepcgjemiklgfkcfbkokogabh"
+         target="_blank" rel="nofollow">ImTranslator</a> - переводчик
+  </li>
+  <li><a href="https://chrome.google.com/webstore/detail/jsonview/gmegofmjomhknnokphhckolhcffdaihd" target="_blank"
+         rel="nofollow">JsonView</a> - просмотр формата json в браузере
+  </li>
+  <li><a href="https://chrome.google.com/webstore/detail/page-ruler/jcbmcnpepaddcedmjdcmhbekjhbfnlff" target="_blank"
+         rel="nofollow">Page Ruler</a> - линейка, для измерения элементов на странице сайта
+  </li>
+  <li><a href="https://chrome.google.com/webstore/detail/perfectpixel-by-welldonec/dkaagdgjmgdmbnecmcefdhjekcoceebi"
+         target="_blank" rel="nofollow">PerfectPixel</a> - сравнение верстки с макетом посредством наложения картинки
+    макета на сверстанную страницу
+  </li>
+  <li><a href="https://chrome.google.com/webstore/detail/seoquake/akdgnmcogleenhbclghghlkkdndkjdjc?hl=ru"
+         target="_blank" rel="nofollow">SEOquake</a> - статистика по <b>SEO</b></li>
+  <li><a href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm" target="_blank"
+         rel="nofollow">uBlock Origin</a> - блокировка рекламы на сайтах
+  </li>
+  <li><a href="https://chrome.google.com/webstore/detail/validity/bbicmjjbohdfglopkidebfccilipgeif" target="_blank"
+         rel="nofollow">Validity</a> - валидация страницы в браузере
+  </li>
+  <li><a href="https://chrome.google.com/webstore/detail/video-speed-controller/nffaoalbilbmmfgbnbgppjihopabppdk"
+         target="_blank" rel="nofollow">Video Speed Controller</a> - увеличение скорости любого видео в браузере
+  </li>
+  <li><a href="https://chrome.google.com/webstore/detail/web-developer/bfbameneiokkgbdmiekhjnmfkcnldhhm" target="_blank"
+         rel="nofollow">Web Developer</a> - инструмент для веб разработчика
+  </li>
+  <li><a href="https://ru.savefrom.net/20/userjs-for-google-chrome.php" target="_blank" rel="nofollow">Save From</a> -
+    скачивание видео из браузера
+  </li>
+  <li><a href="https://chrome.google.com/webstore/detail/video-downloadhelper/lmjnegcaeklhafolokijcfjliaokphfk"
+         target="_blank" rel="nofollow">Video Download Helper</a> - скачивание видео из браузера, более продвинутый
+    плагин чем Save From
+  </li>
+  <li><a href="https://chrome.google.com/webstore/detail/printfriendly-print-and-p/ohlencieiipommannpdfcmfdpjjmeolj"
+         target="_blank" rel="nofollow">Print Friendly & PDF</a> - сохранение html страницы в pdf
+  </li>
+  <li><a href="https://chrome.google.com/webstore/detail/whatfont/jabopobgcpjmedljpbcaablpmlmfcogm" target="_blank"
+         rel="nofollow">WhatFont</a> - позволяет узнать какой шрифт использует страница сайта
+  </li>
+  <li><a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=ru"
+         target="_blank" rel="nofollow">Xdebug helper</a> - для дебага php кода
+  </li>
+  <li><a href="https://chrome.google.com/webstore/detail/css-shapes-editor/nenndldnbcncjmeacmnondmkkfedmgmp"
+         target="_blank" rel="nofollow">CSS Shapes Editor</a> - позволяет создавать clip css стили
+  </li>
 </ul>
 
-<h2>Вся серия</h2>
+<h2><span class="attention">Вся</span> серия</h2>
 
 {% include reference/linux-tutorial.html %}
