@@ -315,6 +315,22 @@ sudo apt install yd-tools
 <p>Переходим на <a href="https://store.steampowered.com/about/" target="_blank" rel="nofollow">официальный сайт</a>,
   скачиваем установщик и устанавливаем.</p>
 
+<h3>Port Proton</h3>
+
+<p>Еще один проект который направлен на то, чтобы сделать легким и удобным запуск <b>Windows</b> игр на <b>Linux</b>.</p>
+
+<p>Переходим на <a href="https://linux-gaming.ru/2022/11/24/portproton/" target="_blank" rel="nofollow">официальный сайт</a> и следуем инструкции по установке.</p>
+
+{% capture code %}
+sudo dpkg --add-architecture i386
+sudo add-apt-repository multiverse
+sudo apt update && sudo apt upgrade
+sudo apt install curl file libc6 libnss3 policykit-1 xz-utils zenity bubblewrap curl icoutils tar libvulkan1 libvulkan1:i386 wget zenity zstd cabextract xdg-utils openssl bc libgl1-mesa-glx libgl1-mesa-glx:i386
+
+wget -c "https://github.com/Castro-Fidel/PortWINE/raw/master/portwine_install_script/PortProton_1.0" && sh PortProton_1.0
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
 <h3>Persepolis</h3>
 
 <p><b>Persepolis</b> - менеджер скачивания, наподобие <b>Download Master</b> для <b>Windows</b>.</p>
