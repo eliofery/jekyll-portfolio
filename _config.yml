@@ -1,5 +1,5 @@
 # Базовые настройки
-version: 0.0.18
+version: 0.0.19
 title: Портфолио Sergio Eliofery
 description: Портфолио и блог web разработчика Sergio Eliofery.
 lang: ru
@@ -77,7 +77,7 @@ jekyll_compose:
 # Пагинация
 pagination:
   enabled: true
-  per_page: 3
+  per_page: 9
   permalink: '/page/:num/'
   title: ':title - Страница :num'
   limit: 0

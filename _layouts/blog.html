@@ -8,7 +8,7 @@ layout: default
 
 {% contentfor content %}
   <section class="inner-category main-section">
-  <div class="inner-category__container container">
+    <div class="inner-category__container container">
     <div class="inner-category__wrap main-section__wrap">
       <h2 class="inner-category__title main-section__title title"><span>{{ page.title }}</span></h2>
       <div class="inner-category__content">
@@ -75,10 +75,14 @@ layout: default
         {% else %}
         <p>Записей нет</p>
         {% endif %}
+
+        <div class="">
+          {{ content }}
+        </div>
       </div>
     </div>
   </div>
-</section>
+  </section>
 
   {% include component/shape-decoration.html %}
 {% endcontentfor %}

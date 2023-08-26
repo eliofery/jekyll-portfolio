@@ -183,4 +183,44 @@
   .main-article__content-container ul li:last-child {
     margin-bottom: 0;
   }
+
+  .main-article__content-container > * {
+    max-width: 60%;
+  }
+
+  @media screen and (min-width: 900px) {
+    .main-blog__content {
+      grid-auto-flow: dense;
+    }
+
+    .main-blog__block:first-of-type {
+      grid-row: 2;
+    }
+
+    .main-blog__block:nth-of-type(2) {
+      grid-row: span 2;
+    }
+
+    .main-blog__block:nth-of-type(3) {
+      grid-row: span 2;
+    }
+
+    .main-blog__block:nth-of-type(4) {
+      grid-row: 2/4;
+      margin-bottom: 0;
+    }
+
+    .main-blog__subtitle--blog {
+      grid-row: span 1;
+      margin-top: 50px;
+    }
+
+    .main-blog__list {
+      grid-row: span 2;
+    }
+  }
+
+  .main-about__subtitle:first-letter {
+    color: #ee1b24;
+  }
 </style>
