@@ -1,0 +1,110 @@
+---
+layout: post
+title: Настройка Git
+date: 2023-08-26 11:44 +0600
+description: Настроим <b>Git</b> для дальнейшего создания коммитов и взаимодействия с удаленными репозиториями.
+image: cover.jpg
+alt: Настройка Git
+category: other
+tags: [git, ssh, github]
+published: true
+sitemap: true
+excerpt_separator: "<!--more-->"
+---
+
+<p>Настроим <b>Git</b> для дальнейшего создания коммитов и взаимодействия с удаленными репозиториями.</p>
+
+<!--more-->
+
+<h2><span class="attention">Настройка</span> Git</h2>
+
+<p>В предыдущей статье мы установили <b>Git</b>, давайте теперь его настроим.</p>
+
+<h3>Определение имени и email</h3>
+
+<p>Зададим <b>имя</b> и <b>email</b>, вместо <b>&lt;имя&gt;</b> и <b>&lt;email&gt;</b> укажите свои данные. Эти данные
+  будут использоваться, чтобы идентифицировать вас в истории коммитов.</p>
+
+{% capture code %}
+git config --global user.name "&lt;имя&gt;"
+git config --global user.email "&lt;email&gt;"
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>Генерация SSH ключа</h3>
+
+<p>SSH ключ нужен для аутентификации и шифрования при работе с удаленными серверами и сервисами, в частности для работы
+  с <b>Git репозиториями</b>, такими как например <b>Github</b>.</p>
+
+<p>Создадим ключ введя в терминале команду. Где вместо <b>your_email@example.com</b> необходимо подставить адрес своей
+  электронной почты.</p>
+
+{% include component/code.html lang='bash' content='ssh-keygen -t ed25519 -C "your_email@example.com"' %}
+
+<p>При создании ключа следуйте инструкции в терминале. Вам потребуется указать каталог где будет храниться ключ, можно
+  оставить путь до каталога без изменения. По умолчанию это будет <b>~/.ssh</b>. Далее попросят создать пароль для
+  ключа, можно создать ключ без пароля, нажав просто <kbd>Enter</kbd>, но лучше всего задать пароль. Если вы задали
+  пароль следующим шагом нужно еще раз его повторить.</p>
+
+<h3>Запуск SSH</h3>
+
+<p>Далее запустим агента <b>SSH</b>, он управляет ключами <b>SSH</b> и помогает автоматизировать аутентификацию при
+  подключении к удаленным серверам.</p>
+
+{% include component/code.html lang='bash' content='eval $(ssh-agent -s)' %}
+
+<p>После запуска агента, <b>SSH</b> будет активирован в текущей сессии. Затем вы можете добавить свой <b>SSH</b> ключ в
+  агент с помощью команды <b>ssh-add</b>, чтобы агент автоматически использовал этот ключ для аутентификации при
+  подключении к удаленным серверам.</p>
+
+{% include component/code.html lang='bash' content='ssh-add ~/.ssh/id_ed25519' %}
+
+<h3>Добавляем SSH ключ в Github</h3>
+
+<p>Мы успешно создали <b>SSH</b> ключ. Если посмотреть содержимое каталога <b>~/.ssh</b>, где хранятся ключи, то можно
+  увидеть там два ключа <b>id_ed25519</b> и <b>id_ed25519.pub</b>. Ключ <b>id_ed25519</b> является приватным доступ к
+  нему должны иметь только вы, ключ <b>id_ed25519.pub</b> является публичны, этим ключом можно свободно делиться.</p>
+
+<p>Скопируем содержимое публичного ключа <b>id_ed25519.pub</b> и перейдем на <a href="https://github.com/"
+                                                                                target="_blank" rel="nofollow">сайт
+  GitHub</a>. Если вы еще не зарегистрированы на этом сайте самое время это сделать.</p>
+
+<p>Перейдем в раздел <b>Settings</b>, для этого нажимаем в правом верхнем углу на свой <b>аватар</b> и в появившемся
+  меню выбираем пункт <b>Settings</b>.</p>
+
+<figure>
+  {% include component/picture.html slug=page.slug img='img-1.jpg' type='original' alt='Меню с навигацией профиля
+  Github.' %}
+  <figcaption>Перейдем в раздел <b>Settings</b>, для этого нажимаем в правом верхнем углу на свой <b>аватар</b> и в
+    появившемся меню выбираем пункт <b>Settings</b>.
+  </figcaption>
+</figure>
+
+<p>Далее нас интересует раздел <b>SSH and GPG keys</b>, переходим в него и нажимаем на кнопку <b>New SSH key</b>. </p>
+
+<figure>
+  {% include component/picture.html slug=page.slug img='img-2.jpg' type='original' alt='Раздел добавления SSH ключа.' %}
+  <figcaption>Нажимаем на кнопку <b>New SSH key</b>.</figcaption>
+</figure>
+
+<p>В поле <b>Title</b> вводим произвольный описательный текст, например я назову его <b>Linux</b>.<br> В поле <b>Key
+  type</b> оставляем значение по умолчанию <b>Authentication Key</b>.<br> В поле <b>Key</b> вставляем скопированный
+  публичный ключ.<br> Жмем кнопку <b>Add SSH key</b>.</p>
+
+<figure>
+  {% include component/picture.html slug=page.slug img='img-3.jpg' type='original' alt='Добавляем SSH ключ' %}
+  <figcaption>Жмем кнопку <b>Add SSH key</b>.</figcaption>
+</figure>
+
+<h3>Проверка связи с репозитрием</h3>
+
+<p>Проверим успешно ли мы все настроили, для этого вводим в терминале команду.</p>
+
+{% include component/code.html lang='bash' content='ssh -T git@github.com' %}
+
+<p>При первом подключении к <b>Git</b> по <b>SSH</b> на вопрос <b>Are you sure you want to continue connecting
+  (yes/no/[fingerprint])</b> вводим <b>yes</b>. Если вы все сделали правильно должна появиться надпись: <b>Hi username!
+  You've successfully authenticated, but GitHub does not provide shell access.</b></p>
+
+<p>Настройка <b>Git</b> завершена, теперь вы можете отправлять коммиты на удаленный репозиторий. Не забудьте пароль от
+  <b>SSH</b> так как он будет необходим при отправки коммитов.</p>
