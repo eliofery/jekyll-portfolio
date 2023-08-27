@@ -18,7 +18,19 @@ excerpt_separator: "<!--more-->"
 
 <!--more-->
 
-<h2><span class="attention">Вводная</span> часть</h2>
+<h2><span class="attention">Оглавление</span> статьи</h2>
+
+<ol>
+  <li><a href="#intro">Вводная часть</a></li>
+  <li><a href="#system">Системные программы</a></li>
+  <li><a href="#share">Общие программы</a></li>
+  <li><a href="#web">Программы для веб</a></li>
+  <li><a href="#screen-reader">Экранный диктор в Pop!_OS</a></li>
+  <li><a href="#extension">Расширения для браузера</a></li>
+  <li><a href="#all">Вся серия</a></li>
+</ol>
+
+<h2 id="intro"><span class="attention">Вводная</span> часть</h2>
 
 <p>Серия статей о том как безболезненно перейти с операционной системы <b>Windows</b> на <b>Linux</b> дистрибутив <b>Pop!_OS</b>,
   для разработки веб приложений и повседневного использования в качестве основной операционной системы.</p>
@@ -32,7 +44,7 @@ excerpt_separator: "<!--more-->"
   Добавили шаблоны для удобного создания новых файлов, кастомизировали тему установив, различные виджеты. Создали файл
   подкачки и настроили гибернацию.</p>
 
-<h2><span class="attention">Системные</span> программы</h2>
+<h2 id="system"><span class="attention">Системные</span> программы</h2>
 
 <h3>Timeshift</h3>
 
@@ -164,7 +176,7 @@ sudo dpkg-reconfigure libdvd-pkg
 
 {% include component/code.html lang='bash' content='sudo apt install snapd' %}
 
-<h2><span class="attention">Общие</span> программы</h2>
+<h2 id="share"><span class="attention">Общие</span> программы</h2>
 
 <h3>KeePassXC</h3>
 
@@ -343,7 +355,7 @@ wget -c "https://github.com/Castro-Fidel/PortWINE/raw/master/portwine_install_sc
 
 {% include component/code.html lang='bash' content='sudo apt install lollypop' %}
 
-<h2><span class="attention">Программы</span> для WEB</h2>
+<h2 id="web"><span class="attention">Программы</span> для веб</h2>
 
 <h3>Настройка www-data</h3>
 
@@ -768,7 +780,7 @@ Categories=Utility;
 
 <p>Теперь программу можно будет запустить нажав клавишу <kbd>Window</kbd> и введя слово <b>Icon Shelf</b>.</p>
 
-<h2 id="screen-reader">Экранный диктор в Pop!_OS</h2>
+<h2 id="screen-reader"><span class="attention">Экранный</span> диктор в Pop!_OS</h2>
 
 <p>При создании сайтов, доступных для людей с ограниченными возможностями, хорошо было бы протестировать их
   работоспособность через программу <b>экранный диктор</b>. В дистрибутив <b>Pop!_OS</b> предустановлен <b>экранный
@@ -863,7 +875,7 @@ Debug
 <p>Готово, мы успешно настроили <b>экранный диктор</b>. Теперь когда он нам понадобится достаточно будет только его
   включить <kbd>Alt + Windows + S</kbd>. Отключается он теме же самыми клавишами.</p>
 
-<h2><span class="attention">Расширения</span> для браузера</h2>
+<h2 id="extension"><span class="attention">Расширения</span> для браузера</h2>
 
 <p>Список расширений для браузера <b>Google Chrome</b> которые я использую в работе и не только.</p>
 
@@ -919,6 +931,6 @@ Debug
   </li>
 </ul>
 
-<h2><span class="attention">Вся</span> серия</h2>
+<h2 id="all"><span class="attention">Вся</span> серия</h2>
 
 {% include reference/linux-tutorial.html %}

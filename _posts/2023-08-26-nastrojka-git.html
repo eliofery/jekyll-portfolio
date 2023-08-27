@@ -16,9 +16,16 @@ excerpt_separator: "<!--more-->"
 
 <!--more-->
 
-<h2><span class="attention">Настройка</span> Git</h2>
+<h2><span class="attention">Оглавление</span> статьи</h2>
 
-<p>В предыдущей статье мы установили <b>Git</b>, давайте теперь его настроим.</p>
+<ol>
+  <li><a href="#setting">Настройка Git</a></li>
+  <li><a href="#ssh">Добавляем SSH ключ в Github</a></li>
+</ol>
+
+<h2 class="setting"><span class="attention">Настройка</span> Git</h2>
+
+<p>В <a href="{{ site.baseurl }}/blog/2023-08-24-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-devops">предыдущей статье</a> мы установили <b>Git</b>, давайте теперь его настроим.</p>
 
 <h3>Определение имени и email</h3>
 
@@ -59,7 +66,7 @@ git config --global user.email "&lt;email&gt;"
 
 {% include component/code.html lang='bash' content='ssh-add ~/.ssh/id_ed25519' %}
 
-<h3>Добавляем SSH ключ в Github</h3>
+<h2 id="ssh"><span class="attention">Добавляем</span> SSH ключ в Github</h2>
 
 <p>Мы успешно создали <b>SSH</b> ключ. Если посмотреть содержимое каталога <b>~/.ssh</b>, где хранятся ключи, то можно
   увидеть там два ключа <b>id_ed25519</b> и <b>id_ed25519.pub</b>. Ключ <b>id_ed25519</b> является приватным доступ к
