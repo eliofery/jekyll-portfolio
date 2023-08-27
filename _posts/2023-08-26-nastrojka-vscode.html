@@ -2,7 +2,7 @@
 layout: post
 title: Настройка Visual Studio Code
 date: 2023-08-26 12:44 +0600
-description: Настроим <b>Visual Studio Code</b> внесем базовые настройки, разберемся с горячими клавишами, установим расширения, добавим пользовательские сниппиты, в общем приведем редактор кода в рабочий режим.
+description: Настроим <b>Visual Studio Code</b>, внесем базовые настройки, разберемся с горячими клавишами, установим расширения, добавим пользовательские сниппиты, добавим поддержку линтеров, в общем приведем редактор кода в рабочий режим.
 image: cover.jpg
 alt: Настройка Visual Studio Code
 category: other
@@ -12,68 +12,70 @@ sitemap: true
 excerpt_separator: "<!--more-->"
 ---
 
-<p>Настроим <b>Visual Studio Code</b> внесем базовые настройки, разберемся с горячими клавишами, установим расширения, добавим пользовательские сниппиты, в общем приведем редактор кода в рабочий режим.</p>
+<p>Настроим <b>Visual Studio Code</b>, внесем базовые настройки, разберемся с горячими клавишами, установим расширения, добавим пользовательские сниппиты, добавим поддержку линтеров, в общем приведем редактор кода в рабочий режим.</p>
 
 <!--more-->
 
-<h2><span class="attention">Вводная</span> информация</h2>
+<h2><span class="attention">Оглавление</span> статьи</h2>
 
-<p>В <a href="{{ site.baseurl }}/blog/2023-08-24-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-devops" target="_blank">серии статей</a> по работе и настройке дистрибутива <b>Pop!_OS</b> был установлен ряд программ, в числе которых была редактор кода <b>VSCode</b>. В этой статье мы настроим его для дальнейшего использования.</p>
+<ol>
+  <li><a href="#intro">Вводная информация</a></li>
+  <li><a href="#base">Базовая настройка</a></li>
+  <li><a href="#keyupdate">Переопределение горячих клавиш</a></li>
+  <li><a href="#extends">Установка расширений</a></li>
+  <li><a href="#snippets">Создание сниппетов</a></li>
+  <li><a href="#linter">Стили кодирования (PHP линтеры)</a></li>
+  <li><a href="#keymap">Горячие клавиши</a></li>
+</ol>
 
-<p>Я покажу вам какие обычно расширения использую в своей работе с <b>VSCode</b>, какие настройки изменяю
-  и какие горячие клавиши использую.</p>
+<h2 id="intro"><span class="attention">Вводная</span> информация</h2>
 
-<h2><span class="attention">Базовая</span> настройка Visual Studio Code</h2>
+<p>В <a href="{{ site.baseurl }}/blog/2023-08-24-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-devops" target="_blank">серии статей</a> по работе и настройке дистрибутива <b>Pop!_OS</b> был установлен ряд программ, в числе которых редактор кода <b>VSCode</b>. В этой статье мы настроим его для дальнейшего использования. Рассмотрим какие обычно расширения использую в своей работе с <b>VSCode</b>, какие настройки изменяю и какие горячие клавиши использую.</p>
 
-<p>Благодаря всевозможным расширениям редактор кода <b>VSCode</b> позволяет кастомизировать себя до уровня <b>IDE</b>. В
-  этом разделе покажу вам какие обычно расширения использую в своей работе с <b>VSCode</b>, какие настройки изменяю и
-  какие горячие клавиши использую. Так как в своей работе я использую стек <b>html</b>, <b>pug</b>, <b>css</b>,
-  <b>scss</b>, <b>js</b>, <b>php</b>, то и расширения будут касаться этих технологий.</p>
-
-<h3>Базовая настройка VSCode</h3>
+<h2 id="base"><span class="attention">Базовая</span> настройка</h2>
 
 <p>Первым делом зададим базовые настройки редактору <b>VSCode</b>. В левом нижнем углу нажмем на иконку шестеренки и
   выберем пункт <b>Settings</b> или горячие клавиши <kbd>Ctrl + ,</kbd>. Откроется вкладка с настройками, чтобы быстро
   найти интересующую нас настройку вводим в поле поиска <b>Search Settings</b> ключевое слово.</p>
 
-<h4>Автоматическое сохранение</h4>
+<h3>Автоматическое сохранение</h3>
 
-<p>В поле поиска вводим слово <b>Auto Save</b> и установим значение <b>onFocusChange</b>.</p>
+<p>В поле поиска вводим слово <b>Auto Save</b> и установим для нее значение <b>onFocusChange</b>.</p>
 
 <p>Эта настройка позволит при потере фокуса с активной вкладки автоматически сохранять все сделанные в ней изменения.
   Что очень удобно при частом переключении между редактором кода и браузером.</p>
 
 <hr>
 
-<h4>Размер шрифта</h4>
+<h3>Размер шрифта</h3>
 
 <p>В поле поиска вводим слово <b>Font Size</b> и установим значение <b>15</b>.</p>
 
 <hr>
 
-<h4>Размер табуляции</h4>
+<h3>Размер табуляции</h3>
 
 <p>В поле поиска вводим слово <b>Tab Size</b> и установим значение <b>2</b>.</p>
 
 <hr>
 
-<h4>Шрифт текста</h4>
+<h3>Шрифт текста</h3>
 
 <p>В поле поиска вводим слово <b>Font Family</b> и установим значение <b>'Fira Code', 'Droid Sans Mono', 'monospace',
   monospace</b>, либо оставим по умолчанию.</p>
 
 <hr>
 
-<h4>Ширина строки</h4>
+<h3>Ширина строки</h3>
 
 <p>В поле поиска вводим слово <b>Word wrap column</b> и установим значение <b>120</b>.</p>
 
-<p>Эта настройка задаст максимальную длину текста в одну линию, в 120 символов, после чего редактор будет переносить
+<p>Эта настройка задаст максимальную длину текста в одну линию, в 120 символов, после которых редактор будет переносить
   слова на новую строку.</p>
 
 <hr>
 
-<h4>Лигатура шрифта</h4>
+<h3>Лигатура шрифта</h3>
 
 <p>В поле поиска вводим слово <b>Font Ligatures</b>, нажмем по ссылку <b>Edit in settings.json</b> и добавим значение
   <b>"editor.fontLigatures": true</b>.</p>
@@ -82,20 +84,20 @@ excerpt_separator: "<!--more-->"
 
 <hr>
 
-<h4>Настройки Emmit</h4>
+<h3>Настройки Emmit</h3>
 
 <p>В поле поиска вводим слово <b>Emmet trigger expansion on tab</b> и активируем переключатель. </p>
 
 <p>Эта настройка позволит разворачивать <b>Emmet</b> конструкции <b>html</b> разметку, даже когда первоначальный фокус
   на <b>Emmet</b> строке был потерян.</p>
 
-<h3>Горячие клавиши VSCode</h3>
+<h2 id="keyupdate"><span class="attention">Переопределение</span> горячих клавиш</h2>
 
 <p>Меня не совсем устраивают стандартные горячие клавиши в <b>VSCode</b>, здесь они не такие, как в операционной системе
   <b>Windows</b>. Приведем их в привычный вид, для этого откроем настройки клавиатуры нажав горячие клавиши <kbd>Ctrl +
     K</kbd> затем сразу же нажимаем <kbd>Ctrl + S</kbd>. Откроется вкладка с настройками горячих клавиш.</p>
 
-<h4>Замена текста</h4>
+<h3>Замена текста</h3>
 
 <p>В поле поиска вводим слово <b>replace</b> и изменяем горячие клавиши <kbd>Ctrl + H</kbd> на <kbd>Ctrl + R</kbd>.</p>
 
@@ -104,320 +106,335 @@ excerpt_separator: "<!--more-->"
 
 <hr>
 
-<h4>Дублирование текста</h4>
+<h3>Дублирование текста</h3>
 
 <p>В поле поиска вводим слово <b>copy line down</b> и изменяем горячие клавиши <kbd>Ctrl + Shift + Alt + DownArrow</kbd>
   на <kbd>Ctrl + D</kbd>.</p>
 
 <hr>
 
-<h4>Выделение похожего текста</h4>
+<h3>Выделение похожего текста</h3>
 
-<p>В поле поиска вводим слово <b>add selection to next find match</b> и изменяем горячие клавиши <kbd>Ctrl + D</kbd> на
+<p>В поле поиска вводим слово <b>add selection to next find match</b> и изменяем горячие клавиши с <kbd>Ctrl + D</kbd> на
   <kbd>Alt + J</kbd>.</p>
 
-<h3>Установка расширений VSCode</h3>
+<hr>
 
-<p>Расширений для <b>VSCode</b> по истине очень много, все их не представляется возможным разобрать. Те же которые
+<h3>Отмена выделение похожего текста</h3>
+
+<p>В поле поиска вводим слово <b>move last selection to previous find match</b> и добавляем горячие клавиши <kbd>Alt + Shift + J</kbd>.</p>
+
+<hr>
+
+<h3>Обертка контента в указанный тег</h3>
+
+<p>В поле поиска вводим слово <b>Wrap with Abbreviation</b> и добавляем горячие клавиши <kbd>Ctrl + Alt + T</kbd>.</p>
+
+<hr>
+
+<h3>Форматирование документа</h3>
+
+<p>В поле поиска вводим слово <b>format document</b> и добавляем горячие клавиши <kbd>Ctrl + Alt + L</kbd>.</p>
+
+<h2 id="extends"><span class="attention">Установка</span> расширений</h2>
+
+<p>Благодаря всевозможным расширениям редактор кода <b>VSCode</b> позволяет кастомизировать себя до уровня <b>IDE</b>. Расширений для <b>VSCode</b> по истине очень много, все их не представляется возможным разобрать. Те же которые
   разберем не имеет смысла подключать, если нет надобности в их использовании. Но я надеюсь, что данный пример послужит
   вектором для подборки собственных расширений, направленных на решения именно ваших потребностей.</p>
+
+<p> Так как в своей работе я использую стек <b>html</b>, <b>pug</b>, <b>css</b>,
+  <b>scss</b>, <b>js</b>, <b>php</b>, то и расширения будут касаться этих технологий.</p>
 
 <p>Для того чтобы установить расширение, нажмем горячие клавиши <kbd>Ctrl + Shift +
   X</kbd>. В появившейся области нажмем на поле поиска <b>Search Extensions in Marketplace</b> и вводим название
   расширения которое хотели бы найти.</p>
 
-<h4>Auto Complete Tag</h4>
+<h3>Auto Complete Tag</h3>
 
 <p>Автоматически закрывает и переименовывает теги.</p>
 
 <hr>
 
-<h4>Code runner</h4>
+<h3>Code runner</h3>
 
 <p>Запускает в консоле <b>js</b> код.</p>
 
 <hr>
 
-<h4>EditorConfig for VS Code</h4>
+<h3>EditorConfig for VS Code</h3>
 
 <p>Подхватывает настройки (стиля табуляции и прочего) конфигурационного файла <b>.editorconfig</b> и применяет их к
   коду.</p>
 
 <hr>
 
-<h4>Github plus theme</h4>
+<h3>Github plus theme</h3>
 
 <p>Светлая тема для редактора кода <b>VSCode</b>.</p>
 
 <hr>
 
-<h4>Theme Tinacious</h4>
+<h3>Theme Tinacious</h3>
 
 <p>Темная тема для редактора кода <b>VSCode</b>.</p>
 
 <hr>
 
-<h4>Theme</h4>
+<h3>Theme</h3>
 
 <p>Темная тема для редактора кода <b>VSCode</b>.</p>
 
 <hr>
 
-<h4>vscode icons</h4>
+<h3>vscode icons</h3>
 
 <p>Набор иконок для различных типов файлов в редакторе кода.</p>
 
 <hr>
 
-<h4>VSCode Great Icons</h4>
+<h3>VSCode Great Icons</h3>
 
 <p>Набор иконок для различных типов файлов в редакторе кода.</p>
 
 <hr>
 
-<h4>Live Server</h4>
+<h3>Live Server</h3>
 
 <p>Виртуальный сервер для отображения проделанной работы в браузере с автоматическим обновлением страницы при ее
   изменении.</p>
 
 <hr>
 
-<h4>Import cost</h4>
+<h3>Import cost</h3>
 
 <p>Показывает вес импортированных библиотек рядом со строкой импорта.</p>
 
 <hr>
 
-<h4>npm intellisense</h4>
+<h3>npm intellisense</h3>
 
 <p>При импорте библиотек подсказывает название установленных <b>npm</b> пакетов при вводе подстроки, соответствующей
   этому пакету.</p>
 
 <hr>
 
-<h4>Open In Browser</h4>
+<h3>Open In Browser</h3>
 
 <p>Позволяет открыть активную вкладку <b>html</b> в браузере.</p>
 
 <hr>
 
-<h4>Git history</h4>
+<h3>Git history</h3>
 
 <p>Просмотр истории коммитов в интерфейсе редактора кода <b>VSCode</b>.</p>
 
 <hr>
 
-<h4>Сss peek</h4>
+<h3>Сss peek</h3>
 
 <p>Быстрый просмотр значений <b>css</b> стиля в <b>html</b> документе. По щелчку <kbd>Ctrl + Левая кнопка мыши</kbd> на
   названии <b>css</b> стиля в <b>html</b> документе, откроется <b>css</b> файл содержащий этот стиль.</p>
 
 <hr>
 
-<h4>IntelliSense for CSS class names in HTML</h4>
+<h3>IntelliSense for CSS class names in HTML</h3>
 
 <p>Помогает с автозаполнением названия <b>css</b> стиля в <b>html</b> документе.</p>
 
 <hr>
 
-<h4>Path Intellisense</h4>
+<h3>Path Intellisense</h3>
 
 <p>Помогает с автозаполнением путей до файлов в <b>html</b> документе.</p>
 
 <hr>
 
-<h4>PHP Intelephense</h4>
+<h3>PHP Intelephense</h3>
 
 <p>Помогает при написании <b>PHP</b> кода подсказками и автоматическим дописыванием <b>php</b> конструкций.</p>
 
 <hr>
 
-<h4>phpcs</h4>
+<h3>phpcs</h3>
 
-<p>Линтер для <b>php</b> кода. Как настроить это расширение читайте ниже в разделе <b>Стили кодирования (PHP линтеры)</b>.</p>
-
-<hr>
-
-<h4>php cs fixer</h4>
-
-<p>Линтер для <b>php</b> кода. Как настроить это расширение читайте ниже в разделе <b>Стили кодирования (PHP линтеры)</b>.</p>
+<p>Линтер для <b>php</b> кода. Как настроить это расширение читайте ниже в разделе <a href="#linter">Стили кодирования (PHP линтеры)</a>.</p>
 
 <hr>
 
-<h4>Markdown Preview Enchanced</h4>
+<h3>php cs fixer</h3>
+
+<p>Линтер для <b>php</b> кода. Как настроить это расширение читайте ниже в разделе <a href="#linter">Стили кодирования (PHP линтеры)</a>.</p>
+
+<hr>
+
+<h3>Markdown Preview Enchanced</h3>
 
 <p>Позволяет визуализировать markdown разметку.</p>
 
 <hr>
 
-<h4>File Peek</h4>
+<h3>File Peek</h3>
 
 <p>Открытие файла по ссылке.</p>
 
 <hr>
 
-<h4>JS Parameter Annotations</h4>
+<h3>JS Parameter Annotations</h3>
 
 <p>Подсказки наименований переменных для <b>JS</b>.</p>
 
 <hr>
 
-<h4>Inline Parameters for VSCode</h4>
+<h3>Inline Parameters for VSCode</h3>
 
 <p>Подсказки наименований переменных для <b>PHP</b>.</p>
 
 <hr>
 
-<h4>Auto Import - ES6, TS, JSX, TSX</h4>
+<h3>Auto Import - ES6, TS, JSX, TSX</h3>
 
 <p>Автоматический импорт в <b>JS</b>.</p>
 
 <hr>
 
-<h4>eCSStractor for VSCode</h4>
+<h3>eCSStractor for VSCode</h3>
 
 <p>Извлекает имена классов из <b>HTML</b> и создает из них <b>css</b> стили.</p>
 
 <hr>
 
-<h4>Russian Language Pack</h4>
+<h3>Russian Language Pack</h3>
 
 <p>Русский язык для редактора кода <b>VSCode</b>.</p>
 
 <hr>
 
-<h4>es6-string-html</h4>
+<h3>es6-string-html</h3>
 
 <p>Подсветка <b>html</b> разметки внутри переменной в <b>js</b> коде.</p>
 
 <hr>
 
-<h4>SVG Preview</h4>
+<h3>SVG Preview</h3>
 
 <p>Предпросмотр <b>svg</b> иконок прям в редакторе кода <b>VSCode</b>.</p>
 
 <hr>
 
-<h4>Windows Default Keybindngs</h4>
+<h3>Windows Default Keybindngs</h3>
 
-<p>Горячие клавиши для <b>VSCode</b> как в <b>Windows</b>.</p>
-
-<hr>
-
-<h4>Sublime Text Keymap and Settings Importer</h4>
-
-<p>Горячие клавиши как в <b>Sublime</b>.</p>
+<p>Горячие клавиши для <b>VSCode</b> как в <b>Windows</b>. Вместо установки этого расширения предпочитаю переопределять горячие клавиши вручную. Благо их не так много.</p>
 
 <hr>
 
-<h4>ES Lint</h4>
+<h3>Sublime Text Keymap and Settings Importer</h3>
+
+<p>Горячие клавиши как в <b>Sublime</b>. Вместо установки этого расширения предпочитаю переопределять горячие клавиши вручную. Благо их не так много.</p>
+
+<hr>
+
+<h3>ES Lint</h3>
 
 <p>Линтер для <b>JavaScript</b>. Проверяет <b>js</b> код на соответствие параметрам конфигурационного файла
   <b>.eslintrc</b>. Полезен для поддержания единого стиля кодирования.</p>
 
 <hr>
 
-<h4>HTMLHint</h4>
+<h3>HTMLHint</h3>
 
 <p>Линтер для <b>HTML</b>. Проверяет <b>html</b> разметку на соответствие параметрам конфигурационного файла <b>.htmlhintrc </b>.
   Полезен для поддержания единого стиля кодирования.</p>
 
 <hr>
 
-<h4>puglint</h4>
+<h3>puglint</h3>
 
 <p>Линтер для <b>Pug</b>. Проверяет <b>pug</b> разметку на соответствие параметрам конфигурационного файла <b>.pug-lintrc</b>.
   Полезен для поддержания единого стиля кодирования.</p>
 
 <hr>
 
-<h4>scss-lint</h4>
+<h3>scss-lint</h3>
 
 <p>Линтер для <b>Scss</b>. Проверяет <b>scss</b> стили на соответствие параметрам конфигурационного файла <b>.stylelintrc</b>.
   Полезен для поддержания единого стиля кодирования.</p>
 
 <hr>
 
-<h4>Prettier Code formatter</h4>
+<h3>Prettier Code formatter</h3>
 
 <p>Форматор кода.</p>
 
 <hr>
 
-<h4>phpcs</h4>
+<h3>JS quick console</h3>
 
-<p>Код снифер для <b>PHP</b>.</p>
-
-<hr>
-
-<h4>JS quick console</h4>
-
-<p>быстрая вставка console.log. В принципе этот плагин могут заменить пользовательские сниппеты. Как создать
-  пользовательский сниппет будет далее.</p>
+<p>Быстрая вставка <b>console.log</b>. В принципе этот плагин могут заменить пользовательские сниппеты. Как создать
+  пользовательский сниппет будет <a href="#snippets">далее</a>.</p>
 
 <hr>
 
-<h4>Polacode</h4>
+<h3>Polacode</h3>
 
 <p>Делает скриншот кода.</p>
 
 <hr>
 
-<h4>Gulp Snippets</h4>
+<h3>Gulp Snippets</h3>
 
 <p>Короткие строки, разворачивающиеся в целые <b>gulp</b> конструкции, наподобие <b>Emmet</b>.</p>
 
 <hr>
 
-<h4>Live Sass Compiler</h4>
+<h3>Live Sass Compiler</h3>
 
 <p>Компиляция <b>Sass/Scss</b> в <b>css</b> без использования сборщиков.</p>
 
 <hr>
 
-<h4>WordPress Hooks IntelliSense</h4>
+<h3>WordPress Hooks IntelliSense</h3>
 
 <p>Подстановка <b>WordPress</b> функций.</p>
 
 <hr>
 
-<h4>Wordpress snippets</h4>
+<h3>Wordpress snippets</h3>
 
 <p>Короткие строки, разворачивающиеся в целые <b>WordPress</b> конструкции, наподобие <b>Emmet</b>.</p>
 
 <hr>
 
-<h4>WooCommerce - Snippets & autocomplete</h4>
+<h3>WooCommerce - Snippets & autocomplete</h3>
 
 <p>сниппеты для <b>WooCommerce</b>.</p>
 
 <hr>
 
-<h4>Pug</h4>
+<h3>Pug</h3>
 
 <p><b>Pug</b> сниппеты и поддержка разметки.</p>
 
 <hr>
 
-<h4>Pug beautify</h4>
+<h3>Pug beautify</h3>
 
 <p>Форматирование <b>Pug</b> разметки.</p>
 
 <hr>
 
-<h4>SQL Server</h4>
+<h3>SQL Server</h3>
 
 <p>Администрирование базы данных.</p>
 
 <hr>
 
-<h4>Twig</h4>
+<h3>Twig</h3>
 
 <p>Добавляет поддержку <b>Twig</b> синтаксиса.</p>
 
-<h3>Создание сниппетов в VSCode</h3>
+<h2 id="snippets"><span class="attention">Создание</span> сниппетов</h2>
 
-<p>сниппеты являются очень полезной функциональностью, которая позволяет создавать свои коротки наименования и
+<p>Сниппеты являются очень полезной функциональностью, которая позволяет создавать свои короткие наименования и
   разворачивать их в большие конструкции кода.</p>
 
 <p>Чтобы создать сниппет в <b>VSCode</b> нажмем горячие клавиши <kbd>Ctrl + Shift + P</kbd> и введем слово <b>Configure User Snippets</b> и нажмем <kbd>Enter</kbd>. Откроется список доступных языков. Выберите язык, для которого вы хотите создать сниппет, и <b>VSCode</b> откроет соответствующий файл <b>JSON</b>.</p>
@@ -445,89 +462,15 @@ excerpt_separator: "<!--more-->"
 
 <p>Далее находясь в <b>js</b> файле нажимаем горячие клавиши <kbd>Ctrl + Shift + P</kbd> и вводим слово <b>Insert Snippet</b>. Появится список доступных сниппетов, при выборе сниппета он вставится в <b>js</b> код. Так же можно просто написать ключевое слово сниппета, в нашем примере это слово <b>log</b> и нажать клавишу <kbd>Tab</kbd>. Ключевое слово развернется в заданную <b>js</b> конструкцию.</p>
 
-<h2><span class="attention">Стили</span> кодирования (PHP линтеры)</h2>
+<h2 id="linter"><span class="attention">Стили</span> кодирования (PHP линтеры)</h2>
 
-<p>Набор правил позволяет придерживаться строгому стилю кодирования. При использовании в <b>IDE</b> и редакторах кода подсвечивает некорректный правилам код, а так же автоматически исправляет его.</p>
+<p>Основная статья с установкой линтеров находится <a href="{{ site.baseurl }}/blog/2023-08-26-stili-kodirovaniya-other">по ссылке</a>. Здесь же опишем настройки линтера конкретно для редактора кода <b>VSCode</b>.</p>
 
-<p>Самыми распространенными инструментами в этом направлении являются <b>PHP CodeSniffer</b> и <b>PHP CS Fixer</b>. Различие между ними не существенны. Набор команд <b>PHP CS Fixer</b> более минималистичен при работе с данным линтером из командной строки, а так же он использует кэширование исправлений. В основном я использую <b>PHP CS Fixer</b>, хотя начинал с <b>PHP CodeSniffer</b>.</p>
-
-<p>Для работы с линтерами необходимо установить следующие зависимости.</p>
-
-{% include component/code.html lang='php' content='sudo apt install php-xml php-xmlrpc' %}
-
-<h3>Перечень стилей</h3>
-
-<p><a href="https://www.php-fig.org/psr/psr-1/" target="_blank" rel="nofollow">PSR-1</a> - базовый стандарт кодирования</p>
-<p><a href="https://www.php-fig.org/psr/psr-2/" target="_blank" rel="nofollow">PSR-2</a> - устарел</p>
-<p><a href="https://www.php-fig.org/psr/psr-4/" target="_blank" rel="nofollow">PSR-4 </a>- автозагрузчик (namespace)</p>
-<p><a href="https://www.php-fig.org/psr/psr-12/" target="_blank" rel="nofollow">PSR-12</a> - расширенный стиль кодирования</p>
-<p><a href="https://www.php-fig.org/per/coding-style/" target="_blank" rel="nofollow">PER Coding Style</a> - улучшение PSR-12</p>
+<p>Не нужно ставить сразу два линтера, выберете какой-то один.</p>
 
 <h3>PHP CodeSniffer</h3>
 
-<p>Инструкция по установке <b>PHP CodeSniffer</b> написана на <a href="https://github.com/squizlabs/PHP_CodeSniffer" target="_blank" rel="nofollow">официальном сайте</a>.</p>
-
-<h4>Установка в корень проекта</h4>
-
-<p><b>PHP CodeSniffer</b> будет работать только с проектом в который установлен.</p>
-
-{% capture code %}
-curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
-
-# ИЛИ
-
-composer require "squizlabs/php_codesniffer=*"
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<h4>Глобальная установка</h4>
-
-<p><b>PHP CodeSniffer</b> будет работать с любым проектом.</p>
-
-<p>На вопрос <b>Do you want to re-run the command with --dev?</b> отвечаем <b>yes</b>.</p>
-
-{% include component/code.html lang='bash' content='composer global require squizlabs/php_codesniffer' %}
-
-<h4>Проверка пути глобальной директории</h4>
-
-<p>Для того, чтобы узнать куда был установлен <b>PHP CodeSniffer</b>.</p>
-
-{% include component/code.html lang='bash' content='composer global config bin-dir --absolute' %}
-
-<h4>Запуск CodeSniffer</h4>
-
-<p>Стандартом кодирования по умолчанию в <b>PHP_CodeSniffer</b> является <b>PEAR</b>.</p>
-
-<p>Что бы проверить файлы на соответствие стандарту выполните следующие команды.</p>
-
-{% capture code %}
-# phpcs покажет ошибки
-./vendor/bin/phpcs /path/to/code-directory
-
-# phpcbf исправит ошибки
-./vendor/bin/phpcbf /path/to/code-directory
-
-# ИЛИ
-
-~/.config/composer/vendor/bin/phpcs /path/to/code-directory
-~/.config/composer/vendor/bin/phpcbf /path/to/code-directory
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<h4>Переопределение стандарта PHP_CodeSniffer с PEAR на PSR-12</h4>
-
-<p>Чтобы проверить файл по стандарту кодирования <b>PSR-12</b>, добавьте следующую опцию <b>--standard=PSR12</b>.</p>
-
-{% capture code %}
-phpcs --standard=PSR12 /path/to/code-directory
-phpcbf --standard=PSR12 /path/to/code-directory
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<h4>Автоматическая проверка кода</h4>
-
-<p>Для того чтобы вручную не вводить команды настроим <b>VSCode</b> на работу с <b>PHP_CodeSniffer</b>. Зайдем в расширения <kbd>Ctrl + Shift + X</kbd> введем в поиске <b>phpcs</b> и установим это расширение.</p>
+<p>Для того чтобы вручную не вводить команды, <a href="{{ site.baseurl }}/blog/2023-08-26-stili-kodirovaniya-other">описанные в статье</a> про установкой линтеров, настроим <b>VSCode</b> на работу с <b>PHP_CodeSniffer</b>. Зайдем в расширения <kbd>Ctrl + Shift + X</kbd> введем в поиске <b>phpcs</b> и установим это расширение.</p>
 
 <p>Войдем в настройки <kbd>Ctrl + ,</kbd>, в правом верхнем углу нажмем на иконку в виде листа (Open Settings Json). Добавим в <b>json</b> файл следующие настройки.</p>
 
@@ -538,59 +481,11 @@ phpcbf --standard=PSR12 /path/to/code-directory
 {% endcapture %}
 {% include component/code.html lang='json' content=code %}
 
+<p>Не забудьте изменить <b>username</b> в пути на имя своего пользователя.</p>
+
 <h3>PHP CS Fixer</h3>
 
-<p>Инструкция по установке <b>PHP CS Fixer</b> написана на <a href="https://cs.symfony.com/doc/installation.html" target="_blank" rel="nofollow">официальном сайте</a>.</p>
-
-<h4>Установка в корень проекта</h4>
-
-<p><b>PHP CS Fixer</b> будет работать только с проектом в который установлен.</p>
-
-{% capture code %}
-curl -L https://cs.symfony.com/download/php-cs-fixer-v3.phar -o php-cs-fixer
-
-# ИЛИ
-
-composer require friendsofphp/php-cs-fixer
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<h4>Глобальная установка</h4>
-
-<p><b>PHP CS Fixer</b> будет работать с любым проектом.</p>
-
-<p>На вопрос <b>Do you want to re-run the command with --dev?</b> отвечаем <b>yes</b>.</p>
-
-{% include component/code.html lang='bash' content='composer global require friendsofphp/php-cs-fixer' %}
-
-<h4>Проверка пути глобальной директории</h4>
-
-<p>Для того, чтобы узнать куда был установлен <b>PHP CS Fixer</b>.</p>
-
-{% include component/code.html lang='bash' content='composer global config bin-dir --absolute' %}
-
-<h4>Запуск PHP CS Fixer</h4>
-
-<p>Что бы проверить файлы на соответствие стандарту выполните <a href="https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/blob/master/doc/usage.rst" target="_blank" rel="nofollow">следующие команды</a>.</p>
-
-{% capture code %}
-php php-cs-fixer fix /path/to/dir
-php php-cs-fixer fix /path/to/file
-
-# ИЛИ
-
-php ~/.config/composer/vendor/bin/php-cs-fixer fix /path/to/dir
-php ~/.config/composer/vendor/bin/php-cs-fixer fix /path/to/file
-
-# Опции:
---dry-run - проверка без исправлений
---using-cache=no - не учитывать предыдущую проверку
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<h4>Автоматическая проверка кода</h4>
-
-<p>Для того чтобы вручную не вводить команды настроим <b>VSCode</b> на работу с <b>PHP CS Fixer</b>. Зайдем в расширения <kbd>Ctrl + Shift + X</kbd> введем в поиске <b>php cs fixer</b> и установим это расширение.</p>
+<p>Для того чтобы вручную не вводить команды, <a href="{{ site.baseurl }}/blog/2023-08-26-stili-kodirovaniya-other">описанные в статье</a> про установкой линтеров, настроим <b>VSCode</b> на работу с <b>PHP CS Fixer</b>. Зайдем в расширения <kbd>Ctrl + Shift + X</kbd> введем в поиске <b>php cs fixer</b> и установим это расширение.</p>
 
 <p>Войдем в настройки <kbd>Ctrl + ,</kbd>, в правом верхнем углу нажмем на иконку в виде листа (Open Settings Json). Добавим в <b>json</b> файл следующие настройки.</p>
 
@@ -601,104 +496,32 @@ php ~/.config/composer/vendor/bin/php-cs-fixer fix /path/to/file
 {% endcapture %}
 {% include component/code.html lang='json' content=code %}
 
-<h3>Pre Commit</h3>
+<p>Не забудьте изменить <b>username</b> в пути на имя своего пользователя.</p>
 
-<p>Чем хороши линтеры тем что позволяют проверить код на соответствие определенным правилам и если код им не соответствует исправить его либо оповестить о проблемах. К данной функциональности можно так же добавить проверку кода перед созданием коммита в <b>git</b> и если найдется ошибка коммит не состоится. Что позволит поддерживать о единообразии кода как на локальном компьютере, так и на удаленном репозитории.</p>
+<h2 id="keymap"><span class="attention">Горячие</span> клавиши</h2>
 
-<p>Создадим хук <b>Pre Commit</b>. Некоторая программная логика которая будет срабатывать при определенных действиях. В данном случае наш хук будет срабатывать при создании коммита.</p>
+<p>Список горячих клавиш, которые я использую при работе с <b>VSCode</b>.</p>
 
-<p>Создадим хук введя команду.</p>
-
-{% include component/code.html lang='bash' content='cp .git/hooks/pre-commit.sample .git/hooks/pre-commit' %}
-
-<h4>Pre Commit для PHP_CodeSniffer</h4>
-
-<p>Содержимое созданного файла если нужно автоматическое исправление кода.</p>
-
-{% capture code %}
-#!/bin/sh
-
-if [ -f /home/username/.config/composer/vendor/bin/phpcbf ]
-then
-/home/username/.config/composer/vendor/bin/phpcbf ./
-if [ $? -ne 0 ]
-then
-RED='\033[0;31m'
-CYAN='\033[0;36m'
-NA='\033[0m'
-
-printf "\n\t${CYAN}[GIT POLICY]${NA} PHP-CS-Fixer has failed - ${RED}Push Aborted${NA}\n\n"
-
-return 1
-fi
-fi
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<p>Содержимое созданного файла если не нужно автоматическое исправление кода.</p>
-
-{% capture code %}
-#!/bin/sh
-
-if [ -f /home/username/.config/composer/vendor/bin/phpcs ]
-then
-/home/username/.config/composer/vendor/bin/phpcs ./
-if [ $? -ne 0 ]
-then
-RED='\033[0;31m'
-CYAN='\033[0;36m'
-NA='\033[0m'
-
-printf "\n\t${CYAN}[GIT POLICY]${NA} PHP-CS-Fixer has failed - ${RED}Push Aborted${NA}\n\n"
-
-return 1
-fi
-fi
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<h4>Pre Commit для PHP CS Fixer</h4>
-
-<p>Содержимое созданного файла если нужно автоматическое исправление кода.</p>
-
-{% capture code %}
-#!/bin/sh
-
-if [ -f /home/username/.config/composer/vendor/bin/php-cs-fixer ]
-then
-/home/username/.config/composer/vendor/bin/php-cs-fixer fix --quiet --using-cache=no ./
-if [ $? -ne 0 ]
-then
-RED='\033[0;31m'
-CYAN='\033[0;36m'
-NA='\033[0m'
-
-printf "\n\t${CYAN}[GIT POLICY]${NA} PHP-CS-Fixer has failed - ${RED}Push Aborted${NA}\n\n"
-
-return 1
-fi
-fi
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<p>Содержимое созданного файла если не нужно автоматическое исправление кода.</p>
-
-{% capture code %}
-#!/bin/sh
-
-if [ -f /home/username/.config/composer/vendor/bin/php-cs-fixer ]
-then
-/home/username/.config/composer/vendor/bin/php-cs-fixer fix --dry-run --quiet --using-cache=no ./
-if [ $? -ne 0 ]
-then
-RED='\033[0;31m'
-CYAN='\033[0;36m'
-NA='\033[0m'
-
-printf "\n\t${CYAN}[GIT POLICY]${NA} PHP-CS-Fixer has failed - ${RED}Push Aborted${NA}\n\n"
-
-return 1
-fi
-fi
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+<ul>
+  <li><kbd>Ctrl + ,</kbd> — страница настроек</li>
+  <li><kbd>Alt + Mouse</kbd> — единичное выделение</li>
+  <li><kbd>Alt + Shift + Mouse</kbd> — множественное выделение</li>
+  <li><kbd>Ctrl + Alt + L</kbd> — автоформатирование кода (пользовательская настройка "format document")</li>
+  <li><kbd>Ctrl + D</kbd> — дублирование строки</li>
+  <li><kbd>Ctrl + X</kbd> — удаление строки</li>
+  <li><kbd>Ctrl + Пробел</kbd> — автокомплит служебные конструкции</li>
+  <li><kbd>Ctrl + /</kbd> — закомментировать строку</li>
+  <li><kbd>Ctrl + Alt + T</kbd> — обертка для выделенного слова (пользовательская настройка "Wrap with Abbreviation")</li>
+  <li><kbd>Alt + Z</kbd> — перенос строк</li>
+  <li><kbd>Alt + J</kbd> — выбор такого же выделенного объекта (пользовательская настройка "add selection to next find match")</li>
+  <li><kbd>Alt + Shift + J</kbd> — отмена выбора выделенного объекта (пользовательская настройка "move last selection to previous find match")</li>
+  <li><kbd>Ctrl + F</kbd> — поиск</li>
+  <li><kbd>Ctrl + R</kbd> — поиск и замена (пользовательская настройка "replace")</li>
+  <li><kbd>Ctrl + Shift + P</kbd> — командная палитра</li>
+  <li><kbd>Ctrl + N</kbd> — создать новый документ</li>
+  <li><kbd>Ctrl + K Ctrl + W</kbd> — закрыть все вкладки</li>
+  <li><kbd>Ctrl + E</kbd> — последние файлы</li>
+  <li><kbd>Ctrl + Tab</kbd> — переключение между файлами</li>
+  <li><kbd>Ctrl + Shift + G</kbd> — меню гит</li>
+  <li><kbd>Ctrl + Shift + `</kbd> — открыть терминал</li>
+</ul>

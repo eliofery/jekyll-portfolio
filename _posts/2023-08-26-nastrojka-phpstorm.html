@@ -2,7 +2,7 @@
 layout: post
 title: Настройка PhpStorm
 date: 2023-08-26 12:44 +0600
-description: Настроим <b>PhpStorm</b> внесем базовые настройки, разберемся с горячими клавишами, установим расширения, добавим пользовательские сниппиты, в общем приведем IDE в рабочий режим.
+description: Настроим <b>PhpStorm</b>, внесем базовые настройки, разберемся с горячими клавишами, установим расширения, добавим пользовательские сниппиты, добавим поддержку линтеров, в общем приведем IDE в рабочий режим.
 image: cover.jpg
 alt: Настройка PhpStorm
 category: other
@@ -12,18 +12,32 @@ sitemap: true
 excerpt_separator: "<!--more-->"
 ---
 
-<p>Настроим <b>PhpStorm</b> внесем базовые настройки, разберемся с горячими клавишами, установим расширения, добавим пользовательские сниппиты, в общем приведем IDE в рабочий режим.</p>
+<p>Настроим <b>PhpStorm</b>, внесем базовые настройки, разберемся с горячими клавишами, установим расширения, добавим пользовательские сниппиты, добавим поддержку линтеров, в общем приведем IDE в рабочий режим.</p>
 
 <!--more-->
 
-<h2><span class="attention">Вводная</span> информация</h2>
+<h2><span class="attention">Оглавление</span> статьи</h2>
+
+<ol>
+  <li><a href="#intro">Вводная информация</a></li>
+  <li><a href="#base">Базовая настройка</a></li>
+  <li><a href="#keyupdate">Переопределение горячих клавиш</a></li>
+  <li><a href="#feature">Интересные фичи</a></li>
+  <li><a href="#extends">Установка плагинов</a></li>
+  <li><a href="#snippets">Создание сниппетов</a></li>
+  <li><a href="#performance">Увеличение производительности</a></li>
+  <li><a href="#linter">Стили кодирования (PHP линтеры)</a></li>
+  <li><a href="#keymap">Горячие клавиши</a></li>
+</ol>
+
+<h2 id="intro"><span class="attention">Вводная</span> информация</h2>
 
 <p>В <a href="{{ site.baseurl }}/blog/2023-08-24-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-devops" target="_blank">серии статей</a> по работе и настройке дистрибутива <b>Pop!_OS</b> был установлен ряд программ, в числе которых была <b>IDE</b> <b>PhpStorm</b>. В этой статье мы настроим его для дальнейшего использования.</p>
 
 <p>Я покажу вам какие обычно плагины использую в своей работе с <b>PhpStorm</b>, какие настройки изменяю
   и какие горячие клавиши использую.</p>
 
-<h2><span class="attention">Базовая</span> настройка PhpStorm</h2>
+<h2 id="base"><span class="attention">Базовая</span> настройка</h2>
 
 <p>Первым делом зададим базовые настройки редактору <b>PhpStorm</b>. Нажмем на горячие клавиши <kbd>Ctrl + Alt + S</kbd>.
   Откроется окно с настройками, чтобы быстро найти интересующую нас настройку вводим в поле поиска ключевое слово.</p>
@@ -137,7 +151,7 @@ declare(strict_types=1);
 
 <p><b>Resource Root</b> - представляют собой ресурсы, такие как шаблоны, изображения, стили и другие файлы, которые могут использоваться в вашем проекте. Эти файлы обычно используются, но не подлежат обработке <b>PHPStorm</b>.</p>
 
-<h2><span class="attention">Переопределение</span> горячих клавиш PhpStorm</h2>
+<h2 id="keyupdate"><span class="attention">Переопределение</span> горячих клавиш</h2>
 
 <p>Меня не совсем устраивают стандартные горячие клавиши в <b>PhpStorm</b>, они несколько отличаются от горячих клавиш <b>VSCode</b>, к которым я привык. Приведем их в привычный вид, для этого откроем настройки <kbd>Ctrl + Alt + S</kbd> и перейдем в раздел <b>Keymap</b>.</p>
 
@@ -164,7 +178,7 @@ declare(strict_types=1);
 <p>В поле поиска вводим слово <b>add selection to next find match</b> и изменяем горячие клавиши <kbd>Ctrl + D</kbd> на
   <kbd>Alt + J</kbd>.</p>
 
-<h2><span class="attention">Интересные</span> фичи</h2>
+<h2 id="feature"><span class="attention">Интересные</span> фичи</h2>
 
 <p><b>PhpStorm</b> многогранен каждый раз открываешь для себя что-то новое. В этом разделе я поделюсь интересными
   особенностями.</p>
@@ -222,7 +236,7 @@ declare(strict_types=1);
 
 <p>Удобно использовать для того, чтобы пометить область кода, которая требует доработки.</p>
 
-<h2><span class="attention">Установка</span> плагинов PhpStorm</h2>
+<h2 id="extends"><span class="attention">Установка</span> плагинов</h2>
 
 <p>Надеюсь, что данный пример послужит вектором для подборки собственных расширений, направленных на решения именно
   ваших потребностей.</p>
@@ -264,7 +278,7 @@ declare(strict_types=1);
 
 <p>Поддержка env типа.</p>
 
-<h2><span class="attention">Создание</span> сниппетов в PhpStorm</h2>
+<h2 id="snippets"><span class="attention">Создание</span> сниппетов</h2>
 
 <p>сниппеты являются очень полезной функциональностью, которая позволяет создавать свои коротки наименования и
   разворачивать их в большие конструкции кода.</p>
@@ -293,7 +307,7 @@ return false;
   будут заполняться в процессе развертывания сниппета и переключения между переменными нажатием клавиши
   <b>Tab</b>.</p>
 
-<h2><span class="attention">Увеличение</span> производительности PhpStorm</h2>
+<h2 id="performance"><span class="attention">Увеличение</span> производительности</h2>
 
 <p><b>PhpStorm</b> очень мощная <b>IDE</b>, содержащая в себе множество различных плагинов, иногда даже переизбыточных для конкретного пользователя. Это может ухудшить производительность и добавить "тормоза" при работе в <b>PhpStorm</b>. Чтобы это исправить давайте отключим излишнюю функциональность, которая нам не пригодится в работе. Для этого перейдем в настройки <kbd>Ctrl + Alt + S</kbd>, раздел <b>Plugins</b> и отключим некоторые плагины.</p>
 
@@ -467,87 +481,13 @@ return false;
 
 <p>Чтобы не инспектироваться определенные ошибки в коде, заходим в настройки <kbd>Ctrl + Alt + S</kbd>, в поле поиска вводим слово <b>Inspections</b> и в данном разделе отключаем не используемое нами.</p>
 
-<h2><span class="attention">Стили</span> кодирования (PHP линтеры)</h2>
+<h2 id="linter"><span class="attention">Стили</span> кодирования (PHP линтеры)</h2>
 
-<p>Набор правил позволяет придерживаться строгому стилю кодирования. При использовании в <b>IDE</b> и редакторах кода подсвечивает некорректный правилам код, а так же автоматически исправляет его.</p>
+<p>Основная статья с установкой линтеров находится <a href="{{ site.baseurl }}/blog/2023-08-26-stili-kodirovaniya-other">по ссылке</a>. Здесь же опишем настройки линтера конкретно для IDE <b>PhpStorm</b>.</p>
 
-<p>Самыми распространенными инструментами в этом направлении являются <b>PHP CodeSniffer</b> и <b>PHP CS Fixer</b>. Различие между ними не существенны. Набор команд <b>PHP CS Fixer</b> более минималистичен при работе с данным линтером из командной строки, а так же он использует кэширование исправлений. В основном я использую <b>PHP CS Fixer</b>, хотя начинал с <b>PHP CodeSniffer</b>.</p>
-
-<p>Для работы с линтерами необходимо установить следующие зависимости.</p>
-
-{% include component/code.html lang='php' content='sudo apt install php-xml php-xmlrpc' %}
-
-<h3>Перечень стилей</h3>
-
-<p><a href="https://www.php-fig.org/psr/psr-1/" target="_blank" rel="nofollow">PSR-1</a> - базовый стандарт кодирования</p>
-<p><a href="https://www.php-fig.org/psr/psr-2/" target="_blank" rel="nofollow">PSR-2</a> - устарел</p>
-<p><a href="https://www.php-fig.org/psr/psr-4/" target="_blank" rel="nofollow">PSR-4 </a>- автозагрузчик (namespace)</p>
-<p><a href="https://www.php-fig.org/psr/psr-12/" target="_blank" rel="nofollow">PSR-12</a> - расширенный стиль кодирования</p>
-<p><a href="https://www.php-fig.org/per/coding-style/" target="_blank" rel="nofollow">PER Coding Style</a> - улучшение PSR-12</p>
+<p>Не нужно ставить сразу два линтера, выберете какой-то один.</p>
 
 <h3>PHP CodeSniffer</h3>
-
-<p>Инструкция по установке <b>PHP CodeSniffer</b> написана на <a href="https://github.com/squizlabs/PHP_CodeSniffer" target="_blank" rel="nofollow">официальном сайте</a>.</p>
-
-<h4>Установка в корень проекта</h4>
-
-<p><b>PHP CodeSniffer</b> будет работать только с проектом в который установлен.</p>
-
-{% capture code %}
-curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
-
-# ИЛИ
-
-composer require "squizlabs/php_codesniffer=*"
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<h4>Глобальная установка</h4>
-
-<p><b>PHP CodeSniffer</b> будет работать с любым проектом.</p>
-
-<p>На вопрос <b>Do you want to re-run the command with --dev?</b> отвечаем <b>yes</b>.</p>
-
-{% include component/code.html lang='bash' content='composer global require squizlabs/php_codesniffer' %}
-
-<h4>Проверка пути глобальной директории</h4>
-
-<p>Для того, чтобы узнать куда был установлен <b>PHP CodeSniffer</b>.</p>
-
-{% include component/code.html lang='bash' content='composer global config bin-dir --absolute' %}
-
-<h4>Запуск CodeSniffer</h4>
-
-<p>Стандартом кодирования по умолчанию в <b>PHP_CodeSniffer</b> является <b>PEAR</b>.</p>
-
-<p>Что бы проверить файлы на соответствие стандарту выполните следующие команды.</p>
-
-{% capture code %}
-# phpcs покажет ошибки
-./vendor/bin/phpcs /path/to/code-directory
-
-# phpcbf исправит ошибки
-./vendor/bin/phpcbf /path/to/code-directory
-
-# ИЛИ
-
-~/.config/composer/vendor/bin/phpcs /path/to/code-directory
-~/.config/composer/vendor/bin/phpcbf /path/to/code-directory
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<h4>Переопределение стандарта PHP_CodeSniffer с PEAR на PSR-12</h4>
-
-<p>Чтобы проверить файл по стандарту кодирования <b>PSR-12</b>, добавьте следующую опцию <b>--standard=PSR12</b>.</p>
-
-{% capture code %}
-phpcs --standard=PSR12 /path/to/code-directory
-phpcbf --standard=PSR12 /path/to/code-directory
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<h4>Автоматическая проверка кода</h4>
 
 <p>Для того чтобы вручную не вводить команды настроим <b>PhpStorm</b> на работу с <b>PHP_CodeSniffer</b>. Зайдем в настройки <kbd>Ctrl + Alt + S</kbd> введем в поиске <b>Code Style</b> и выберем раздел <b>PHP</b>. Нажмем по ссылке <b>Set from...</b> и выберем пункт <b>PSR12</b>.</p>
 
@@ -569,56 +509,6 @@ phpcbf --standard=PSR12 /path/to/code-directory
 
 <h3>PHP CS Fixer</h3>
 
-<p>Инструкция по установке <b>PHP CS Fixer</b> написана на <a href="https://cs.symfony.com/doc/installation.html" target="_blank" rel="nofollow">официальном сайте</a>.</p>
-
-<h4>Установка в корень проекта</h4>
-
-<p><b>PHP CS Fixer</b> будет работать только с проектом в который установлен.</p>
-
-{% capture code %}
-curl -L https://cs.symfony.com/download/php-cs-fixer-v3.phar -o php-cs-fixer
-
-# ИЛИ
-
-composer require friendsofphp/php-cs-fixer
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<h4>Глобальная установка</h4>
-
-<p><b>PHP CS Fixer</b> будет работать с любым проектом.</p>
-
-<p>На вопрос <b>Do you want to re-run the command with --dev?</b> отвечаем <b>yes</b>.</p>
-
-{% include component/code.html lang='bash' content='composer global require friendsofphp/php-cs-fixer' %}
-
-<h4>Проверка пути глобальной директории</h4>
-
-<p>Для того, чтобы узнать куда был установлен <b>PHP CS Fixer</b>.</p>
-
-{% include component/code.html lang='bash' content='composer global config bin-dir --absolute' %}
-
-<h4>Запуск PHP CS Fixer</h4>
-
-<p>Что бы проверить файлы на соответствие стандарту выполните <a href="https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/blob/master/doc/usage.rst" target="_blank" rel="nofollow">следующие команды</a>.</p>
-
-{% capture code %}
-php php-cs-fixer fix /path/to/dir
-php php-cs-fixer fix /path/to/file
-
-# ИЛИ
-
-php ~/.config/composer/vendor/bin/php-cs-fixer fix /path/to/dir
-php ~/.config/composer/vendor/bin/php-cs-fixer fix /path/to/file
-
-# Опции:
---dry-run - проверка без исправлений
---using-cache=no - не учитывать предыдущую проверку
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<h4>Автоматическая проверка кода</h4>
-
 <p>Для того чтобы вручную не вводить команды настроим <b>PhpStorm</b> на работу с <b>PHP CS Fixer</b>. Зайдем в настройки <kbd>Ctrl + Alt + S</kbd> введем в поиске <b>Code Style</b> и выберем раздел <b>PHP</b>. Нажмем по ссылке <b>Set from...</b> и выберем пункт <b>PSR12</b>.</p>
 
 <p>Не выходя из настроек вводим в поиск слово <b>Quality Tools</b> и в настройках этого раздела разворачиваем пункт <b>PHP CS Fixer</b>.</p>
@@ -637,122 +527,22 @@ php ~/.config/composer/vendor/bin/php-cs-fixer fix /path/to/file
   <figcaption>Окончательный вариант настроек <b>PHP CS Fixer</b>.</figcaption>
 </figure>
 
-<h3>Pre Commit</h3>
-
-<p>Чем хороши линтеры тем что позволяют проверить код на соответствие определенным правилам и если код им не соответствует исправить его либо оповестить о проблемах. К данной функциональности можно так же добавить проверку кода перед созданием коммита в <b>git</b> и если найдется ошибка коммит не состоится. Что позволит поддерживать о единообразии кода как на локальном компьютере, так и на удаленном репозитории.</p>
-
-<p>Создадим хук <b>Pre Commit</b>. Некоторая программная логика которая будет срабатывать при определенных действиях. В данном случае наш хук будет срабатывать при создании коммита.</p>
-
-<p>Создадим хук введя команду.</p>
-
-{% include component/code.html lang='bash' content='cp .git/hooks/pre-commit.sample .git/hooks/pre-commit' %}
-
-<h4>Pre Commit для PHP_CodeSniffer</h4>
-
-<p>Содержимое созданного файла если нужно автоматическое исправление кода.</p>
-
-{% capture code %}
-#!/bin/sh
-
-if [ -f /home/username/.config/composer/vendor/bin/phpcbf ]
-then
-  /home/username/.config/composer/vendor/bin/phpcbf ./
-  if [ $? -ne 0 ]
-  then
-    RED='\033[0;31m'
-    CYAN='\033[0;36m'
-    NA='\033[0m'
-
-    printf "\n\t${CYAN}[GIT POLICY]${NA} PHP-CS-Fixer has failed - ${RED}Push Aborted${NA}\n\n"
-
-    return 1
-  fi
-fi
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<p>Содержимое созданного файла если не нужно автоматическое исправление кода.</p>
-
-{% capture code %}
-#!/bin/sh
-
-if [ -f /home/username/.config/composer/vendor/bin/phpcs ]
-then
-  /home/username/.config/composer/vendor/bin/phpcs ./
-  if [ $? -ne 0 ]
-    then
-    RED='\033[0;31m'
-    CYAN='\033[0;36m'
-    NA='\033[0m'
-
-    printf "\n\t${CYAN}[GIT POLICY]${NA} PHP-CS-Fixer has failed - ${RED}Push Aborted${NA}\n\n"
-
-    return 1
-  fi
-fi
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<h4>Pre Commit для PHP CS Fixer</h4>
-
-<p>Содержимое созданного файла если нужно автоматическое исправление кода.</p>
-
-{% capture code %}
-#!/bin/sh
-
-if [ -f /home/username/.config/composer/vendor/bin/php-cs-fixer ]
-then
-  /home/username/.config/composer/vendor/bin/php-cs-fixer fix --quiet --using-cache=no ./
-  if [ $? -ne 0 ]
-  then
-    RED='\033[0;31m'
-    CYAN='\033[0;36m'
-    NA='\033[0m'
-
-    printf "\n\t${CYAN}[GIT POLICY]${NA} PHP-CS-Fixer has failed - ${RED}Push Aborted${NA}\n\n"
-
-    return 1
-  fi
-fi
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<p>Содержимое созданного файла если не нужно автоматическое исправление кода.</p>
-
-{% capture code %}
-#!/bin/sh
-
-if [ -f /home/username/.config/composer/vendor/bin/php-cs-fixer ]
-then
-  /home/username/.config/composer/vendor/bin/php-cs-fixer fix --dry-run --quiet --using-cache=no ./
-  if [ $? -ne 0 ]
-    then
-    RED='\033[0;31m'
-    CYAN='\033[0;36m'
-    NA='\033[0m'
-
-    printf "\n\t${CYAN}[GIT POLICY]${NA} PHP-CS-Fixer has failed - ${RED}Push Aborted${NA}\n\n"
-
-    return 1
-  fi
-fi
-{% endcapture %}
-{% include component/code.html lang='bash' content=code %}
-
-<h2><span class="attention">Горячие</span> клавиши PhpStorm</h2>
+<h2 id="keymap"><span class="attention">Горячие</span> клавиши</h2>
 
 <p>Список горячих клавиш, которые я использую при работе с <b>PhpStorm</b>.</p>
 
 <ul>
   <li><kbd>Ctrl + Shift + S</kbd> — меню настроек</li>
+  <li><kbd>Alt + Mouse</kbd> — единичное выделение</li>
   <li><kbd>Alt + Shift + Mouse</kbd> — множественное выделение</li>
   <li><kbd>Ctrl + Alt + L</kbd> — автоформатирование кода</li>
   <li><kbd>Ctrl + D</kbd> — дублирование строки</li>
   <li><kbd>Ctrl + X</kbd> — удаление строки</li>
   <li><kbd>Ctrl + Пробел</kbd> — автокомплит служебные конструкции</li>
+  <li><kbd>Ctrl + /</kbd> — закомментировать строку</li>
   <li><kbd>Ctrl + Alt + T</kbd> — обертка для выделенного слова</li>
   <li><kbd>Alt + Z</kbd> — перенос строк (пользовательская настройка Soft-wrap)</li>
-  <li><kbd>Alt + J</kbd> — выбор такогоже выделенного объекта</li>
+  <li><kbd>Alt + J</kbd> — выбор такого же выделенного объекта</li>
   <li><kbd>Alt + Shift + J</kbd> — отмена выбора выделеного объекта</li>
   <li><kbd>Ctrl + F</kbd> — поиск</li>
   <li><kbd>Ctrl + R</kbd> — поиск и замена</li>
@@ -767,7 +557,7 @@ fi
   <li><kbd>Ctrl + Shift + V</kbd> — история копирования</li>
   <li><kbd>Ctrl + Tab</kbd> — меню быстрого переключения модулей программы</li>
   <li><kbd>Ctrl + F12</kbd> — структура кода</li>
-  <li><kbd>Alt + Alt + G</kbd> — меню гит (пользовательская настройка vcs operations)</li>
+  <li><kbd>Ctrl + Alt + G</kbd> — меню гит (пользовательская настройка vcs operations)</li>
   <li><kbd>Ctrl + Alt + Z</kbd> — откатить git commit</li>
   <li><kbd>Ctrl + Shift + `</kbd> — ветки гита</li>
   <li><kbd>Shift + Alt + F10</kbd> — запуск задач</li>
@@ -776,30 +566,3 @@ fi
   <li><kbd>Alt + C</kbd>, <kbd>Alt + A</kbd> — создания заметок в плагине Scratch</li>
   <li><kbd>Alt + C</kbd>, <kbd>Alt + S</kbd> — выбора заметок в плагине Scratch</li>
 </ul>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

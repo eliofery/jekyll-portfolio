@@ -1,0 +1,286 @@
+---
+layout: post
+title: Стили кодирования (PHP линтеры)
+date: 2023-08-27 10:44 +0600
+description: Разберем что такое и для чего нужны <b>PHP линтеры</b>, рассмотрим два самых популярных линтера для <b>PHP</b>, установим и запустим, а так же настроим их для <b>VSCode</b>, <b>PhpStorm</b> и <b>Git</b>.
+image: cover.jpg
+alt: Настройка PHP линтеров для PhpStorm и VSCode
+category: other
+tags: [linter, php snifer, php cs fixer, pre commit]
+published: true
+sitemap: true
+excerpt_separator: "<!--more-->"
+---
+
+<p>Разберем что такое и для чего нужны <b>PHP линтеры</b>, рассмотрим два самых популярных линтера для <b>PHP</b>, установим и запустим, а так же настроим их для <b>VSCode</b>, <b>PhpStorm</b> и <b>Git</b>.</p>
+
+<!--more-->
+
+<h2><span class="attention">Оглавление</span> статьи</h2>
+
+<ol>
+  <li><a href="#intro">Вводная информация</a></li>
+  <li><a href="#about">О стандарте кодирования в PHP</a></li>
+  <li><a href="#standards">Перечень стандартов</a></li>
+  <li><a href="#dependence">Зависимости линтеров</a></li>
+  <li><a href="#code-sniffer">PHP CodeSniffer</a></li>
+  <li><a href="#cs-fixer">PHP CS Fixer</a></li>
+  <li><a href="#pre-commit">Pre Commit</a></li>
+  <li><a href="#relations">Автоматическая проверка кода</a></li>
+</ol>
+
+<h2 id="intro"><span class="attention">Вводная</span> информация</h2>
+
+<p>В предыдущих статьях мы настроили редактор кода <a href="{{ site.baseurl }}/blog/2023-08-26-nastrojka-vscode-other#linter">VSCode</a> и IDE <a href="{{ site.baseurl }}/blog/2023-08-26-nastrojka-phpstorm-other#linter">PhpStorm</a> для комфортной работы. Эта статья является вводным началом раздела <b>Стили кодирования (PHP линтеры)</b> перечисленных выше статей.</p>
+
+<h2 id="about"><span class="attention">О стандарте</span> кодирования в PHP</h2>
+
+<p><b>Линтер</b> - это инструмент позволяющий коду соответствовать заданным правилам, стандартам, строгому стилю кодирования. При использовании в <b>IDE</b> и редакторах кода подсвечивает некорректный правилам код, а так же автоматически исправляет его при возможности.</p>
+
+<p>Самыми распространенными инструментами в этом направлении являются <b>PHP CodeSniffer</b> и <b>PHP CS Fixer</b>. Различие между ними не существенны. Набор команд <b>PHP CS Fixer</b> более минималистичен при работе с данным линтером из командной строки, а так же он использует кэширование исправлений. В основном я использую <b>PHP CS Fixer</b>, хотя начинал с <b>PHP CodeSniffer</b>.</p>
+
+<p>Не нужно ставить сразу два линтера, выберете какой-то один.</p>
+
+<h2 id="standards"><span class="attention">Перечень</span> стандартов</h2>
+
+<p><a href="https://www.php-fig.org/psr/psr-1/" target="_blank" rel="nofollow"><b>PSR-1</b></a> - базовый стандарт кодирования</p>
+<p><a href="https://www.php-fig.org/psr/psr-2/" target="_blank" rel="nofollow"><b>PSR-2</b></a> - устарел</p>
+<p><a href="https://www.php-fig.org/psr/psr-4/" target="_blank" rel="nofollow"><b>PSR-4</b></a>- автозагрузчик (namespace)</p>
+<p><a href="https://www.php-fig.org/psr/psr-12/" target="_blank" rel="nofollow"><b>PSR-12</b></a> - расширенный стиль кодирования</p>
+<p><a href="https://www.php-fig.org/per/coding-style/" target="_blank" rel="nofollow"><b>PER Coding Style</b></a> - улучшение PSR-12</p>
+
+<h2 id="dependence"><span class="attention">Зависимости</span> линтеров</h2>
+
+<p>Для работы с линтерами необходимо установить следующие зависимости.</p>
+
+{% include component/code.html lang='php' content='sudo apt install php-xml php-xmlrpc' %}
+
+<h2 id="code-sniffer"><span class="attention">PHP</span> CodeSniffer</h2>
+
+<p>Инструкция по установке <b>PHP CodeSniffer</b> написана в <a href="https://github.com/squizlabs/PHP_CodeSniffer" target="_blank" rel="nofollow">официальном репозитории</a>.</p>
+
+<h3>Установка в корень проекта</h3>
+
+<p><b>PHP CodeSniffer</b> будет работать только с проектом в который установлен.</p>
+
+{% capture code %}
+curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
+
+# ИЛИ
+
+composer require "squizlabs/php_codesniffer=*"
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>Глобальная установка</h3>
+
+<p><b>PHP CodeSniffer</b> будет работать с любым проектом.</p>
+
+<p>На вопрос <b>Do you want to re-run the command with --dev?</b> отвечаем <b>yes</b>.</p>
+
+{% include component/code.html lang='bash' content='composer global require squizlabs/php_codesniffer' %}
+
+<h3>Проверка пути глобальной директории</h3>
+
+<p>Для того, чтобы узнать куда был установлен <b>PHP CodeSniffer</b>.</p>
+
+{% include component/code.html lang='bash' content='composer global config bin-dir --absolute' %}
+
+<h3>Запуск CodeSniffer</h3>
+
+<p>Стандартом кодирования по умолчанию в <b>PHP_CodeSniffer</b> является <b>PEAR</b>.</p>
+
+<p>Что бы проверить файлы на соответствие стандарту выполните следующие команды.</p>
+
+{% capture code %}
+# phpcs покажет ошибки
+./vendor/bin/phpcs /path/to/code-directory
+
+# phpcbf исправит ошибки
+./vendor/bin/phpcbf /path/to/code-directory
+
+# ИЛИ
+
+~/.config/composer/vendor/bin/phpcs /path/to/code-directory
+~/.config/composer/vendor/bin/phpcbf /path/to/code-directory
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>Переопределение стандарта PHP_CodeSniffer с PEAR на PSR-12</h3>
+
+<p>Чтобы проверить файл по стандарту кодирования <b>PSR-12</b>, добавьте следующую опцию <b>--standard=PSR12</b>.</p>
+
+{% capture code %}
+phpcs --standard=PSR12 /path/to/code-directory
+phpcbf --standard=PSR12 /path/to/code-directory
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h2 id="cs-fixer"><span class="attention">PHP</span> CS Fixer</h2>
+
+<p>Инструкция по установке <b>PHP CS Fixer</b> написана на <a href="https://cs.symfony.com/doc/installation.html" target="_blank" rel="nofollow">официальном сайте</a>.</p>
+
+<h3>Установка в корень проекта</h3>
+
+<p><b>PHP CS Fixer</b> будет работать только с проектом в который установлен.</p>
+
+{% capture code %}
+curl -L https://cs.symfony.com/download/php-cs-fixer-v3.phar -o php-cs-fixer
+
+# ИЛИ
+
+composer require friendsofphp/php-cs-fixer
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>Глобальная установка</h3>
+
+<p><b>PHP CS Fixer</b> будет работать с любым проектом.</p>
+
+<p>На вопрос <b>Do you want to re-run the command with --dev?</b> отвечаем <b>yes</b>.</p>
+
+{% include component/code.html lang='bash' content='composer global require friendsofphp/php-cs-fixer' %}
+
+<h3>Проверка пути глобальной директории</h3>
+
+<p>Для того, чтобы узнать куда был установлен <b>PHP CS Fixer</b>.</p>
+
+{% include component/code.html lang='bash' content='composer global config bin-dir --absolute' %}
+
+<h3>Запуск PHP CS Fixer</h3>
+
+<p>Что бы проверить файлы на соответствие стандарту выполните <a href="https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/blob/master/doc/usage.rst" target="_blank" rel="nofollow">следующие команды</a>.</p>
+
+{% capture code %}
+php php-cs-fixer fix /path/to/dir
+php php-cs-fixer fix /path/to/file
+
+# ИЛИ
+
+php ~/.config/composer/vendor/bin/php-cs-fixer fix /path/to/dir
+php ~/.config/composer/vendor/bin/php-cs-fixer fix /path/to/file
+
+# Опции:
+--dry-run - проверка без исправлений
+--using-cache=no - не учитывать предыдущую проверку
+
+# Например
+php php-cs-fixer fix /path/to/dir --dry-run
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h2 id="pre-commit"><span class="attention">Pre</span> Commit</h2>
+
+<p>Чем хороши линтеры тем что позволяют проверить код на соответствие определенным правилам и если код им не соответствует исправить его либо оповестить о проблемах. К данной функциональности можно так же добавить проверку кода перед созданием коммита в <b>git</b> и если найдется ошибка коммит не состоится. Что позволит поддерживать о единообразии кода как на локальном компьютере, так и на удаленном репозитории.</p>
+
+<p>Создадим файл хука <b>Pre Commit</b> и напишем в нем некоторую программную логику которая будет срабатывать при определенных действиях. В данном случае наш хук будет срабатывать при создании коммита.</p>
+
+<p>Создадим хук введя команду. Необходимо, чтобы в проекте был проинициализирован <b>Git</b>.</p>
+
+{% include component/code.html lang='bash' content='cp .git/hooks/pre-commit.sample .git/hooks/pre-commit' %}
+
+<h3>Pre Commit для PHP_CodeSniffer</h3>
+
+<p>Не забудьте изменить <b>username</b> в пути на имя своего пользователя.</p>
+
+<h4>Содержимое созданного файла если нужно автоматическое исправление кода.</h4>
+
+{% capture code %}
+#!/bin/sh
+
+if [ -f /home/username/.config/composer/vendor/bin/phpcbf ]
+then
+  /home/username/.config/composer/vendor/bin/phpcbf ./
+  if [ $? -ne 0 ]
+  then
+    RED='\033[0;31m'
+    CYAN='\033[0;36m'
+    NA='\033[0m'
+
+    printf "\n\t${CYAN}[GIT POLICY]${NA} PHP-CS-Fixer has failed - ${RED}Push Aborted${NA}\n\n"
+
+    return 1
+  fi
+fi
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h4>Содержимое созданного файла если не нужно автоматическое исправление кода.</h4>
+
+{% capture code %}
+#!/bin/sh
+
+if [ -f /home/username/.config/composer/vendor/bin/phpcs ]
+then
+  /home/username/.config/composer/vendor/bin/phpcs ./
+  if [ $? -ne 0 ]
+  then
+    RED='\033[0;31m'
+    CYAN='\033[0;36m'
+    NA='\033[0m'
+
+    printf "\n\t${CYAN}[GIT POLICY]${NA} PHP-CS-Fixer has failed - ${RED}Push Aborted${NA}\n\n"
+
+    return 1
+  fi
+fi
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>Pre Commit для PHP CS Fixer</h3>
+
+<p>Не забудьте изменить <b>username</b> в пути на имя своего пользователя.</p>
+
+<h4>Содержимое созданного файла если нужно автоматическое исправление кода.</h4>
+
+{% capture code %}
+#!/bin/sh
+
+if [ -f /home/username/.config/composer/vendor/bin/php-cs-fixer ]
+then
+  /home/username/.config/composer/vendor/bin/php-cs-fixer fix --quiet --using-cache=no ./
+  if [ $? -ne 0 ]
+  then
+    RED='\033[0;31m'
+    CYAN='\033[0;36m'
+    NA='\033[0m'
+
+    printf "\n\t${CYAN}[GIT POLICY]${NA} PHP-CS-Fixer has failed - ${RED}Push Aborted${NA}\n\n"
+
+    return 1
+  fi
+fi
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h4>Содержимое созданного файла если не нужно автоматическое исправление кода.</h4>
+
+{% capture code %}
+#!/bin/sh
+
+if [ -f /home/username/.config/composer/vendor/bin/php-cs-fixer ]
+then
+  /home/username/.config/composer/vendor/bin/php-cs-fixer fix --dry-run --quiet --using-cache=no ./
+  if [ $? -ne 0 ]
+  then
+    RED='\033[0;31m'
+    CYAN='\033[0;36m'
+    NA='\033[0m'
+
+    printf "\n\t${CYAN}[GIT POLICY]${NA} PHP-CS-Fixer has failed - ${RED}Push Aborted${NA}\n\n"
+
+    return 1
+  fi
+fi
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h2 id="relations"><span class="attention">Автоматическая</span> проверка кода</h2>
+
+<p>Узнайте как настроить редактор кода <b>VSCode</b> или IDE <b>PhpStorm</b> на автоматическую проверку кода линтерами.</p>
+
+<ul>
+  <li><a href="{{ site.baseurl }}/blog/2023-08-26-nastrojka-phpstorm-other#linter">Автоматическая проверка кода в PhpStorm</a></li>
+  <li><a href="{{ site.baseurl }}/blog/2023-08-26-nastrojka-vscode-other#linter">Автоматическая проверка кода в Visual Studio Code</a></li>
+</ul>
