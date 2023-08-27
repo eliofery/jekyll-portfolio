@@ -1,0 +1,76 @@
+---
+layout: post
+title: Инициализация проекта на Jekyll
+date: 2023-08-27 21:00 +0600
+description: Установим необходимые зависимости и инициализируем проект на <b>Jekyll</b>. В дальнейшем это станет отправной точкой для создания пользовательского шаблона.
+image: cover.jpg
+alt: Инициализация проекта на Jekyll
+category: frontend
+tags: [jekyll, ruby]
+published: true
+sitemap: true
+excerpt_separator: "<!--more-->"
+---
+
+<p>Установим необходимые зависимости и инициализируем проект на <b>Jekyll</b>. В дальнейшем это станет отправной точкой для создания пользовательского шаблона.</p>
+
+<!--more-->
+
+<h2><span class="attention">Оглавление</span> статьи</h2>
+
+<ol>
+  <li><a href="#intro">Почему Jekyll</a></li>
+  <li><a href="#base">Базовая установка</a></li>
+  <li><a href="#init">Создание проекта</a></li>
+</ol>
+
+<h2 id="intro"><span class="attention">Почему</span> Jekyll</h2>
+
+<p><b>Jekyll</b> - это генератор статических сайтов, который позволяет создавать веб-сайты, состоящие из статических HTML-файлов, без необходимости использования серверных технологий или баз данных. Благодаря чему вместо покупки даже самомального виртуального хостинга можно использовать бесплатный <b>GitHub Pages</b>.</p>
+
+<p>По функциональности он практически не уступает тем же самым <b>CMS</b> системам для введения блога. Он на много производительней и прост в освоении. Идеальный вариант для создания новостных порталов, блогов и портфолио. В частности данный сайт написан на <b>Jekyll</b>.</p>
+
+<h2 id="base"><span class="attention">Базовая</span> установка</h2>
+
+<p>Полная инструкция по установке <b>Jekyll</b> описана на <a href="https://jekyllrb.com/docs/installation/ubuntu/" target="_blank" rel="nofollow">официальном сайте</a>, здесь же я приведу пример установки на дистрибутив <b>Pop!_OS</b>.</p>
+
+<p>Установите <b>Ruby</b> и других необходимых зависимостей.</p>
+
+{% include component/code.html lang='bash' content='sudo apt-get install ruby-full build-essential zlib1g-dev' %}
+
+<p>Настройки для учетной записи пользователя. Введите ниже представленные команды попорядку.</p>
+
+{% capture code %}
+echo '# Install Ruby Gems to ~/gems' >> ~/.bashrc
+echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc
+echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Установка <b>Jekyll</b> и <b>Bundler</b>.</p>
+
+{% include component/code.html lang='bash' content='gem install jekyll bundler' %}
+
+<h2 id="init"><span class="attention">Создание</span> проекта</h2>
+
+<p>Полную инструкцию по создании проекта <b>Jekyll</b> описана на <a href="https://jekyllrb.com/docs/" target="_blank" rel="nofollow">официальном сайте</a>.</p>
+
+<p>Создать jekyll проект в каталоге myblog.</p>
+
+{% include component/code.html lang='bash' content='jekyll new myblog' %}
+
+<p>Переходим в каталог myblog.</p>
+
+{% include component/code.html lang='bash' content='cd myblog' %}
+
+<p>Устанавливаем расширения прописанные в файле <b>Gemfile</b>.</p>
+
+{% include component/code.html lang='bash' content='bundle install' %}
+
+<p>Запускаем проект.</p>
+
+{% include component/code.html lang='bash' content='bundle exec jekyll serve' %}
+
+<p>Переходим в браузере на виртуальный сервер <b>http://localhost:4000</b>.</p>
+
