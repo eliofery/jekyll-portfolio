@@ -228,8 +228,8 @@ echo "deb http://repo.yandex.ru/yandex-disk/deb/ stable main" |
 sudo tee -a /etc/apt/sources.list.d/yandex-disk.list > /dev/null &&
 wget http://repo.yandex.ru/yandex-disk/YANDEX-DISK-KEY.GPG -O- |
 sudo apt-key add - &&
-sudo apt-get update &&
-sudo apt-get install -y yandex-disk
+sudo apt update &&
+sudo apt install -y yandex-disk
 {% endcapture %}
 {% include component/code.html lang='bash' content=code %}
 
@@ -264,7 +264,7 @@ sudo apt-get install -y yandex-disk
 
 {% capture code %}
 sudo add-apt-repository ppa:slytomcat/ppa
-sudo apt-get update
+sudo apt update
 sudo apt install yd-tools
 {% endcapture %}
 {% include component/code.html lang='bash' content=code %}
@@ -585,7 +585,7 @@ source ~/.bashrc && source ~/.profile
 {% endcapture %}
 {% include component/code.html lang='bash' content=code %}
 
-<h3>PHP Storm</h3>
+<h3 id="phpstorm">PHP Storm</h3>
 
 <p><b>PHP Storm</b> - IDE для веб разработки.</p>
 
@@ -693,8 +693,8 @@ sudo usermod -aG docker $USER
 <p>Далее установим <b>Docker</b>, введя поочередно следующие команды.</p>
 
 {% capture code %}
-sudo apt-get update
-sudo apt-get install ca-certificates curl gnupg
+sudo apt update
+sudo apt install ca-certificates curl gnupg
 
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -708,7 +708,7 @@ sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 sudo apt update
 
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 {% endcapture %}
 {% include component/code.html lang='bash' content=code %}
 
@@ -799,7 +799,7 @@ Categories=Utility;
 
 <p>Устанавливаем зависимости.</p>
 
-{% include component/code.html lang='bash' content='sudo apt-get install git scons g++ libglibmm-2.4-dev libpulse-dev pkg-config' %}
+{% include component/code.html lang='bash' content='sudo apt install git scons g++ libglibmm-2.4-dev libpulse-dev pkg-config' %}
 
 <p>Далее необходимо скомпилировать и установить скаченный код.</p>
 
