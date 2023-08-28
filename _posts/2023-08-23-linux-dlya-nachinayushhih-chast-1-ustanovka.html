@@ -6,7 +6,7 @@ description: 'В этой части речь пойдет об установк
 <b>Pop!_OS</b>. Разберем почему именно этот дистрибутив, с какими сложностями можно столкнуться и как их решить и многое другое.'
 image: cover.jpg
 alt: Linux для начинающих - Часть 1
-category: devops
+category: linux
 tags: [linux, popos, gparted, rufus]
 published: true
 sitemap: true
@@ -38,7 +38,7 @@ excerpt_separator: "<!--more-->"
 <h3>Почему дистрибутив Pop!_OS</h3>
 
 <p>Одной из главных причин выбрать <b>Pop!_OS</b> является низкий порог входа для новичков, современный графический
-  интерфейс, оптимизация и производительность.</p>
+  интерфейс, оптимизация, производительность и поддержка со стороны производителя.</p>
 
 <p>Дистрибутив поставляется с элегантной и интуитивно понятной средой рабочего стола, которая позволяет эффективно
   управлять задачами и приложениями. Внимательно спроектированный пользовательский интерфейс делает адаптацию к
@@ -90,8 +90,7 @@ excerpt_separator: "<!--more-->"
 
 <h3>Скачивание программы Rufus</h3>
 
-<p>Программа <b>Rufus</b> позволит создать загрузочную флешку. Перейдем на <a href="https://rufus.ie/en/"
-                                                                              target="_blank" rel="nofollow">официальный
+<p>Программа <b>Rufus</b> позволит создать загрузочную флешку. Перейдем на <a href="https://rufus.ie/en/" target="_blank" rel="nofollow">официальный
   сайт</a> программы <b>Rufus</b>. Прокрутим страницу ниже до раздела <b>Download</b> и скачиваем актуальную версию. На
   момент написания статьи это <b>версия rufus-4.2.exe</b>.</p>
 
@@ -330,10 +329,10 @@ excerpt_separator: "<!--more-->"
   <b>зеленую область</b> и проставлю ему следующие значения.</p>
 
 <ul>
-  <li>Use partition: On</li>
-  <li>Format: Off</li>
-  <li>Use as: Home(/home)</li>
-  <li>Filesystem: Default(ext4)</li>
+  <li><b>Use partition</b>: On</li>
+  <li><b>Format</b>: Off</li>
+  <li><b>Use as</b>: Home(/home)</li>
+  <li><b>Filesystem</b>: Default(ext4)</li>
 </ul>
 
 <figure>
@@ -345,10 +344,10 @@ excerpt_separator: "<!--more-->"
   область</b> и проставлю ей следующие значения.</p>
 
 <ul>
-  <li>Use partition: On</li>
-  <li>Format: On</li>
-  <li>Use as: Home(/boot/efi)</li>
-  <li>Filesystem: fat32</li>
+  <li><b>Use partition</b>: On</li>
+  <li><b>Format</b>: On</li>
+  <li><b>Use as</b>: Home(/boot/efi)</li>
+  <li><b>Filesystem</b>: fat32</li>
 </ul>
 
 <figure>
@@ -362,11 +361,11 @@ excerpt_separator: "<!--more-->"
 </p>
 
 <ul>
-  <li>Use partition: On</li>
-  <li>Format: On</li>
-  <li>Use as: Custom</li>
-  <li>Custom: /recovery</li>
-  <li>Filesystem: fat32</li>
+  <li><b>Use partition</b>: On</li>
+  <li><b>Format</b>: On</li>
+  <li><b>Use as</b>: Custom</li>
+  <li><b>Custom</b>: /recovery</li>
+  <li><b>Filesystem</b>: fat32</li>
 </ul>
 
 <figure>
@@ -379,10 +378,10 @@ excerpt_separator: "<!--more-->"
   ей следующие значения.</p>
 
 <ul>
-  <li>Use partition: On</li>
-  <li>Format: On</li>
-  <li>Use as: Root(/)</li>
-  <li>Filesystem: ext4</li>
+  <li><b>Use partition</b>: On</li>
+  <li><b>Format</b>: On</li>
+  <li><b>Use as</b>: Root(/)</li>
+  <li><b>Filesystem</b>: ext4</li>
 </ul>
 
 <figure>

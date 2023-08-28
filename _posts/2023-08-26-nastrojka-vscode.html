@@ -2,17 +2,17 @@
 layout: post
 title: Настройка Visual Studio Code
 date: 2023-08-26 12:44 +0600
-description: Настроим <b>Visual Studio Code</b>, внесем базовые настройки, разберемся с горячими клавишами, установим расширения, добавим пользовательские сниппиты, добавим поддержку линтеров, в общем приведем редактор кода в рабочий режим.
+description: Настроим <b>Visual Studio Code</b>, внесем базовые настройки, разберемся с горячими клавишами, установим расширения, добавим пользовательские сниппиты, добавим поддержку линтеров, настроим Xdebug, в общем приведем редактор кода в рабочий режим.
 image: cover.jpg
 alt: Настройка Visual Studio Code
-category: other
+category: program
 tags: [vscode, редактор кода, сниппеты, расширения, горячие клавиши]
 published: true
 sitemap: true
 excerpt_separator: "<!--more-->"
 ---
 
-<p>Настроим <b>Visual Studio Code</b>, внесем базовые настройки, разберемся с горячими клавишами, установим расширения, добавим пользовательские сниппиты, добавим поддержку линтеров, в общем приведем редактор кода в рабочий режим.</p>
+<p>Настроим <b>Visual Studio Code</b>, внесем базовые настройки, разберемся с горячими клавишами, установим расширения, добавим пользовательские сниппиты, добавим поддержку линтеров, настроим Xdebug, в общем приведем редактор кода в рабочий режим.</p>
 
 <!--more-->
 
@@ -25,12 +25,13 @@ excerpt_separator: "<!--more-->"
   <li><a href="#extends">Установка расширений</a></li>
   <li><a href="#snippets">Создание сниппетов</a></li>
   <li><a href="#linter">Стили кодирования (PHP линтеры)</a></li>
+  <li><a href="#xdebug">Настройка Xdebug</a></li>
   <li><a href="#keymap">Горячие клавиши</a></li>
 </ol>
 
 <h2 id="intro"><span class="attention">Вводная</span> информация</h2>
 
-<p>В <a href="{{ site.baseurl }}/blog/2023-08-24-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-devops" target="_blank">серии статей</a> по работе и настройке дистрибутива <b>Pop!_OS</b> был установлен ряд программ, в числе которых редактор кода <b>VSCode</b>. В этой статье мы настроим его для дальнейшего использования. Рассмотрим какие обычно расширения использую в своей работе с <b>VSCode</b>, какие настройки изменяю и какие горячие клавиши использую.</p>
+<p>В <a href="{{ site.baseurl }}/blog/2023-08-24-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-linux.html" target="_blank">серии статей</a> по работе и настройке дистрибутива <b>Pop!_OS</b> был установлен ряд программ, в числе которых редактор кода <b>VSCode</b>. В этой статье мы настроим его для дальнейшего использования. Рассмотрим какие обычно расширения использую в своей работе с <b>VSCode</b>, какие настройки изменяю и какие горячие клавиши использую.</p>
 
 <h2 id="base"><span class="attention">Базовая</span> настройка</h2>
 
@@ -406,7 +407,7 @@ excerpt_separator: "<!--more-->"
 
 <h3>WooCommerce - Snippets & autocomplete</h3>
 
-<p>сниппеты для <b>WooCommerce</b>.</p>
+<p>Сниппеты для <b>WooCommerce</b>.</p>
 
 <hr>
 
@@ -464,13 +465,13 @@ excerpt_separator: "<!--more-->"
 
 <h2 id="linter"><span class="attention">Стили</span> кодирования (PHP линтеры)</h2>
 
-<p>Основная статья с установкой линтеров находится <a href="{{ site.baseurl }}/blog/2023-08-26-stili-kodirovaniya-other">по ссылке</a>. Здесь же опишем настройки линтера конкретно для редактора кода <b>VSCode</b>.</p>
+<p>Основная статья с установкой линтеров находится <a href="{{ site.baseurl }}/blog/2023-08-26-stili-kodirovaniya-program.html" target="_blank">по ссылке</a>, начинать следует с нее, затем продолжайте читать данный раздел. Здесь же опишем настройки линтера конкретно для редактора кода <b>VSCode</b>.</p>
 
 <p>Не нужно ставить сразу два линтера, выберете какой-то один.</p>
 
 <h3>PHP CodeSniffer</h3>
 
-<p>Для того чтобы вручную не вводить команды, <a href="{{ site.baseurl }}/blog/2023-08-26-stili-kodirovaniya-other">описанные в статье</a> про установкой линтеров, настроим <b>VSCode</b> на работу с <b>PHP_CodeSniffer</b>. Зайдем в расширения <kbd>Ctrl + Shift + X</kbd> введем в поиске <b>phpcs</b> и установим это расширение.</p>
+<p>Для того чтобы вручную не вводить команды, <a href="{{ site.baseurl }}/blog/2023-08-26-stili-kodirovaniya-program.html" target="_blank">описанные в статье</a> про установкой линтеров, настроим <b>VSCode</b> на работу с <b>PHP_CodeSniffer</b>. Зайдем в расширения <kbd>Ctrl + Shift + X</kbd> введем в поиске <b>phpcs</b> и установим это расширение.</p>
 
 <p>Войдем в настройки <kbd>Ctrl + ,</kbd>, в правом верхнем углу нажмем на иконку в виде листа (Open Settings Json). Добавим в <b>json</b> файл следующие настройки.</p>
 
@@ -485,7 +486,7 @@ excerpt_separator: "<!--more-->"
 
 <h3>PHP CS Fixer</h3>
 
-<p>Для того чтобы вручную не вводить команды, <a href="{{ site.baseurl }}/blog/2023-08-26-stili-kodirovaniya-other">описанные в статье</a> про установкой линтеров, настроим <b>VSCode</b> на работу с <b>PHP CS Fixer</b>. Зайдем в расширения <kbd>Ctrl + Shift + X</kbd> введем в поиске <b>php cs fixer</b> и установим это расширение.</p>
+<p>Для того чтобы вручную не вводить команды, <a href="{{ site.baseurl }}/blog/2023-08-26-stili-kodirovaniya-program.html" target="_blank">описанные в статье</a> про установкой линтеров, настроим <b>VSCode</b> на работу с <b>PHP CS Fixer</b>. Зайдем в расширения <kbd>Ctrl + Shift + X</kbd> введем в поиске <b>php cs fixer</b> и установим это расширение.</p>
 
 <p>Войдем в настройки <kbd>Ctrl + ,</kbd>, в правом верхнем углу нажмем на иконку в виде листа (Open Settings Json). Добавим в <b>json</b> файл следующие настройки.</p>
 
@@ -497,6 +498,12 @@ excerpt_separator: "<!--more-->"
 {% include component/code.html lang='json' content=code %}
 
 <p>Не забудьте изменить <b>username</b> в пути на имя своего пользователя.</p>
+
+<h2 id="xdebug"><span class="attention">Настройка</span> Xdebug</h2>
+
+<p>Основная статья по установке и настройке <b>Xdebug</b> находится на <a href="{{ site.baseurl }}/blog/2023-08-28-ustanovka-i-nastrojka-xdebug-dlya-otladki-php-koda-program.html" target="_blank">этой странице</a>. Ознакомьтесь сначала с ней и продолжайте читать далее этот раздел.</p>
+
+<!-- todo описать раздел Xdebug VSCode -->
 
 <h2 id="keymap"><span class="attention">Горячие</span> клавиши</h2>
 

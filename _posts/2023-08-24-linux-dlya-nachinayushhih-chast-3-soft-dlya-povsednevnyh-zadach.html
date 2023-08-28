@@ -6,7 +6,7 @@ description: 'В этой части речь пойдет об установк
 <b>Pop!_OS</b>. Установим различный софт как для повседневных дел, так и для веб разработки.'
 image: cover.jpg
 alt: Linux для начинающих - Часть 3
-category: devops
+category: linux
 tags: [linux, popos, программы, софт, расширения]
 published: true
 sitemap: true
@@ -41,7 +41,7 @@ excerpt_separator: "<!--more-->"
 
 <p>В предыдущей статье мы научились делать бэкап и восстановление системы, настроили <b>NVIDIA</b>, обновили систему,
   ознакомились с настройками, привели горячие клавиши системы к соответствию горячим клавишам в операционной системе <b>Windows</b>.
-  Добавили шаблоны для удобного создания новых файлов, кастомизировали тему установив, различные виджеты. Создали файл
+  Добавили шаблоны для удобного создания новых файлов, кастомизировали тему, установив различные виджеты. Создали файл
   подкачки и настроили гибернацию.</p>
 
 <h2 id="system"><span class="attention">Системные</span> программы</h2>
@@ -63,12 +63,13 @@ excerpt_separator: "<!--more-->"
 {% capture code %}
 sudo apt update
 sudo apt install cabextract
+
+# Если возникнет ошибка
 sudo apt --fix-broken install
 {% endcapture %}
 {% include component/code.html lang='bash' content=code %}
 
-<p>Файлы со шрифтами находятся <a href="http://ftp.us.debian.org/debian/pool/contrib/m/msttcorefonts/" target="_blank"
-                                  rel="nofollow">здесь</a>. Скачиваем самую последнюю версию с расширением <b>deb</b>,
+<p>Файлы со шрифтами находятся <a href="http://ftp.us.debian.org/debian/pool/contrib/m/msttcorefonts/" target="_blank" rel="nofollow">здесь</a>. Скачиваем самую последнюю версию с расширением <b>deb</b>,
   на момент написания статьи это была <b>ttf-mscorefonts-installer_3.8.1_all.deb</b>.</p>
 
 <p>Открываем скачанный файл и устанавливаем/обновляем пакет.</p>
@@ -119,7 +120,11 @@ sudo dpkg-reconfigure libdvd-pkg
 <p>Для того чтобы терминал <b>Tilix</b> открывался через <b>Linux</b> проводник <b>nautilus</b> установим еще один
   пакет:</p>
 
-{% include component/code.html lang='bash' content='sudo apt install python3-nautilus' %}
+{% capture code %}
+sudo apt install python3-nautilus
+nautilus -q
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
 
 <figure>
   {% include component/picture.html slug=page.slug img='img-1.jpg' type='original' alt='Терминал Tilix в проводнике
@@ -217,8 +222,8 @@ sudo dpkg-reconfigure libdvd-pkg
 
 <h3><b>Яндекс диск</b></h3>
 
-<p>Инструкция по установке Яндекс диска в Linux дистрибутивах <a
-  href="https://yandex.ru/support/disk-desktop-linux/installation.html" target="_blank" rel="nofollow">взята отсюда</a>.
+<p>Инструкция по установке Яндекс диска в Linux дистрибутивах доступно на <a
+  href="https://yandex.ru/support/disk-desktop-linux/installation.html" target="_blank" rel="nofollow">официальном сайте</a>.
 </p>
 
 <p>Приступим к установке, откройте терминал и введите следующую команду.</p>
@@ -246,7 +251,7 @@ sudo apt install -y yandex-disk
   E5AF</b>. Нам нужны последние восемь цифр <b>7C90 E5AF</b>.</p>
 
 <p>Вводим в терминале следующую команду. Обратите внимание, что в ней используются найденные последние 8 цифр
-  7C90E5AF.</p>
+  <b>7C90E5AF</b>.</p>
 
 {% include component/code.html lang='bash' content='sudo apt-key export 7C90E5AF | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/YANDEX-DISK-KEY.gpg' %}
 
@@ -269,8 +274,7 @@ sudo apt install yd-tools
 {% endcapture %}
 {% include component/code.html lang='bash' content=code %}
 
-<p>Все необходимое мы установили, теперь можем запустить синхронизацию с <b>Яндекс диском</b>, нажмем клавишу <kbd>Window</kbd>
-  и вводим слово <b>Yandex</b>, открываем найденное приложение, готово.</p>
+<p>Все необходимое мы установили, теперь можем запустить синхронизацию с <b>Яндекс диском</b>, нажмем клавишу <kbd>Window</kbd> и вводим слово <b>Индекатор Yandex.Disk</b>, открываем найденное приложение, готово.</p>
 
 <h3>Сторонние шрифты</h3>
 
@@ -287,7 +291,7 @@ sudo apt install yd-tools
 <p>Перенесем кастомные шрифты в созданный каталог, например предположим что наши шрифты находятся в каталоге <b>~/Загрузки/roboto</b>.
 </p>
 
-{% include component/code.html lang='bash' content='sudo cp ~/Загрузки/roboto /usr/share/fonts/kingsoft' %}
+{% include component/code.html lang='bash' content='sudo cp -R ~/Загрузки/roboto /usr/share/fonts/kingsoft' %}
 
 <p>Установим шрифты.</p>
 
@@ -420,7 +424,7 @@ sudo apt install git
 
 <h3>Composer</h3>
 
-<p><b>Composer</b> - пакет менеджер для php.</p>
+<p><b>Composer</b> - пакет менеджер для <b>PHP</b>.</p>
 
 <p>Установим зависимости.</p>
 
@@ -466,13 +470,13 @@ php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo '
 
 {% capture code %}
 sudo dpkg --add-architecture i386
-wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add - sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ impish main'
+sudo mkdir -pm755 /etc/apt/keyrings
+sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
 sudo apt update
 sudo apt install --install-recommends winehq-stable
 winecfg
 sudo apt install winetricks
-sudo apt-key list
-sudo apt-key export F987672F | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/wine.gpg
 {% endcapture %}
 {% include component/code.html lang='bash' content=code %}
 
@@ -480,8 +484,8 @@ sudo apt-key export F987672F | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/win
 
 <p><b>Photoshop</b> - благодаря <b>wine</b> мы имеем возможность установить <b>Photoshop</b> в <b>Linux</b>.</p>
 
-<p>Photoshop будет установлен <a href="https://github.com/Gictorbit/photoshopCClinux" target="_blank" rel="nofollow">по
-  этому репозиторию</a>.</p>
+<p>Photoshop будет установлен по инструкции <a href="https://github.com/Gictorbit/photoshopCClinux" target="_blank" rel="nofollow">по
+  этого репозитория</a>.</p>
 
 <p>Клонируем репозиторий.</p>
 
@@ -571,12 +575,12 @@ sudo apt-key export F987672F | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/win
 <p>Если устанавливать <b>NodeJS</b> из репозитория дистрибутива, то он установится в каталог <b>/bin/node|npm|npx</b> и
   некоторые программы будут пытаться обратиться по этим путям. Но так как мы установили <b>NodeJS</b> с участием
   <b>nvm</b>, то необходимо создать символические ссылки. Для этого в терминале вводим поочереди следующие команды.
-  Обратите внимание, что <b>18.16.1</b> это версия активной <b>NodeJS</b>, если необходимо замените версию на свою.</p>
+  Обратите внимание, что <b>18.17.1</b> это версия активной <b>NodeJS</b>, если необходимо замените версию на свою.</p>
 
 {% capture code %}
-sudo ln -s ~/.nvm/versions/node/v18.16.1/bin/node /bin/node
-sudo ln -s ~/.nvm/versions/node/v18.16.1/bin/npm /bin/npm
-sudo ln -s ~/.nvm/versions/node/v18.16.1/bin/npx /bin/npx
+sudo ln -s ~/.nvm/versions/node/v18.17.1/bin/node /bin/node
+sudo ln -s ~/.nvm/versions/node/v18.17.1/bin/npm /bin/npm
+sudo ln -s ~/.nvm/versions/node/v18.17.1/bin/npx /bin/npx
 
 hash -r
 
@@ -587,7 +591,7 @@ source ~/.bashrc && source ~/.profile
 
 <h3 id="phpstorm">PHP Storm</h3>
 
-<p><b>PHP Storm</b> - IDE для веб разработки.</p>
+<p><b>PHP Storm</b> - IDE для веб разработки на языке программирования <b>PHP</b>.</p>
 
 {% include component/code.html lang='bash' content='sudo snap install phpstorm --classic' %}
 
@@ -674,7 +678,7 @@ INTELJIDEA = 'phpstorm'
 
 <p><b>Docker</b> - контейнер для создания изолированных окружений с необходимыми зависимостями.</p>
 
-<p>Установим <b>Docker</b> согласно <a href="https://docs.docker.com/engine/install/ubuntu/#install-docker-engine"
+<p>Установка <b>Docker</b> будет производится согласно <a href="https://docs.docker.com/engine/install/ubuntu/#install-docker-engine"
                                        target="_blank" rel="nofollow">официальной документации</a>.</p>
 
 <p>Создадим группу <b>docker</b> и добавим в нее нашего пользователя.</p>
@@ -759,7 +763,7 @@ sudo gedit ~/.local/share/applications/icon-shelf.desktop
 {% endcapture %}
 {% include component/code.html lang='bash' content=code %}
 
-<p>И введем в созданный файл следующее содержимое.</p>
+<p>И скопируем в созданный файл следующее содержимое.</p>
 
 {% capture code %}
 [Desktop Entry]
@@ -849,8 +853,9 @@ Debug
   </figcaption>
 </figure>
 
-<p>Ниже скриншотами я покажу свои настройки <b>экранного диктора</b>, которые обычно ставлю, если какую то из вкладок я
-  не показал, значит содержимое ее параметров осталось без изменения.</p>
+<p>Ниже скриншотами я покажу свои настройки <b>экранного диктора</b>, которые обычно ставлю, если какая то из вкладок не показана, значит содержимое ее параметров осталось без изменений.</p>
+
+<h3>Голос</h3>
 
 <figure>
   {% include component/picture.html slug=page.slug img='img-6.jpg' type='original' alt='Окно настроек экранного диктора,
@@ -858,11 +863,15 @@ Debug
   <figcaption>Здесь выбирается голос экранного диктора, скорость его чтения и т.п.</figcaption>
 </figure>
 
+<h3>Речь</h3>
+
 <figure>
   {% include component/picture.html slug=page.slug img='img-7.jpg' type='original' alt='Окно настроек экранного диктора,
   вкладка Речь' %}
   <figcaption>Здесь определяется речевой контекст, какие символы читать какие пропускать.</figcaption>
 </figure>
+
+<h3>Озвучивание</h3>
 
 <figure>
   {% include component/picture.html slug=page.slug img='img-8.jpg' type='original' alt='Окно настроек экранного диктора,
