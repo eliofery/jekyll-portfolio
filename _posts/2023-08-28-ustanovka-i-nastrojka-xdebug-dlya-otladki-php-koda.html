@@ -1,0 +1,239 @@
+---
+layout: post
+title: Установка и настройка Xdebug для отладки PHP кода.
+date: 2023-08-28 09:16 +0600
+description: Рассмотрим установку и настройку Xdebug 2 и Xdebug 3, свяжем его с <b>PhpStorm</b> и <b>VSCode</b>.
+image: cover.jpg
+alt: Установка и настройка Xdebug для отладки PHP кода
+category: other
+tags: [xdebug, phpstorm, vscode, php]
+published: true
+sitemap: true
+excerpt_separator: "<!--more-->"
+---
+
+<p>Рассмотрим установку и настройку Xdebug 2 и Xdebug 3, свяжем его с <b>PhpStorm</b> и <b>VSCode</b>.</p>
+
+<!--more-->
+
+<h2><span class="attention">Оглавление</span> статьи</h2>
+
+<ol>
+  <li><a href="#intro">Вводная информация</a></li>
+  <li><a href="#install">Установка Xdebug</a></li>
+  <li><a href="#xdebug2">Настройка Xdebug 2</a></li>
+  <li><a href="#session">Xdebug сессия</a></li>
+  <li><a href="#override">Переопределение настроек Xdebug в PHP</a></li>
+  <li><a href="#more">Что дальше</a></li>
+</ol>
+
+<h2 id="intro"><span class="attention">Вводная</span> информация</h2>
+
+<p>В прошлой статье мы <a href="{{ site.baseurl }}/blog/2023-08-24-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-devops#phpstorm">установили</a> редактор кода <a href="{{ site.baseurl }}/blog/2023-08-26-nastrojka-vscode-other">VSCode</a> и IDE <a href="{{ site.baseurl }}/blog/2023-08-26-nastrojka-phpstorm-other">PhpStorm</a>, подготовили их к работе произведя различную настройку. В этой статье речь пойдет об установке <b>Xdebug</b> который позволит отлаживать <b>PHP</b> код.</p>
+
+<h2 id="install"><span class="attention">Установка</span> Xdebug</h2>
+
+<p>Подробная установка <b>Xdebug</b> описана на <a href="https://xdebug.org/docs/install" target="_blank" rel="nofollow">официальном сайте</a>. Здесь же будет приведен пример касательно дистрибутива <b>Pop!_OS</b>. Чтобы установить <b>Xdebug</b>, наберите в терминале следующую команду.</p>
+
+{% include component/code.html lang='bash' content='sudo apt install php-xdebug' %}
+
+<p><b>Xdebug</b> установится в качестве расширения для <b>PHP</b>. Чтобы проверить успешность установки <b>Xdebug</b>, введем в терминале команду.</p>
+
+{% include component/code.html lang='bash' content='php --ini | grep xdebug' %}
+
+<p>В терминале должен отобразиться следующий результат <b>/etc/php/8.1/cli/conf.d/20-xdebug.ini</b>. Это путь до конфигурационного файла <b>Xdebug</b>, его в дальнейшем мы будем настраивать.</p>
+
+<p>Так же для проверки можно ввести команду.</p>
+
+{% include component/code.html lang='bash' content='php -v' %}
+
+<p>Примерный результат ответа.</p>
+
+{% capture code %}
+PHP 8.1.2-1ubuntu2.14 (cli)(NTS)
+Copyright (c) The PHP Group
+Zend Engine v4.1.2, Copyright (c) Zend Technologies
+with Zend OPcache v8.1.2-1ubuntu2.14, Copyright (c), by Zend Technologies
+with Xdebug v3.1.2, Copyright (c) 2002-2021, by Derick Rethans
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>По умолчанию с установкой <b>PHP</b> устанавливается расширение <b>OPcache</b> для кэширования байт кода. Есть небольшая особенность, связанная с <b>Xdebug</b> и <b>OPcache</b> о которой следует знать.</p>
+
+<p>Если вы хотите использовать <b>Xdebug</b> и <b>OPcache</b> вместе, у вас должна быть строка <b>zend_extension</b> для <b>Xdebug</b> ниже строки для <b>OPcache</b> или файл <b>xdebug.ini</b> должен начинаться с большего числа (т. е. 99-xdebug.ini и 20-opcache.ini), иначе они не будут работать должным образом вместе.</p>
+
+<p>Другими словами конфигурационный файл <b>Xdebug</b> должен быть подключен самым последним, цифры в имени конфигурационных файлах позволят создать надлежащий порядок.</p>
+
+<h2 id="xdebug2"><span class="attention">Настройка</span> Xdebug 2</h2>
+
+<p>По умолчанию всегда устанавливается крайняя версия <b>Xdebug</b>, поэтому будет установлена версия <b>Xdebug 3</b>. Но если когда нибудь попадется <b>Xdebug 2</b>, то настраивается он следующим образом.</p>
+
+<p>Путь до конфигурационного файла <b>20-xdebug.ini</b> можно узнать введя команду.</p>
+
+{% include component/code.html lang='bash' content='php --ini | grep xdebug' %}
+
+<p>Вводим в терминале команду.</p>
+
+{% include component/code.html lang='bash' content='sudo gedit /etc/php/8.1/cli/conf.d/20-xdebug.ini' %}
+
+<p>Откроется файл с настройками, вставим в него следующее содержимое.</p>
+
+{% capture code %}
+# Подключение модуля
+zend_extension=xdebug.so
+
+# develop режим для var_dump, debug для использования точек останова
+xdebug.remote_enable=1
+
+# Отладка для каждого запроса
+xdebug.remote_autostart=1
+
+# Обработчик отладки
+xdebug.remote_handler="dbgp"
+
+# Отключить подключение клиента по http
+xdebug.remote_connect_back=0
+
+# Хост к которому подключаемся
+xdebug.remote_host=localhost
+
+# Порт
+xdebug.remote_port=9003
+
+#IDE
+xdebug.idekey=PHPSTORM
+
+# Log
+xdebug.remote_log=/var/log/xdebug/xdebug.log
+
+# Если этот параметр равен 1, Xdebug отключит оператор @ (игнорирование ошибок в php)
+xdebug.scream=1
+
+# Статистика
+xdebug.profiler_enable=1
+xdebug.profiler_enable_trigger=1 # для GET ?XDEBUG_PROFILE
+xdebug.profiler_output_dir = "путь до каталога где будет храниться статистика"
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h2 id="xdebug3"><span class="attention">Настройка</span> Xdebug 3</h2>
+
+<p><b>Xdebug 3</b> более предпочтительная и современная версия которую следует использовать.</p>
+
+<p>Путь до конфигурационного файла <b>20-xdebug.ini</b> можно узнать введя команду.</p>
+
+{% include component/code.html lang='bash' content='php --ini | grep xdebug' %}
+
+<p>Вводим в терминале команду.</p>
+
+{% include component/code.html lang='bash' content='sudo gedit /etc/php/8.1/cli/conf.d/20-xdebug.ini' %}
+
+<p>Откроется файл с настройками, вставим в него следующее содержимое.</p>
+
+{% capture code %}
+# Подключение модуля
+zend_extension=xdebug.so
+
+# develop режим для var_dump, debug для использования точек останова
+xdebug.mode=develop,debug
+
+# Отладка для каждого запроса
+xdebug.start_with_request=yes | trigger #- для GET ?XDEBUG_PROFILE
+
+# Отключить подключение клиента по http
+xdebug.discover_client_host=0
+
+# Хост к которому подключаемся
+xdebug.client_host=localhost
+
+# Порт
+xdebug.client_port=9003
+
+#IDE
+xdebug.idekey=PHPSTORM
+
+# Log
+xdebug.log=/var/log/xdebug/xdebug.log
+
+# Если этот параметр равен 1, Xdebug отключит оператор @ (закрытие)
+xdebug.scream=1
+
+# Статистика
+xdebug.mode = profile
+xdebug.output_dir=/var/log/xdebug
+
+# С разумными пределами
+xdebug.var_display_max_depth = 10
+xdebug.var_display_max_children = 256
+xdebug.var_display_max_data = 1024
+
+# Без ограничений
+# (максимальная вложенность 1024)
+# xdebug.var_display_max_depth = -1
+# xdebug.var_display_max_children = -1
+# xdebug.var_display_max_data = -1
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h2 id="session"><span class="attention">Xdebug</span> сессия</h2>
+
+<p>Обратите внимание на строку <b>xdebug.idekey=PHPSTORM</b> с помощью этого ключа <b>Xdebug</b> будет связываться с IDE <b>PhpStorm</b>. В контексте редактора кода <b>VSCode</b> данный параметр должен иметь следующий вид <b>xdebug.idekey=VSCode</b>.</p>
+
+<p>Так же к настроенному параметру <b>xdebug.idekey</b> следует добавить переменную с названием программы которую вы намереваетесь использовать, для этого в терминале вводим.</p>
+
+{% capture code %}
+export XDEBUG_SESSION=PHPSTORM
+
+# Или
+
+export XDEBUG_SESSION=VSCode
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h2 id="override"><span class="attention">Переопределение</span> настроек Xdebug в PHP</h2>
+
+<p>Так же некоторые настройки могут быть переопределю в <b>PHP</b> коде, например.</p>
+
+{% capture code %}
+ini_set('xdebug.var_display_max_depth', 10);
+ini_set('xdebug.var_display_max_children', 256);
+ini_set('xdebug.var_display_max_data', 1024);
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h2 id="log"><span class="attention">Настройка</span> логов</h2>
+
+<p>Для того чтобы отслеживать работу <b>Xdebug</b>, необходимо настроить логирование. Именно логи подскажут причину ошибки если вдруг <b>Xdebug</b> у нас не запустится.</p>
+
+<p>Откроем терминал и введем поочереди команды, который создадут файл хранящий логи и дадут ему соответствующие права на чтение/запись.</p>
+
+{% capture code %}
+sudo mkdir /var/log/xdebug
+sudo touch /var/log/xdebug/xdebug.log
+sudo chown -R www-data:www-data /var/log/xdebug
+sudo chmod -R 775 /var/log/xdebug
+sudo chmod 664 /var/log/xdebug/xdebug.log
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h2 id="extension"><span class="attention">Установка</span> расширения Xdebug helper в браузер</h2>
+
+<p>Следующим шагом в настройке <b>Xbedug</b> будет установка расширения <b>Xdebug helper</b> в браузер. Оно позволит связать страницу сайта в браузере с его кодом в <b>VSCode</b> или <b>PhpStorm</b>.</p>
+
+<p>Переходим на <a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=ru" target="_blank" rel="nofollow">официальную страницу</a> расширения и устанавливаем его.</p>
+
+<p>В настройках расширения <b>Xdebug helper</b> устанавливаем параметр <b>IDE key</b> в <b>PHPSTORM</b> либо <b>VSCode</b>. Затем активируем плагин, включив пункт <b>Debug</b>.</p>
+
+<figure>
+  {% include component/picture.html slug=page.slug img='img-1.jpg' type='original' alt='Активация Xdebug' %}
+  <figcaption>Затем активируем плагин, включив пункт <b>Debug</b>.</figcaption>
+</figure>
+
+<h2 id="more"><span class="attention">Что</span> дальше</h2>
+
+<p>Мы проделали большую работу по настройке <b>Xdebug</b>. Остается лишь настроить непосредственно программы <b>PhpStorm</b> или <b>VSCode</b>.</p>
+
+<ul>
+  <li><a href="{{ site.baseurl }}">Настройка Xdebug в PhpStorm</a></li>
+  <li><a href="{{ site.baseurl }}">Настройка Xdebug в VSCode</a></li>
+</ul>
