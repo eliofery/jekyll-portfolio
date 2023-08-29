@@ -2,7 +2,9 @@
 {% assign webp = image | replace:'.png','.webp' | replace:'.jpg','.webp' | replace:'.jpeg','.webp' %}
 {% capture size %}{% imagesize image:props %}{% endcapture %}
 
-<picture>
-  <source srcset="{{ webp | relative_url }}" type="image/webp">
-  <img src="{{ image | relative_url }}" {{ size }} alt="{{ include.alt | default: '' }}" loading="lazy">
-</picture>
+<a href="{{ image | relative_url }}" data-fancybox>
+  <picture>
+    <source srcset="{{ webp | relative_url }}" type="image/webp">
+    <img src="{{ image | relative_url }}" {{ size }} alt="{{ include.alt | default: '' }}" loading="lazy">
+  </picture>
+</a>
