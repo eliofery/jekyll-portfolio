@@ -28,7 +28,7 @@
         <div class="main-blog__list category-list">
           {% for category in site.categories %}
           {% capture category_name %}{{ category | first | slugify }}{% endcapture %}
-          <a class="category-list__link" href="{{ site.baseurl }}/{{ category_name }}">{{ category_name }} ({{ category[1].size }})</a>
+          <a class="category-list__link" href="{{ site.baseurl }}/{{ category_name }}">{{ category_name | capitalize }} ({{ category[1].size }})</a>
           {% endfor %}
         </div>
       </div>

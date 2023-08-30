@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Linux для начинающих с уклоном в веб разработку. Часть 2: Настройка дистрибутива Pop!_OS'
-date: 2023-08-23 20:00 +0600
+date: 2023-08-20 20:00 +0600
 description: 'В этой части речь пойдет о настройке дистрибутива
 <b>Pop!_OS</b>. Сделаем полную настройку дистрибутива, добавим горячие клавиши как в
 <b>Windows</b>, кастомизируем внешний вид, добавим файл подкачки, настроим гибернацию и многое другое.'
@@ -60,7 +60,7 @@ excerpt_separator: "<!--more-->"
   укажу название своего города, остальные пункты оставлю не тронутыми.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-1.jpg' type='original' alt='Окно завершения первоначальной
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-1.jpg' type='original' alt='Окно завершения первоначальной
   настройки.' %}
   <figcaption>Готово.</figcaption>
 </figure>
@@ -82,7 +82,7 @@ excerpt_separator: "<!--more-->"
 </p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-2.jpg' type='original' alt='Ввод команды в терминале.' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-2.jpg' type='original' alt='Ввод команды в терминале.' %}
   <figcaption>Первая команда получит обновленные версии всех пакетов дистрибутива <b>Pop!_OS</b>,<br> вторая установит
     программу <b>Timeshift</b>.
   </figcaption>
@@ -97,7 +97,7 @@ excerpt_separator: "<!--more-->"
   это диск <b>D</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-3.jpg' type='original' alt='Выбор типа снимков и диск для
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-3.jpg' type='original' alt='Выбор типа снимков и диск для
   хранения бэкапов.' %}
   <figcaption>Выберем тип снимков <b>RSYNC</b>. Далее необходимо указать жесткий диск на который будет производиться
     бэкап.
@@ -108,7 +108,7 @@ excerpt_separator: "<!--more-->"
   обновлением системы. Затем просто нажимаем кнопку <b>Далее</b> несколько раз до полного завершения настройки.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-4.jpg' type='original' alt='Отключение бэкапов по времени,
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-4.jpg' type='original' alt='Отключение бэкапов по времени,
   завершение настройки Timeshift.' %}
   <figcaption>Отключаю планировщик бэкапа по времени, обычно я предпочитаю делать бэкап вручную, например перед
     обновлением системы.
@@ -120,7 +120,7 @@ excerpt_separator: "<!--more-->"
   шаблон, который имеет следующий вид:<br> <b>/путь/до/каталога/**</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-5.jpg' type='original' alt='Исключение директории из бэкапа'
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-5.jpg' type='original' alt='Исключение директории из бэкапа'
   %}
   <figcaption>Добавляю некоторые каталоги в список исключений, чтобы они не попадали в бэкап.</figcaption>
 </figure>
@@ -130,7 +130,7 @@ excerpt_separator: "<!--more-->"
   понимать о чем этот бэкап.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-6.jpg' type='original' alt='Создание бэкапа' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-6.jpg' type='original' alt='Создание бэкапа' %}
   <figcaption>После того как бэкап будет готов ему можно задать в поле <b>Comments</b> произвольное описание, например
     <b>clear install</b>.
   </figcaption>
@@ -181,7 +181,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
   При некорректной настройки можно наблюдать следующую картину.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-7.jpg' type='original' alt='Некорректные настройки NVIDIA'
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-7.jpg' type='original' alt='Некорректные настройки NVIDIA'
   %}
   <figcaption>При некорректной настройки можно наблюдать следующую картину.</figcaption>
 </figure>
@@ -194,7 +194,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
 <p>После перезагрузки системы еще раз откроем настройки <b>NVIDIA</b> и сравним полученный результат с предыдущим.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-8.jpg' type='original' alt='Корректные настройки NVIDIA' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-8.jpg' type='original' alt='Корректные настройки NVIDIA' %}
   <figcaption>И сравним полученный результат с предыдущим.</figcaption>
 </figure>
 
@@ -460,7 +460,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
 <h3>Доступность</h3>
 
 <p>В этом разделе содержатся настройки для людей с ограниченными возможностями. В частности мы затронем эту тему в <a
-  href="{{ site.baseurl }}/blog/2023-08-24-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-linux.html#screen-reader"
+  href="{{ site.baseurl }}/blog/2023-08-21-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-linux.html#screen-reader"
   target="_blank">следующей статье</a>.</p>
 
 <hr>
@@ -479,7 +479,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
   проигрывателя <b>Lollypop</b>.</p>
 
 <p>Если у вас нет в списке каких либо из указанных программ, то в <a
-  href="{{ site.baseurl }}/blog/2023-08-24-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-linux.html"
+  href="{{ site.baseurl }}/blog/2023-08-21-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-linux.html"
   target="_blank">следующей статье</a> мы их установим.</p>
 
 <hr>
@@ -572,7 +572,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
 </p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-9.jpg' type='original' alt='Настраиваем переключение окно по
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-9.jpg' type='original' alt='Настраиваем переключение окно по
   нажатию на клавишу Tab' %}
   <figcaption>Также деактивируем переключатель <b>Использовать значение по умолчанию</b> и между <b>[] скобок</b>
     вставляем вырезанный фрагмент <b>['&lt;Alt&gt;Tab']</b>.
@@ -605,7 +605,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
   с расширением <b>docx</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-10.jpg' type='original' alt='Создаем шаблон файла docx' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-10.jpg' type='original' alt='Создаем шаблон файла docx' %}
   <figcaption>Жмем в левом верхнем углу на пункт <b>Файл -> Сохранить как</b> и сохраняем файл в каталог <b>Шаблоны</b>
     с расширением <b>docx</b>.
   </figcaption>
@@ -618,7 +618,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
 <p>Должно получиться следующее.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-11.jpg' type='original' alt='Список различных созданных
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-11.jpg' type='original' alt='Список различных созданных
   шаблонов' %}
   <figcaption>Жмем в левом верхнем углу на пункт <b>Файл -> Сохранить как</b> и сохраняем файл в каталог <b>Шаблоны</b>
     с расширением <b>xlsx</b>.
@@ -633,7 +633,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
 <p>Мы можем изменить размер иконок, настроить отображение съемных дисков и прочего на рабочем столе. Для этого нажмем по рабочему столу правой кнопкой мыши и в контекстном меню выберем пункт <b>Параметры Desktop Icons</b>. Настроим его следующим образом.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-12.jpg' type='original' alt='Настройки рабочего стола' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-12.jpg' type='original' alt='Настройки рабочего стола' %}
   <figcaption>Для этого нажмем по рабочему столу правой кнопкой мыши и в контекстном меню выберем пункт <b>Параметры
     Desktop Icons</b>.
   </figcaption>
@@ -655,7 +655,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
   этого нажмем на ссылку <b>Click here to install browser extension</b> и добавим расширение в браузер.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-13.jpg' type='original' alt='Установка расширение в Chrome'
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-13.jpg' type='original' alt='Установка расширение в Chrome'
   %}
   <figcaption>Для этого нажмем на ссылку <b>Click here to install browser extension</b> и добавим расширение в браузер.
   </figcaption>
@@ -665,7 +665,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
   найденной ссылке от автора <b>charlesg99</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-14.jpg' type='original' alt='Установка расширения Dash to
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-14.jpg' type='original' alt='Установка расширения Dash to
   Panel для Gnome' %}
   <figcaption>Введем в поле поиска слово <b>Dash to Panel</b>.</figcaption>
 </figure>
@@ -691,35 +691,35 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
 <h4>Вкладка Position</h4>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-15.jpg' type='original' alt='Настройки вкладки Position' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-15.jpg' type='original' alt='Настройки вкладки Position' %}
   <figcaption>Настройки вкладки Position.</figcaption>
 </figure>
 
 <h4>Вкладка Style</h4>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-16.jpg' type='original' alt='Настройки вкладки Style' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-16.jpg' type='original' alt='Настройки вкладки Style' %}
   <figcaption>Настройки вкладки Style.</figcaption>
 </figure>
 
 <h4>Вкладка Behavior</h4>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-17.jpg' type='original' alt='Настройки вкладки Behavior' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-17.jpg' type='original' alt='Настройки вкладки Behavior' %}
   <figcaption>Настройки вкладки Behavior.</figcaption>
 </figure>
 
 <h4>Вкладка Action</h4>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-18.jpg' type='original' alt='Настройки вкладки Action' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-18.jpg' type='original' alt='Настройки вкладки Action' %}
   <figcaption>Настройки вкладки Action.</figcaption>
 </figure>
 
 <h4>Вкладка Fine-Tune</h4>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-19.jpg' type='original' alt='Настройки вкладки Fine-Tune' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-19.jpg' type='original' alt='Настройки вкладки Fine-Tune' %}
   <figcaption>Настройки вкладки Fine-Tune.</figcaption>
 </figure>
 
@@ -729,7 +729,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
   следующим образом.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-20.jpg' type='original' alt='Время на док панели' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-20.jpg' type='original' alt='Время на док панели' %}
   <figcaption>В итоге время на док панели будет выглядеть следующим образом.</figcaption>
 </figure>
 
@@ -759,7 +759,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
 <p>У меня получились вот такие настройки.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-21.jpg' type='original' alt='Настройка виджета Vitals' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-21.jpg' type='original' alt='Настройка виджета Vitals' %}
   <figcaption>У меня получились вот такие настройки.</figcaption>
 </figure>
 
@@ -768,7 +768,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
   теперь мы можем мониторить <b>ЦПУ</b>, <b>ОЗУ</b> и <b>скорость интернета</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-22.jpg' type='original' alt='Итог настройки виджета Vitals'
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-22.jpg' type='original' alt='Итог настройки виджета Vitals'
   %}
   <figcaption>Итого теперь мы можем мониторить <b>ЦПУ</b>, <b>ОЗУ</b> и <b>скорость интернета</b>.</figcaption>
 </figure>
@@ -790,7 +790,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
   сделаем <b>Центральный блок</b> видимым. Теперь <b>Media Controls</b> должен появиться на док панели.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-23.jpg' type='original' alt='Внешний вид по умолчанию
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-23.jpg' type='original' alt='Внешний вид по умолчанию
   виджета Media Controls' %}
   <figcaption>Теперь <b>Media Controls</b> должен появиться на док панели.</figcaption>
 </figure>
@@ -799,7 +799,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
   в раздел <b>Visibility</b> и настроим его следующим образом.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-24.jpg' type='original' alt='Настройка виджета Media
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-24.jpg' type='original' alt='Настройка виджета Media
   Controls вкладка Visibility' %}
   <figcaption>Перейдем в раздел <b>Visibility</b> и настроим его следующим образом.</figcaption>
 </figure>
@@ -807,7 +807,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
 <p>Перейдем в раздел <b>Position</b> и настроим его следующим образом.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-25.jpg' type='original' alt='Настройка виджета Media
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-25.jpg' type='original' alt='Настройка виджета Media
   Controls вкладка Position' %}
   <figcaption>Перейдем в раздел <b>Position</b> и настроим его следующим образом.</figcaption>
 </figure>
@@ -815,7 +815,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
 <p>Мы завершили настройку, виджет <b>Media Controls</b> готов к работе.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-26.jpg' type='original' alt='Окончательный внешний вид
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-26.jpg' type='original' alt='Окончательный внешний вид
   виджета Media Controls' %}
   <figcaption>Виджет <b>Media Controls</b> готов к работе.</figcaption>
 </figure>
@@ -862,7 +862,7 @@ Enter snapshot number (a=Abort, p=Previous, n=Next): 4
 {% include component/code.html lang='bash' content='free -h' %}
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-27.jpg' type='original' alt='Результат выполнения команды
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-27.jpg' type='original' alt='Результат выполнения команды
   free -h' %}
   <figcaption>Результат выполнения команды free -h.</figcaption>
 </figure>
@@ -901,7 +901,7 @@ sudo swapoff /dev/zram0
 {% include component/code.html lang='bash' content='sudo swapon --show' %}
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-28.jpg' type='original' alt='Результат выполнения команды
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-28.jpg' type='original' alt='Результат выполнения команды
   sudo swapon --show' %}
   <figcaption>Результат выполнения команды sudo swapon --show.</figcaption>
 </figure>
@@ -917,7 +917,7 @@ sudo swapoff /dev/zram0
 {% include component/code.html lang='bash' content='sudo cat /etc/fstab' %}
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-29.jpg' type='original' alt='Результат выполнения команды
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-29.jpg' type='original' alt='Результат выполнения команды
   sudo cat /etc/fstab' %}
   <figcaption>Результат выполнения команды sudo cat /etc/fstab.</figcaption>
 </figure>
@@ -927,7 +927,7 @@ sudo swapoff /dev/zram0
 {% include component/code.html lang='bash' content='findmnt -no UUID -T /swapfile' %}
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-30.jpg' type='original' alt='Результат выполнения команды
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-30.jpg' type='original' alt='Результат выполнения команды
   findmnt -no UUID -T /swapfile' %}
   <figcaption>Результат выполнения команды findmnt -no UUID -T /swapfile.</figcaption>
 </figure>
@@ -937,7 +937,7 @@ sudo swapoff /dev/zram0
 {% include component/code.html lang='bash' content='sudo filefrag -v /swapfile | awk \'{ if($1=="0:"){print $4} }\'' %}
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-31.jpg' type='original' alt='Результат выполнения команды
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-31.jpg' type='original' alt='Результат выполнения команды
   sudo filefrag -v /swapfile | awk \'{ if($1=="0:"){print $4} }\'' %}
   <figcaption>Результат выполнения команды sudo filefrag -v /swapfile | awk \'{ if($1=="0:"){print $4} }\'.</figcaption>
 </figure>

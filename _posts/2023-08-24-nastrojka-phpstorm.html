@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Настройка PhpStorm
-date: 2023-08-26 12:44 +0600
+date: 2023-08-24 12:44 +0600
 description: Настроим <b>PhpStorm</b>, внесем базовые настройки, разберемся с горячими клавишами, установим расширения, добавим пользовательские сниппиты, добавим поддержку линтеров, настроим Xdebug, в общем приведем IDE в рабочий режим.
 image: cover.jpg
 alt: Настройка PhpStorm
@@ -33,7 +33,7 @@ excerpt_separator: "<!--more-->"
 
 <h2 id="intro"><span class="attention">Вводная</span> информация</h2>
 
-<p>В <a href="{{ site.baseurl }}/blog/2023-08-24-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-linux.html" target="_blank">серии статей</a> по работе и настройке дистрибутива <b>Pop!_OS</b> был установлен ряд программ, в числе которых была <b>IDE</b> <b>PhpStorm</b>. В этой статье мы настроим его для дальнейшего использования.</p>
+<p>В <a href="{{ site.baseurl }}/blog/2023-08-21-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-linux.html" target="_blank">серии статей</a> по работе и настройке дистрибутива <b>Pop!_OS</b> был установлен ряд программ, в числе которых была <b>IDE</b> <b>PhpStorm</b>. В этой статье мы настроим его для дальнейшего использования.</p>
 
 <p>Я покажу вам какие обычно плагины использую в своей работе с <b>PhpStorm</b>, какие настройки изменяю
   и какие горячие клавиши использую.</p>
@@ -497,14 +497,14 @@ return false;
 <p>Возле параметра <b>Configuration</b> жмем кнопу с тремя точками и указываем путь до снифера. Нажимаем кнопку <b>Validate</b> для проверки, при успешной валидации внизу должна появиться надпись <b>OK, PHP_CodeSnifer version...</b> Жмем <b>OK</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-1.jpg' type='original' alt='Настройки путей до PHP_CodeSniffer' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-1.jpg' type='original' alt='Настройки путей до PHP_CodeSniffer' %}
   <figcaption>Жмем кнопу с тремя точками и указываем путь до снифера.</figcaption>
 </figure>
 
 <p>Затем меняем состояние активности <b>PHP_CodeSnifer</b> с <b>OFF</b> на <b>ON</b>.<br> В поле <b>Coding standart</b> выбираем параметр <b>PSR12</b>.<br>В параметре <b>External formatters</b> выбираем значение <b>PHP Code Beautifier and Fixer</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-2.jpg' type='original' alt='Настройки PHP_CodeSniffer' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-2.jpg' type='original' alt='Настройки PHP_CodeSniffer' %}
   <figcaption>Окончательный вариант настроек <b>PHP_CodeSnifer</b>.</figcaption>
 </figure>
 
@@ -517,20 +517,20 @@ return false;
 <p>Возле параметра <b>Configuration</b> жмем кнопу с тремя точками и указываем путь до снифера. Нажимаем кнопку <b>Validate</b> для проверки, при успешной валидации внизу должна появиться надпись <b>OK, PHP CS Fixer version...</b> Жмем <b>OK</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-3.jpg' type='original' alt='Настройки путей до PHP CS Fixer' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-3.jpg' type='original' alt='Настройки путей до PHP CS Fixer' %}
   <figcaption>Жмем кнопу с тремя точками и указываем путь до снифера.</figcaption>
 </figure>
 
 <p>Затем меняем состояние активности <b>PHP CS Fixer</b> с <b>OFF</b> на <b>ON</b>.<br> В поле <b>Coding standart</b> выбираем параметр <b>PSR12</b>.<br>В параметре <b>External formatters</b> выбираем значение <b>PHP Code Beautifier and Fixer</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-4.jpg' type='original' alt='Настройки PHP CS Fixer' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-4.jpg' type='original' alt='Настройки PHP CS Fixer' %}
   <figcaption>Окончательный вариант настроек <b>PHP CS Fixer</b>.</figcaption>
 </figure>
 
 <h2 id="xdebug"><span class="attention">Настройка</span> Xdebug</h2>
 
-<p>Основная статья по установке и настройке <b>Xdebug</b> находится на <a href="{{ site.baseurl }}/blog/2023-08-28-ustanovka-i-nastrojka-xdebug-dlya-otladki-php-koda-program.html" target="_blank">этой странице</a>. Ознакомьтесь сначала с ней и продолжайте читать далее этот раздел.</p>
+<p>Основная статья по установке и настройке <b>Xdebug</b> находится на <a href="{{ site.baseurl }}/blog/2023-08-27-ustanovka-i-nastrojka-xdebug-dlya-otladki-php-koda-program.html" target="_blank">этой странице</a>. Ознакомьтесь сначала с ней и продолжайте читать далее этот раздел.</p>
 
 <!-- todo описать раздел xdebug PhpStorm-->
 

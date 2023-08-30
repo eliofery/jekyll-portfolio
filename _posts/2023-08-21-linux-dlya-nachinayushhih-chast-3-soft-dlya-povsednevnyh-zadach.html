@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Linux для начинающих с уклоном в веб разработку. Часть 3: Установка программ в Pop!_OS'
-date: 2023-08-24 10:00 +0600
+date: 2023-08-21 10:00 +0600
 description: 'В этой части речь пойдет об установке программ на дистрибутив
 <b>Pop!_OS</b>. Установим различный софт как для повседневных дел, так и для веб разработки.'
 image: cover.jpg
@@ -127,7 +127,7 @@ nautilus -q
 {% include component/code.html lang='bash' content=code %}
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-1.jpg' type='original' alt='Терминал Tilix в проводнике
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-1.jpg' type='original' alt='Терминал Tilix в проводнике
   nautilus.' %}
   <figcaption>Открытие терминала <b>Tilix</b> через <b>Linux</b> проводник <b>nautilus</b>.</figcaption>
 </figure>
@@ -197,7 +197,7 @@ nautilus -q
   представлена в двух версиях <b>flatpak</b> и <b>deb</b>. Установим <b>flatpak</b> версию.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-2.jpg' type='original' alt='Установка программы KDENlive
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-2.jpg' type='original' alt='Установка программы KDENlive
   через Pop!_Shop.' %}
   <figcaption>Установим <b>flatpak</b> версию.</figcaption>
 </figure>
@@ -504,7 +504,7 @@ sudo apt install winetricks
 {% include component/code.html lang='bash' content='./setup.sh' %}
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-3.jpg' type='original' alt='Установка Photoshop через
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-3.jpg' type='original' alt='Установка Photoshop через
   терминал.' %}
   <figcaption>Запускаем скрипт.</figcaption>
 </figure>
@@ -521,7 +521,7 @@ sudo apt install winetricks
   установить его.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-4.jpg' type='original' alt='Репозиторий Figma.' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-4.jpg' type='original' alt='Репозиторий Figma.' %}
   <figcaption>Необходимо будет скачать <b>deb</b> пакет.</figcaption>
 </figure>
 
@@ -847,7 +847,7 @@ Debug
   именно по рабочему столу иначе настройки не откроются.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-5.jpg' type='original' alt='Окно настроек экранного диктора,
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-5.jpg' type='original' alt='Окно настроек экранного диктора,
   вкладка Общие' %}
   <figcaption>После перезагрузки компьютера включим <b>экранного диктора</b>, нажав клавиши <kbd>Alt + Windows + S</kbd>.
   </figcaption>
@@ -858,7 +858,7 @@ Debug
 <h3>Голос</h3>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-6.jpg' type='original' alt='Окно настроек экранного диктора,
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-6.jpg' type='original' alt='Окно настроек экранного диктора,
   вкладка Голос' %}
   <figcaption>Здесь выбирается голос экранного диктора, скорость его чтения и т.п.</figcaption>
 </figure>
@@ -866,7 +866,7 @@ Debug
 <h3>Речь</h3>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-7.jpg' type='original' alt='Окно настроек экранного диктора,
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-7.jpg' type='original' alt='Окно настроек экранного диктора,
   вкладка Речь' %}
   <figcaption>Здесь определяется речевой контекст, какие символы читать какие пропускать.</figcaption>
 </figure>
@@ -874,7 +874,7 @@ Debug
 <h3>Озвучивание</h3>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-8.jpg' type='original' alt='Окно настроек экранного диктора,
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-8.jpg' type='original' alt='Окно настроек экранного диктора,
   вкладка Озвучивание' %}
   <figcaption>Здесь определяется озвучивание нажимаемых клавиш.</figcaption>
 </figure>

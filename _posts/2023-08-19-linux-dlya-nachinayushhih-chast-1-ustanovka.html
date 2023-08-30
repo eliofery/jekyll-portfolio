@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Linux для начинающих с уклоном в веб разработку. Часть 1: Установка дистрибутива Pop!_OS'
-date: 2023-08-22 20:00 +0600
+date: 2023-08-19 20:00 +0600
 description: 'В этой части речь пойдет об установке дистрибутива
 <b>Pop!_OS</b>. Разберем почему именно этот дистрибутив, с какими сложностями можно столкнуться и как их решить и многое другое.'
 image: cover.jpg
@@ -106,7 +106,7 @@ excerpt_separator: "<!--more-->"
   будет записан дистрибутив.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-1.jpg' type='original' alt='Выбор флешки в программе Rufus'
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-1.jpg' type='original' alt='Выбор флешки в программе Rufus'
   %}
   <figcaption>В верхнем выпадающем меню выберем флешку на которую будет записан дистрибутив.</figcaption>
 </figure>
@@ -114,7 +114,7 @@ excerpt_separator: "<!--more-->"
 <p>Нажмем на кнопку <b>Выбрать</b> для выбора образа дистрибутива и укажем путь до дистрибутива.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-2.jpg' type='original' alt='Указываем путь до образа с
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-2.jpg' type='original' alt='Указываем путь до образа с
   дистрибутивом Pop!_OS' %}
   <figcaption>Нажмем на кнопку <b>Выбрать</b> для выбора образа дистрибутива и укажем путь до дистрибутива.</figcaption>
 </figure>
@@ -123,7 +123,7 @@ excerpt_separator: "<!--more-->"
   том, что все данные с флешки будут удалены и ждем окончания записи. Примерное время записи 7-15 минут.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-3.jpg' type='original' alt='Запись на флешку' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-3.jpg' type='original' alt='Запись на флешку' %}
   <figcaption>Приступаем к записи на флешку.</figcaption>
 </figure>
 
@@ -142,7 +142,7 @@ excerpt_separator: "<!--more-->"
   необходимо выбрать флешку с образом дистрибутива.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-4.jpg' type='original' alt='Выбор флешки с образом
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-4.jpg' type='original' alt='Выбор флешки с образом
   дистрибутива' %}
   <figcaption>В этом списке необходимо выбрать флешку с образом дистрибутива.</figcaption>
 </figure>
@@ -157,7 +157,7 @@ excerpt_separator: "<!--more-->"
   пункт на название нашей флешки. Нажмем клавишу <kbd>F10</kbd>, чтобы сохранить изменения и выйти из <b>BIOS</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-5.jpg' type='original' alt='Расположение раздела со списком
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-5.jpg' type='original' alt='Расположение раздела со списком
   устройств в BIOS' %}
   <figcaption>Примерное расположение раздела со списком устройств в <b>BIOS</b>.</figcaption>
 </figure>
@@ -176,7 +176,7 @@ excerpt_separator: "<!--more-->"
   из них по отдельности будет меняться основное содержимое, отображающее размеченные области.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-6.jpg' type='original' alt='Список подключенных жестких
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-6.jpg' type='original' alt='Список подключенных жестких
   дисков и их разметка' %}
   <figcaption>В правом верхнем углу представлен выпадающий список, подключенных жестких дисков и флеш накопителей.
   </figcaption>
@@ -216,7 +216,7 @@ excerpt_separator: "<!--more-->"
   выбранного жесткого диска, нажав на раздел правой кнопкой мыши и выбрав пункт <b>Delete</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-7.jpg' type='original' alt='Удаление размеченных областей
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-7.jpg' type='original' alt='Удаление размеченных областей
   жесткого диска.' %}
   <figcaption>Удалим каждый имеющийся раздел, выбранного жесткого диска, нажав на раздел правой кнопкой мыши и выбрав
     пункт <b>Delete</b>.
@@ -244,7 +244,7 @@ excerpt_separator: "<!--more-->"
 <p>Скриншотами я покажу свою разметку жесткого диска, по приведенному примеру вы размечаете свой жесткий диск.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-8.jpg' type='original' alt='Разметка жесткого диска' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-8.jpg' type='original' alt='Разметка жесткого диска' %}
   <figcaption>Скриншотами я покажу свою разметку жесткого диска.</figcaption>
 </figure>
 
@@ -253,7 +253,7 @@ excerpt_separator: "<!--more-->"
   завершится разметка жесткого диска.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-9.jpg' type='original' alt='Применение изменений в разметке
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-9.jpg' type='original' alt='Применение изменений в разметке
   жесткого диска' %}
   <figcaption>Теперь нажимаем на <b>зеленую галочку</b> для применения изменений в разметке диска,<br> соглашаемся с
     уведомлением и ждем когда завершится разметка жесткого диска.
@@ -270,7 +270,7 @@ excerpt_separator: "<!--more-->"
   Федерация</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-10.jpg' type='original' alt='Выбираем язык для дистрибутива'
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-10.jpg' type='original' alt='Выбираем язык для дистрибутива'
   %}
   <figcaption>Выбираем язык для дистрибутива <b>Pop!_OS</b>, я выберу <b>русский</b>, <b>Российская Федерация</b>.
   </figcaption>
@@ -281,7 +281,7 @@ excerpt_separator: "<!--more-->"
     (США), Default</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-11.jpg' type='original' alt='Выбираем язык для раскладки
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-11.jpg' type='original' alt='Выбираем язык для раскладки
   клавиатуры' %}
   <figcaption>Выберем пункт <b>Английская (США), Default</b>.</figcaption>
 </figure>
@@ -290,7 +290,7 @@ excerpt_separator: "<!--more-->"
   (Advanced)</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-12.jpg' type='original' alt='Два вида установки дистрибутива
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-12.jpg' type='original' alt='Два вида установки дистрибутива
   автоматическую и ручную' %}
   <figcaption>Выбираем ручной режим <b>Custom (Advanced)</b>.</figcaption>
 </figure>
@@ -299,7 +299,7 @@ excerpt_separator: "<!--more-->"
   их два поэтому можно наблюдать такую картину.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-13.jpg' type='original' alt='Назначаем размеченным разделам
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-13.jpg' type='original' alt='Назначаем размеченным разделам
   каталоги' %}
   <figcaption>У меня их два поэтому можно наблюдать такую картину.</figcaption>
 </figure>
@@ -336,7 +336,7 @@ excerpt_separator: "<!--more-->"
 </ul>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-14.jpg' type='original' alt='Настройка диска D' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-14.jpg' type='original' alt='Настройка диска D' %}
   <figcaption>Нажму на <b>зеленую область</b> и проставлю ему следующие значения.</figcaption>
 </figure>
 
@@ -351,7 +351,7 @@ excerpt_separator: "<!--more-->"
 </ul>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-15.jpg' type='original' alt='Настройка диска C, boot раздел'
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-15.jpg' type='original' alt='Настройка диска C, boot раздел'
   %}
   <figcaption>Нажимаю на первую желтую область и проставлю ей следующие значения.</figcaption>
 </figure>
@@ -369,7 +369,7 @@ excerpt_separator: "<!--more-->"
 </ul>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-16.jpg' type='original' alt='Настройка диска C, recovery
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-16.jpg' type='original' alt='Настройка диска C, recovery
   раздел' %}
   <figcaption>Нажимаю на вторую желтую область и проставлю ей следующие значения.</figcaption>
 </figure>
@@ -385,7 +385,7 @@ excerpt_separator: "<!--more-->"
 </ul>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-17.jpg' type='original' alt='Настройка диска C, root раздел'
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-17.jpg' type='original' alt='Настройка диска C, root раздел'
   %}
   <figcaption>Нажимаю на третью зеленую область и проставлю ей следующие значения.</figcaption>
 </figure>
@@ -398,14 +398,14 @@ excerpt_separator: "<!--more-->"
 <p>Вводим данные своей учетной записи, указываем пароль.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-18.jpg' type='original' alt='Вводим логин и пароль.' %}
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-18.jpg' type='original' alt='Вводим логин и пароль.' %}
   <figcaption>Вводим данные своей учетной записи, указываем пароль.</figcaption>
 </figure>
 
 <p>Дождемся установки дистрибутива <b>Pop!_OS</b>.</p>
 
 <figure>
-  {% include component/picture.html slug=page.slug img='img-19.jpg' type='original' alt='Установка дистрибутива Pop!_OS
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-19.jpg' type='original' alt='Установка дистрибутива Pop!_OS
   завершена' %}
   <figcaption>Дождемся установки дистрибутива <b>Pop!_OS</b>.</figcaption>
 </figure>

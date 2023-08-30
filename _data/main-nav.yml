@@ -9,45 +9,30 @@ items:
     url: '#blog'
 
     links:
-      - title: Дизайн
-        url: /design
-        links:
-          - title: Дизайн 1
-            url: /design-1
-          - title: Дизайн 2
-            url: /design-2
-          - title: Дизайн 3
-            url: /design-3
-
       - title: Frontend
         url: /frontend
+
+      - title: Linux
+        url: /linux
         links:
-          - title: Frontend 1
-            url: /frontend-1
-            links:
-              - title: Frontend 1-1
-                url: /frontend-1-1
-              - title: Frontend 1-2
-                url: /frontend-1-2
-              - title: Frontend 1-3
-                url: /frontend-1-3
-          - title: Frontend 2
-            url: /frontend-2
-          - title: Frontend 3
-            url: /frontend-3
-          - title: Frontend 4
-            url: /frontend-4
-          - title: Frontend 5
-            url: /frontend-5
+          - title: 'Установка Pop!_OS'
+            url: /blog/2023-08-19-linux-dlya-nachinayushhih-chast-1-ustanovka-linux.html
+          - title: 'Настройка Pop!_OS'
+            url: /blog/2023-08-20-linux-dlya-nachinayushhih-chast-2-nastrojka-sistemy-linux.html
+          - title: 'Установка программ'
+            url: /blog/2023-08-21-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-linux.html
+          - title: 'Настройка программ'
+            url: /blog/2023-08-22-linux-dlya-nachinayushhih-chast-4-nastrojka-programm-linux.html
 
-      - title: Backend
-        url: /backend
-
-      - title: SEO
-        url: /seo
-
-      - title: DevOps
-        url: /devops
+      - title: Программы
+        url: /program
+        links:
+          - title: Git
+            url: /blog/2023-08-23-nastrojka-git-program.html
+          - title: VSCode
+            url: /blog/2023-08-25-nastrojka-vscode-program.html
+          - title: PhpStorm
+            url: /blog/2023-08-24-nastrojka-phpstorm-program.html
 
   - title: Контакты
     url: '#contacts'
