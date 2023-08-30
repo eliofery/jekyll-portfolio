@@ -1,0 +1,477 @@
+---
+layout: post
+title: Простой, легкий HTML шаблон без использования gulp сборки
+date: 2023-08-28 09:16 +0600
+description: Пример реализации простого, оптимизированного <b>HTML</b> шаблона без gulp и прочих сборок, с поддержкой базового <b>SEO</b>. Подойдет для верстки каких то простеньких страниц.
+image: cover.jpg
+alt: Инициализация проекта на Jekyll
+category: frontend
+tags: [jekyll, ruby]
+published: true
+sitemap: true
+excerpt_separator: "<!--more-->"
+---
+
+<p>Пример реализации простого, оптимизированного <b>HTML</b> шаблона без gulp и прочих сборок, с поддержкой базового <b>SEO</b>. Подойдет для верстки каких то простеньких страниц.</p>
+
+<!--more-->
+
+<h2><span class="attention">Оглавление</span> статьи</h2>
+
+<ol>
+  <li><a href="#intro">Вводная часть</a></li>
+  <li><a href="#architecture">Архитектура шаблона</a></li>
+  <li><a href="#editorconfig">Содержимое файла .editorconfig</a></li>
+  <li><a href="#gitignore">Содержимое файла .gitignore</a></li>
+  <li><a href="#html">Содержимое файла index.html</a></li>
+  <li><a href="#manifest">Содержимое файла manifest.json</a></li>
+  <li><a href="#readme">Содержимое файла README.md</a></li>
+  <li><a href="#style">Содержимое файла style.css</a></li>
+  <li><a href="#script">Содержимое файла script.js</a></li>
+</ol>
+
+<h2 id="intro"><span class="attention">Вводная</span> часть</h2>
+
+<p>Основная идея заключается в создании заготовки простенького шаблона, который можно было бы повторно использовать для верстки каких то не больших страничек. Так же хотелось бы, чтобы шаблон имел базовое <b>SEO</b> и заготовки в виде скриптов <b>Google Analytics</b> и <b>Yandex Metrika</b>.</p>
+
+<h2 id="architecture"><span class="attention">Архитектура</span> шаблона</h2>
+
+<p>Буду использовать стандартный подход в именовании и расположении файлов <b>html</b> проекта. Создайте в корне проекта следующие файлы и каталоги.</p>
+
+{% capture code %}
+./
+├── css
+├── fonts
+├── img
+├── js
+├── .editorconfig
+├── .gitignore
+├── index.html
+├── manifest.json
+└── README.md
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<ul>
+  <li><b>css</b> - содержит стили</li>
+  <li><b>fonts</b> - содержит шрифты</li>
+  <li><b>img</b> - содержит изображения</li>
+  <li><b>js</b> - содержит js скрипты</li>
+  <li><b>.editorconfig</b> - содержит правила написания кода</li>
+  <li><b>.gitignore</b> - содержит перечень файлов и каталогов, которые не будут индексироваться git</li>
+  <li><b>index.html</b> - содержит разметку главной страницы</li>
+  <li><b>manifest.json</b> - содержит информацию об иконках, цветовой теме, ориентации экрана, начальном URL и т. д.</li>
+</ul>
+
+<h2 id="editorconfig"><span class="attention">Содержимое</span> файла .editorconfig</h2>
+
+<p>.editorconfig</p>
+
+<h2 id="gitignore"><span class="attention">Содержимое</span> файла .gitignore</h2>
+
+<p>.gitignore</p>
+
+<h2 id="html"><span class="attention">Содержимое</span> файла index.html</h2>
+
+<p>Начнем с основного файла шаблона, который будет отображаться в браузере. Создаем файл <b>index.html</b> и с помощью <b>Emmet</b> разворачиваем базовую разметку, введя <b>!</b> знак, и нажав <kbd>Tab</kbd>.</p>
+
+<p>Должно получиться примерно следующее.</p>
+
+{% capture code %}
+&lt;!doctype html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<h3>Базовые дополнения</h3>
+
+<p>Внесем базовые нюансы для нашего шаблона.</p>
+
+{% capture code %}
+&lt;!-- class="no-js" - по умолчанию предполагаем, что у пользователя отключен в браузере JS. --&gt;
+&lt;!-- Это позволит стилизовать некоторые задействованные в js элементы как то иначе, когда JS отключен. --&gt;
+&lt;html class="no-js" lang="ru"&gt;
+
+&lt;!-- Мета информация с кратким описанием страницы --&gt;
+&lt;meta name="description" content="Описание главной страницы"&gt;
+
+&lt;!-- Скрипт удаляющий из html тега класс no-js. --&gt;
+&lt;!-- Если у пользователя включен JS, то смысла в альтернативной стилизации элементов нет. --&gt;
+&lt;script&gt;document.documentElement.classList.remove('no-js')&lt;/script&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<h3>Добавим стили</h3>
+
+<p>Подключим в шаблон <b>CSS</b> стили. Параллельно с этим пунктом создадим в каталоге <b>css</b> файл <b>style.css</b>, а так же скачаем в него библиотеку
+  <a href="https://necolas.github.io/normalize.css/" target="_blank" rel="nofollow">normalize.css</a>.</p>
+
+<p>В каталоге <b>css</b> должна получиться следующая структура.</p>
+
+{% capture code %}
+./css/
+├── normalize.css
+└── style.css
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<p>Подключим файлы стилей в файл <b>index.html</b>.</p>
+
+{% capture code %}
+&lt;!-- Добавим заготовку под критические стили. --&gt;
+&lt;!-- Сюда будет выноситься часть скриптов, участвующих в стилизации первого экрана. --&gt;
+&lt;style&gt;&lt;/style&gt;
+
+&lt;!-- Подключим CSS файлы. --&gt;
+&lt;!-- К названию файлы добавим так же номер версии ?v=0.0.1, для борьбы с кешированием. --&gt;
+&lt;!-- Атрибут onload="this.rel='stylesheet'" дает возможность браузеру отложить загрузку файла
+со стилями и приступить непосредственно к чтению тегов страницы. Только после полной отрисовки DOM дерева
+будет загружен файл со стилями. Что положительно влияет на показатели Page Speed. --&gt;
+&lt;link rel="preload" as="style" href="/css/normalize.css?v=0.0.1" onload="this.rel='stylesheet'"&gt;
+&lt;link rel="preload" as="style" href="/css/style.css?v=0.0.1" onload="this.rel='stylesheet'"&gt;
+
+&lt;!-- Так как атрибут onload сработает только при включенном JS мы подстрахуемся и добавим возможность
+загружать CSS стили стандартным способом при выключенном JS. --&gt;
+&lt;noscript&gt;
+  &lt;link rel="stylesheet" href="/css/normalize.css?v=0.0.1"&gt;
+  &lt;link rel="stylesheet" href="/css/style.css?v=0.0.1"&gt;
+&lt;/noscript&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<h3>Добавим предзагрузку шрифтов</h3>
+
+<p>Когда мы используем в проекте не стандартные шрифты, рекомендуется заранее подсказать браузеру об их загрузки. Для того чтобы браузер заранее начал скачивать пользовательские шрифты.</p>
+
+<p>Добавим в каталог <b>fonst</b> какой-нибудь кастомный шрифты формата <b>woff2</b>, например <b>Roboto</b> и подключим его в файле <b>index.html</b></p>
+
+{% capture code %}
+&lt;link rel="preload" as="font" href="/fonts/roboto/roboto-regular.woff2" type="font/woff2" crossorigin="anonymous"&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<h3>Добавим SEO мета данные</h3>
+
+<p>Добавим поддержку <b>Open Graph</b>, <b>Twitter Card</b> и микроразметку <b>JSON-LD</b>.</p>
+
+{% capture code %}
+&lt;!-- Основная ссылка на текущую страницу. --&gt;
+&lt;link rel="canonical" href="http://localhost:3000"&gt;
+
+&lt;!-- Мета данные для Apple устройств --&gt;
+&lt;meta name="application-name" content="Главная страница &mdash; Название сайта"&gt;
+&lt;meta name="apple-mobile-web-app-title" content="Главная страница &mdash; Название сайта"&gt;
+
+&lt;!-- Мета данные Open Graph --&gt;
+&lt;meta property="og:title" content="Главная страница &mdash; Название сайта"&gt;
+&lt;meta property="og:locale" content="ru"&gt;
+&lt;meta property="og:description" content="Описание главной страницы"&gt;
+&lt;meta property="og:url" content="http://localhost:3000"&gt;
+&lt;meta property="og:site_name" content="Описание главной страницы"&gt;
+&lt;meta property="og:type" content="website"&gt;
+&lt;meta property="og:image" content="http://localhost:3000/img/cover.jpg"&gt;
+
+&lt;!-- Мета данные Twitter Card --&gt;
+&lt;meta property="twitter:card" content="summary"&gt;
+&lt;meta property="twitter:title" content="Главная страница &mdash; Название сайта"&gt;
+&lt;meta property="twitter:image" content="http://localhost:3000/img/cover.jpg"&gt;
+
+&lt;!-- Микроразметку JSON-LD для простой страницы --&gt;
+&lt;script type="application/ld+json"&gt;
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "headline": "Главная страница &mdash; Название сайта",
+    "description": "Описание главной страницы",
+    "name": "Описание главной страницы",
+    "url": "http://localhost:3000"
+  }
+&lt;/script&gt;
+
+&lt;!-- Микроразметку JSON-LD для страницы со статей --&gt;
+&lt;!-- Необходимо использовать один из вариантов в зависимости от назначения страницы. --&gt;
+&lt;!--
+&lt;script type="application/ld+json"&gt;
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "dateModified": "2023-12-31T00:00:00+06:00",
+    "datePublished": "2023-12-31T00:00:00+06:00",
+    "headline": "Страница &mdash; Название сайта",
+    "description": "Описание страницы",
+    "name": "Описание страницы",
+    "url": "http://localhost:3000"
+  }
+&lt;/script&gt;
+--&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<h3>Добавим стилизацию страницы для мобильных устройств</h3>
+
+<p>Данная стилизация позволит придать акцентный цвет браузеру на мобильных устройствах.</p>
+
+{% capture code %}
+&lt;meta name="theme-color" content="#000000"&gt;
+&lt;meta name="msapplication-navbutton-color" content="#000000"&gt;
+&lt;meta name="apple-mobile-web-app-status-bar-style" content="#000000"&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<h3>Добавим фавиконки</h3>
+
+<p>Небольшая иконка отображающаяся на вкладке браузера. Рекомендуется подключать сразу несколько иконок различного размера, для корректного отображения ее на различных устройствах.</p>
+
+<p>Загрузим в каталог <b>./img/favicons</b> следующие иконки:</p>
+
+<ul>
+  <li><b>favicon.ico</b> - размер иконки должен быть <b>32х32</b></li>
+  <li><b>icon.svg</b> - масштабируемая иконка под любые размеры</li>
+  <li><b>apple-touch-icon.png</b> - размер иконки должен быть <b>180х180</b></li>
+  <li><b>icon-192.png</b> - размер иконки должен быть <b>192х192</b>, будет использоваться в файле <b>manifest.json</b></li>
+  <li><b>icon-512.png</b> - размер иконки должен быть <b>512х512</b>, будет использоваться в файле <b>manifest.json</b></li>
+</ul>
+
+<p>Подключим фавиконки в файл <b>index.html</b>.</p>
+
+{% capture code %}
+&lt;link rel="icon" href="/img/favicons/favicon.ico" sizes="any"&gt;
+&lt;link rel="icon" href="/img/favicons/icon.svg" type="image/svg+xml"&gt;
+&lt;link rel="apple-touch-icon" href="/img/favicons/apple-touch-icon.png"&gt;
+&lt;link rel="manifest" href="/manifest.json"&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<h3>Добавим Google Analytics и Yandex Metrika</h3>
+
+<p>Подключим скрипты для индексации страницы в поисковых системах.</p>
+
+{% capture code %}
+&lt;!-- Google Analytics --&gt;
+&lt;!-- &lt;script async&gt;(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-XXXXXX');&lt;/script&gt; --&gt;
+
+&lt;!-- Yandex Metrika --&gt;
+&lt;!-- &lt;script async&gt;(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)}; m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)}) (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym"); ym(XXXXXX, "init", {});&lt;/script&gt; --&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<p>После открывающего тега <b>body</b> подключим эти же скрипты, но только для браузера в котором отключен <b>JS</b>.</p>
+
+{% capture code %}
+&lt;!-- Google Analytics --&gt;
+&lt;!--&lt;noscript&gt;&lt;iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXX" height="0" width="0" style="display:none;visibility:hidden"&gt;&lt;/iframe&gt;&lt;/noscript&gt;--&gt;
+
+&lt;!-- Yandex Metrika --&gt;
+&lt;!--&lt;noscript&gt;&lt;img src="https://mc.yandex.ru/watch/XXXXXX" style="position:absolute; left:-9999px;" alt=""&gt;&lt;/noscript&gt;--&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<p>В дальнейшем получив уникальный идентификатор необходимо будет заменить в скриптах <b>GTM-XXXXXX</b> и <b>XXXXXX</b> на свои.</p>
+
+<h3>Добавим уведомление об отключеном JS</h3>
+
+<p>Создадим специфичную разметку с уведомлением для пользователей с отключенным <b>JS</b>.</p>
+
+{% capture code %}
+&lt;!-- JavaScript отключен --&gt;
+&lt;noscript&gt;&lt;p class="notice"&gt;&lt;strong&gt;JavaScript отключен&lt;/strong&gt;, некоторые функции сайта не доступны. Пожалуйста &lt;a rel="nofollow" href="https://support.google.com/adsense/answer/12654" target="_blank"&gt;включите JavaScript&lt;/a&gt;!&lt;/p&gt;&lt;/noscript&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<h3>Добавим svg спрайт</h3>
+
+<p>Создадим вручную <b>svg</b> спрайт, для этого скачайте любую <b>svg</b> иконку и скопируйте ее <b>path</b> тег целиком, для того, чтобы позже добавить ее на страницу.</p>
+
+{% capture code %}
+&lt;!-- Svg sprite --&gt;
+&lt;!-- Блок содержащий спрайт скрываем, чтобы всего его содержимое не отображалось на странице. --&gt;
+&lt;div hidden&gt;
+  &lt;svg xmlns="http://www.w3.org/2000/svg"&gt;
+    &lt;!-- Добавляем содержимое скаченной svg иконки в тег symbol. --&gt;
+    &lt;!-- Каждой иконки в наборе svg спрайта необходимо задавать уникальный id. --&gt;
+    &lt;!-- В данном случае у нас одна иконка с id="icon-user". --&gt;
+    &lt;symbol id="icon-user" viewBox="0 0 24 24" fill="none"&gt;
+      &lt;path d="M17.2166 19.3323C15.9349 17.9008 14.0727 17 12 17C9.92734 17 8.06492 17.9008 6.7832 19.3323M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21ZM12 14C10.3431 14 9 12.6569 9 11C9 9.34315 10.3431 8 12 8C13.6569 8 15 9.34315 15 11C15 12.6569 13.6569 14 12 14Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/&gt;
+    &lt;/symbol&gt;
+  &lt;/svg&gt;
+&lt;/div&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<h3>Добавим базовую разметку</h3>
+
+<p>Создадим некоторую разметку на которой протестируем функционал шаблона.</p>
+
+{% capture code %}
+&lt;div class="container"&gt;
+  &lt;!-- Таким образом выводится нужная картинка из svg спрайта. --&gt;
+  &lt;!-- Вывод производится по ее id имени. --&gt;
+  &lt;svg width="50" height="50" aria-hidden="true"&gt;&lt;use href="#icon-user"&gt;&lt;/use&gt;&lt;/svg&gt;
+
+  &lt;h2&gt;Простой HTML шаблон&lt;/h2&gt;
+  &lt;p&gt;Пример реализации простого &lt;b&gt;HTML&lt;/b&gt; шаблона, без &lt;b&gt;Gulp&lt;/b&gt; сборки. С базовой &lt;b&gt;SEO&lt;/b&gt; настройкой.&lt;/p&gt;
+  &lt;p&gt;Подойдет для верстки простых одностраничных сайтов (landing page).&lt;/p&gt;
+
+  &lt;!-- В каталог img добавил некоторую картинку и отобразил ее на странице. --&gt;
+  &lt;p style="margin-top: 40px"&gt;&lt;img src="/img/pagespeed.jpg" width="653" height="739" alt="Page Speed статистика" loading="lazy" fetchpriority="high"&gt;&lt;/p&gt;
+&lt;/div&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<h3>Добавим скрипт</h3>
+
+<p>Подключим в шаблон <b>JS</b> скрипт. Создадим в каталоге <b>js</b> файл <b>script.js</b> и подключим его в шаблон.</p>
+
+{% capture code %}
+&lt;script type="module" src="/js/script.js?v=0.0.1"&gt;&lt;/script&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<h3>Конечный вариант</h3>
+
+<p>Мы полностью закончили с заполнением содержимого файла <b>index.html</b> и вот, что у нас получилось.</p>
+
+{% capture code %}
+&lt;!DOCTYPE html&gt;
+&lt;html class="no-js" lang="ru"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+
+  &lt;title&gt;Главная страница &mdash; Название сайта&lt;/title&gt;
+  &lt;meta name="description" content="Описание главной страницы"&gt;
+
+  &lt;script&gt;document.documentElement.classList.remove('no-js')&lt;/script&gt;
+
+  &lt;!-- Критические стили --&gt;
+  &lt;style&gt;&lt;/style&gt;
+
+  &lt;link rel="preload" as="style" href="/css/normalize.css?v=0.0.1" onload="this.rel='stylesheet'"&gt;
+  &lt;link rel="preload" as="style" href="/css/style.css?v=0.0.1" onload="this.rel='stylesheet'"&gt;
+  &lt;noscript&gt;
+    &lt;link rel="stylesheet" href="/css/normalize.css?v=0.0.1"&gt;
+    &lt;link rel="stylesheet" href="/css/style.css?v=0.0.1"&gt;
+  &lt;/noscript&gt;
+
+  &lt;link rel="preload" as="font" href="/fonts/roboto/roboto-regular.woff2" type="font/woff2" crossorigin="anonymous"&gt;
+
+  &lt;link rel="canonical" href="http://localhost:3000"&gt;
+  &lt;meta name="application-name" content="Главная страница &mdash; Название сайта"&gt;
+  &lt;meta name="apple-mobile-web-app-title" content="Главная страница &mdash; Название сайта"&gt;
+  &lt;meta property="og:title" content="Главная страница &mdash; Название сайта"&gt;
+  &lt;meta property="og:locale" content="ru"&gt;
+  &lt;meta property="og:description" content="Описание главной страницы"&gt;
+  &lt;meta property="og:url" content="http://localhost:3000"&gt;
+  &lt;meta property="og:site_name" content="Описание главной страницы"&gt;
+  &lt;meta property="og:type" content="website"&gt;
+  &lt;meta property="og:image" content="http://localhost:3000/img/cover.jpg"&gt;
+  &lt;meta property="twitter:card" content="summary"&gt;
+  &lt;meta property="twitter:title" content="Главная страница &mdash; Название сайта"&gt;
+  &lt;meta property="twitter:image" content="http://localhost:3000/img/cover.jpg"&gt;
+  &lt;script type="application/ld+json"&gt;
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "headline": "Главная страница &mdash; Название сайта",
+      "description": "Описание главной страницы",
+      "name": "Описание главной страницы",
+      "url": "http://localhost:3000"
+    }
+  &lt;/script&gt;
+  &lt;!--
+  &lt;script type="application/ld+json"&gt;
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "dateModified": "2023-12-31T00:00:00+06:00",
+      "datePublished": "2023-12-31T00:00:00+06:00",
+      "headline": "Страница &mdash; Название сайта",
+      "description": "Описание страницы",
+      "name": "Описание страницы",
+      "url": "http://localhost:3000"
+    }
+  &lt;/script&gt;
+  --&gt;
+
+  &lt;meta name="theme-color" content="#000000"&gt;
+  &lt;meta name="msapplication-navbutton-color" content="#000000"&gt;
+  &lt;meta name="apple-mobile-web-app-status-bar-style" content="#000000"&gt;
+
+  &lt;link rel="icon" href="/img/favicons/favicon.ico" sizes="any"&gt;
+  &lt;link rel="icon" href="/img/favicons/icon.svg" type="image/svg+xml"&gt;
+  &lt;link rel="apple-touch-icon" href="/img/favicons/apple-touch-icon.png"&gt;
+  &lt;link rel="manifest" href="/manifest.json"&gt;
+
+  &lt;!-- Google Analytics --&gt;
+  &lt;!-- &lt;script async&gt;(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-XXXXXX');&lt;/script&gt; --&gt;
+
+  &lt;!-- Yandex Metrica --&gt;
+  &lt;!-- &lt;script async&gt;(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)}; m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)}) (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym"); ym(XXXXXX, "init", {});&lt;/script&gt; --&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;!-- Google Analytics --&gt;
+&lt;!--&lt;noscript&gt;&lt;iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXX" height="0" width="0" style="display:none;visibility:hidden"&gt;&lt;/iframe&gt;&lt;/noscript&gt;--&gt;
+
+&lt;!-- Yandex Metrica --&gt;
+&lt;!--&lt;noscript&gt;&lt;img src="https://mc.yandex.ru/watch/XXXXXX" style="position:absolute; left:-9999px;" alt=""&gt;&lt;/noscript&gt;--&gt;
+
+&lt;!-- JavaScript отключен --&gt;
+&lt;noscript&gt;&lt;p class="notice"&gt;&lt;strong&gt;JavaScript отключен&lt;/strong&gt;, некоторые функции сайта не доступны. Пожалуйста &lt;a rel="nofollow" href="https://support.google.com/adsense/answer/12654" target="_blank"&gt;включите JavaScript&lt;/a&gt;!&lt;/p&gt;&lt;/noscript&gt;
+
+&lt;!-- Svg sprite --&gt;
+&lt;div hidden&gt;
+  &lt;svg xmlns="http://www.w3.org/2000/svg"&gt;
+    &lt;symbol id="icon-user" viewBox="0 0 24 24" fill="none"&gt;
+      &lt;path d="M17.2166 19.3323C15.9349 17.9008 14.0727 17 12 17C9.92734 17 8.06492 17.9008 6.7832 19.3323M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21ZM12 14C10.3431 14 9 12.6569 9 11C9 9.34315 10.3431 8 12 8C13.6569 8 15 9.34315 15 11C15 12.6569 13.6569 14 12 14Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/&gt;
+    &lt;/symbol&gt;
+  &lt;/svg&gt;
+&lt;/div&gt;
+
+&lt;div class="container"&gt;
+  &lt;svg width="50" height="50" aria-hidden="true"&gt;&lt;use href="#icon-user"&gt;&lt;/use&gt;&lt;/svg&gt;
+
+  &lt;h2&gt;Простой HTML шаблон&lt;/h2&gt;
+  &lt;p&gt;Пример реализации простого &lt;b&gt;HTML&lt;/b&gt; шаблона, без &lt;b&gt;Gulp&lt;/b&gt; сборки. С базовой &lt;b&gt;SEO&lt;/b&gt; настройкой.&lt;/p&gt;
+  &lt;p&gt;Подойдет для верстки простых одностраничных сайтов (landing page).&lt;/p&gt;
+
+  &lt;p style="margin-top: 40px"&gt;&lt;img src="/img/pagespeed.jpg" width="653" height="739" alt="Page Speed статистика" loading="lazy" fetchpriority="high"&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;script type="module" src="/js/script.js?v=0.0.1"&gt;&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<h2 id="manifest"><span class="attention">Содержимое</span> файла manifest.json</h2>
+
+<p>.manifest</p>
+
+<h2 id="readme"><span class="attention">Содержимое</span> файла README.md</h2>
+
+<p>.readme</p>
+
+<h2 id="style"><span class="attention">Содержимое</span> файла style.css</h2>
+
+<p>.style</p>
+
+<h2 id="script"><span class="attention">Содержимое</span> файла script.js</h2>
+
+<p>.script</p>
+
+
+
+
+
+
