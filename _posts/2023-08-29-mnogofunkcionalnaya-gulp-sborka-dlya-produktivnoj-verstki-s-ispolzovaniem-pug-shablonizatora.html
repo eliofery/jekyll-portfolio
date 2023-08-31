@@ -1,0 +1,3217 @@
+---
+layout: post
+title: Gulp сборка для верстки с использованием Pug шаблонизатора
+date: 2023-08-29 11:26 +0600
+description: Создадим <b>Seo</b> оптимизированную, многофункциональную <b>Gulp</b> сборку для комфортной верстки многостраничных сайтов с использованием технологий <b>Pug</b>, <b>Scss</b>, <b>Webpack</b>, <b>Linter</b> (линтеров), <b>SVG</b> спрайтов. Оптимизируем изображения, а так же сгенерируем <b>Favicons</b> (фавиконки).
+image: cover.jpg
+alt: Gulp сборка с использованием Pug, Scss, Webpack, Linter, SVG, Favicons
+category: frontend
+tags: [gulp, pug, scss, webpack, svg, linter, seo]
+source: https://github.com/eliofery/gulp-template
+published: true
+sitemap: true
+excerpt_separator: "<!--more-->"
+---
+
+<p>Создадим <b>Seo</b> оптимизированную, многофункциональную <b>Gulp</b> сборку для комфортной верстки многостраничных сайтов с использованием технологий <b>Pug</b>, <b>Scss</b>, <b>Webpack</b>, <b>Linter</b> (линтеров), <b>SVG</b> спрайтов. Оптимизируем изображения, а так же сгенерируем <b>Favicons</b> (фавиконки).</p>
+
+<!--more-->
+
+<h2><span class="attention">Оглавление</span> статьи</h2>
+
+<ol>
+  <li><a href="#intro">Вводная часть</a></li>
+  <li><a href="#init">Базовая инициализация</a></li>
+  <li><a href="#gulp">Установка Gulp</a></li>
+  <li><a href="#linter">Установка линтеров</a></li>
+  <li><a href="#setting-linter">Настройка линтеров</a></li>
+  <li><a href="#test-linter">Проверка линтера</a></li>
+  <li><a href="#structure">Структура каталогов</a></li>
+  <li><a href="#config">Создание config.js</a></li>
+  <li><a href="#update-package">Редактируем package.json</a></li>
+  <li><a href="#task-clear">Таск clear</a></li>
+  <li><a href="#task-server">Таск server</a></li>
+  <li><a href="#task-webpack">Таск webpack</a></li>
+  <li><a href="#task-styles">Таск styles</a></li>
+  <li><a href="#task-sprites">Таск sprites</a></li>
+  <li><a href="#task-images">Таск images</a></li>
+  <li><a href="#task-assets">Таск assets</a></li>
+  <li><a href="#task-pug">Таск pug</a></li>
+  <li><a href="#task-favicons">Таск favicons</a></li>
+  <li><a href="#task-manifest">Файл manifest.json</a></li>
+  <li><a href="#task-robots">Файл robots.txt</a></li>
+  <li><a href="#end">Подведем итоги</a></li>
+</ol>
+
+<h2 id="intro"><span class="attention">Вводная</span> часть</h2>
+
+<p>Основная идея заключается в создании сборщика для верстки сайтов и автоматизации рутинных действий. Часть используемых идей такие как базовая <b>SEO</b> оптимизация, заготовки в виде скриптов <b>Google Analytics</b> и <b>Yandex Metrika</b> которые мы использовали при создании
+  <a href="{{ site.baseurl }}/blog/2023-08-28-prostoj-legkij-html-shablon-bez-ispolzovaniya-sborki-gulp-frontend.html" target="_blank">простого <b>HTML</b> шаблона</a>, будут так же использованы в данной сборке.</p>
+
+<p>Каждый шаг создания <b>Gulp</b> сборки я старался комментировать в <a href="https://github.com/eliofery/gulp-template/commits/main" target="_blank" rel="nofollow">репозитории сборки</a>. Обязательно загляните туда если походу статьи вам будет что-то не понятно.</p>
+
+<h3>Основной функционал</h3>
+
+<p>Основной функционал <b>gulp</b> сборки будет включать в себя:</p>
+
+<ul>
+  <li><b>Оптимизация под Page Speed</b>
+    <ul>
+      <li>Отложенная загрузка</li>
+      <li>Критические стили</li>
+    </ul>
+  </li>
+  <li><b>Базовая SEO оптимизация</b>
+    <ul>
+      <li>Open Graph / Twitter Cards</li>
+      <li>JSON-LD микроразметка</li>
+      <li>Google Analytics / Yandex Metrika</li>
+    </ul>
+  </li>
+  <li><b>Pug шаблонизатор</b>
+    <ul>
+      <li>Улучшенный фильтр markdown-it</li>
+      <li>Возможность добавлять свои фильтры на примере фильтра special-chars</li>
+      <li>Работа с json данными</li>
+    </ul>
+  </li>
+  <li><b>SCSS препроцессор</b></li>
+  <li><b>Webpack сборщик</b>
+    <ul>
+      <li>Возможность использовать новый формат JS по максимуму</li>
+      <li>Оптимизация кода через Babel</li>
+    </ul>
+  </li>
+  <li><b>SVG спрайты</b>
+    <ul>
+      <li>Цветные</li>
+      <li>Черно-белые</li>
+    </ul>
+  </li>
+  <li><b>Оптимизированные изображения</b>
+    <ul>
+      <li>Генерация webp и avif форматов</li>
+    </ul>
+  </li>
+  <li><b>Настроенные линтеры</b>
+    <ul>
+      <li>Stylelint</li>
+      <li>Pug-lint</li>
+      <li>ES-Lint</li>
+      <li>Prettier</li>
+      <li>Editorconfig</li>
+    </ul>
+  </li>
+  <li><b>Автоматическая генерация favicons</b></li>
+</ul>
+
+<h2 id="init"><span class="attention">Базовая</span> инициализация</h2>
+
+<p>Создадим базовые файлы для проекта, такие как конфиги, инициализируем <b>git</b> и <b>npm</b>. О том как <a
+  href="{{ site.baseurl }}/blog/2023-08-21-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-linux.html#git" target="_blank">установить</a> и <a
+  href="{{ site.baseurl }}/blog/2023-08-23-nastrojka-git-program.html" target="_blank">настроить</a> <b>git</b> говорилось в соответствующих статьях, так же и про <a
+  href="{{ site.baseurl }}/blog/2023-08-21-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-linux.html#node" target="_blank">установку npm</a></p>
+
+<h3>Cоздание README.md</h3>
+
+<p>В корень проекта добавим файл <b>README.md</b> для вводной информации о сборке.</p>
+
+{% capture code %}
+# Gulp сборка
+
+Gulp сборка c использованием pug, scss, webpack.
+{% endcapture %}
+{% include component/code.html lang='README.md' content=code %}
+
+<h3>Инициализация git</h3>
+
+<p><b>Git</b> нам понадобится в качестве системы учета контроля версий. В дальнейшем мы будем делать <b>commit</b> предварительно пропуская сохраняемые файлы через <b>linter</b>, об этом более подробно далее.</p>
+
+{% capture code %}
+git init
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>Создание .gitignore</h3>
+
+<p>В корне проекта создадим файл <b>.gitignore</b>, в нем мы будем прописывать пути к каталогам и файлам которые не следует добавлять в репозиторий.</p>
+
+{% capture code %}
+.idea
+.vscode
+node_modules
+build
+{% endcapture %}
+{% include component/code.html lang='' content=code %}
+
+<p>В дальнейшем мы сможем дополнить этот файл другими правилами.</p>
+
+<h3>Создание .gitattributes</h3>
+
+<p>В корне проекта создадим файл <b>.gitattribute</b>, в нем мы будем задавать правила как <b>git</b> должен обрабатывать различные расширения файлов.</p>
+
+{% capture code %}
+# Общие настройки, которые обязательно должны быть прописаны.
+# Автоматическое определение текстовых файлов и выполнение нормализации LF.
+* text eol=lf
+
+# Изображения
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.tif   binary
+*.tiff  binary
+*.ico   binary
+# SVG по дефолту рассматривается как бинарный.
+# Для распознавания как текcт, закомментируйте нижнюю строку и раскомментируйте следующую за ней.
+*.svg   binary
+#*.svg  text
+*.eps   binary
+*.mo    binary
+*.po    binary
+
+# Шрифты
+*.woff  binary
+*.woff2 binary
+
+# Документы
+*.doc     diff=astextplain
+*.docx    diff=astextplain
+*.dot     diff=astextplain
+*.pdf     diff=astextplain
+*.rtf     diff=astextplain
+*.md      text
+*.tex     text
+*.adoc    text
+*.textile text
+*.mustache  text
+*.csv       text
+*.tab       text
+*.tsv       text
+*.sql       text
+
+# Исключить файлы из экспорта
+.gitattributes export-ignore
+.gitignore export-ignore
+{% endcapture %}
+{% include component/code.html lang='' content=code %}
+
+<h3>Инициализация npm</h3>
+
+<p>Удостоверьтесь что у вас установлен <a
+  href="{{ site.baseurl }}/blog/2023-08-21-linux-dlya-nachinayushhih-chast-3-soft-dlya-povsednevnyh-zadach-linux.html#node" target="_blank">Node.js</a>. Инициализируем пакетный менеджер зависимостей <b>npm</b>, с его помощью мы будем устанавливать необходимые зависимости для нашего проекта.</p>
+
+{% capture code %}
+npm init -y
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>В корне проекта создастся файл <b>package.json</b>, примерное содержимое файла:</p>
+
+{% capture code %}
+{
+  "name": "gulp-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+{% endcapture %}
+{% include component/code.html lang='json' content=code %}
+
+<h2 id="gulp"><span class="attention">Установка</span> Gulp</h2>
+
+<p>Установим <b>Gulp</b> сборщик, для этого перейдем на <a href="https://gulpjs.com/docs/en/getting-started/quick-start/" target="_blank" rel="nofollow">официальный сайт</a> и выполним предложенные команды в терминале.</p>
+
+{% capture code %}
+// Установит глобально для всей системы gulp-cli, чтобы можно было использовать команду gulp в терминале.
+npm i --global gulp-cli
+
+// Установит gulp для текущего проекта в режиме --save-dev
+npm i -D gulp
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p><b>Имеются два режима установки npm зависимостей:</b></p>
+
+<ul>
+  <li>Зависимость используемая только при разработке <b>--save-dev</b> или <b>-D</b></li>
+  <li>Зависимость используемая в готовом варианте проекта <b>--save</b> или <b>-S</b> (по умолчанию всегда ставится этот режим если явно его не переопределить)</li>
+</ul>
+
+<h3>Создание gulpfile.babel.js</h3>
+
+<p>В корне проекта создадим файл <b>gulpfile.babel.js</b>.</p>
+
+<p>Это главный файл для сборки, именно его будет запускать <b>Gulp</b>. Существует несколько вариантов <b>gulpfile</b>, вариант с <b>babel</b> означает, что при проектировании сборки мы сможем использовать все прелести <b>ES6</b> и сделать ее модульной и структурированной. О вариантах <b>gulpfile</b> можно <a href="https://gulpjs.com/docs/en/getting-started/javascript-and-gulpfiles/#transpilation" target="_blank" rel="nofollow">почитать здесь</a>.</p>
+
+<p>Так же в корне проекта создадим каталог <b>gulp</b> в котором будем хранить все наши таски.</p>
+
+{% capture code %}
+// Установит глобально для всей системы gulp-cli, чтобы можно было использовать команду gulp в терминале.
+npm i --global gulp-cli
+
+// Установит gulp для текущего проекта в режиме --save-dev
+npm i -D gulp
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>Установка babel</h3>
+
+<p>Само по себе название файла <b>gulpfile.babel.js</b> еще ни чего не дает, необходимо установить некоторые зависимости для того, чтобы <b>Gulp</b> начал понимать конструкции <b>ES</b> стандарта.</p>
+
+{% capture code %}
+npm i -D @babel/core @babel/register
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p><b>@babel/core</b> - это основной пакет <b>babel</b>, который содержит основные компоненты для транспиляции кода (перевода кода из нового формата <b>ES6</b> в старый формат <b>ES5</b>, для поддержки старых браузеров), включая лексический анализатор (парсер), генератор кода, правила трансформации и другие инструменты, вместе с другими плагинами и пресетами.</p>
+
+<p><b>@babel/register</b>, этот пакет перехватывает операции чтения файлов с расширением <b>.js</b> и <b>.jsx</b> в процессе выполнения. После перехвата он трансформирует код на лету, используя <b>babel</b>, и передает его исполнителю.</p>
+
+<p>Подробнее о <b>babel</b> можно <a href="https://babeljs.io/docs/babel-register" target="_blank" rel="nofollow">почитать здесь</a>.</p>
+
+<h3>Установка пресета и полифилла</h3>
+
+<p>Пресет и полифиллы необходимы для обратной совместимости новых возможностей <b>JavaScript</b> с старыми браузерами.</p>
+
+{% capture code %}
+npm i -D @babel/preset-env core-js
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p><b>@babel/preset-env</b> - используется для транспиляции кода на этапе компиляции и <b>core-js</b> для добавления необходимых полифиллов на этапе выполнения, чтобы обеспечить оптимальную совместимость с различными окружениями.</p>
+
+<p>При совместном использовании <b>@babel/preset-env</b> c <b>core-js</b>, <b>babel</b> автоматически добавит необходимые полифиллы из <b>core-js</b> в код на этапе компиляции.</p>
+
+<p>Подробнее о пресете и полифилле можно <a href="https://babeljs.io/docs/babel-polyfill" target="_blank" rel="nofollow">почитать здесь</a>.</p>
+
+<h3>Настройка пресета</h3>
+
+<p>Чтобы пресет заработал ему необходимо задать определенные правила по которым он должен действовать. Правила для пресета должны быть указаны в файле <b>.babelrc</b>. В корне проекта создадим файл <b>.babelrc</b> со следующим содержимым.</p>
+
+{% capture code %}
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "debug": false,
+        "useBuiltIns": "usage",
+        "corejs": "3"
+      }
+    ]
+  ]
+}
+{% endcapture %}
+{% include component/code.html lang='.babelrc' content=code %}
+
+<p><b>Разберем каждую настройку по отдельности:</b></p>
+
+<p><b>presets</b> - это опция <b>babel</b>, которая указывает список наборов плагинов (пресетов), которые будут использоваться в процессе транспиляции.</p>
+
+<p><b>@babel/preset-env</b> - это пресет, который включает набор плагинов, необходимых для транспиляции кода с использованием современного синтаксиса <b>JavaScript</b> и поддержки различных окружений.</p>
+
+<p><b>debug</b> - это опция пресета <b>@babel/preset-env</b>, которая определяет, будет ли выводиться отладочная информация в консоль. Значение <b>false</b> указывает на то, что отладочная информация не будет выводиться.</p>
+
+<p><b>useBuiltIns</b> - это опция пресета <b>@babel/preset-env</b>, которая указывает, каким образом следует добавлять полифиллы из <b>core-js</b>. Значение <b>"usage"</b> означает, что <b>Babel</b> будет добавлять только те полифиллы, которые необходимы в вашем коде, на основе его актуального использования. Это позволяет уменьшить размер финального бандла и добавлять только необходимый функционал.</p>
+
+<p><b>corejs</b> - это опция пресета <b>@babel/preset-env</b>, которая указывает версию <b>core-js</b>, которая будет использоваться для предоставления полифиллов. В данном случае указана версия "3", что означает использование <b>core-js</b> версии 3.</p>
+
+<h3>Тестируем gulpfile.babel.js</h3>
+
+<p>В файле <b>gulpfile.babel.js</b> пропишем следующий код.</p>
+
+{% capture code %}
+import { dest } from 'gulp'
+
+export default (done) => {
+  console.log('Test message')
+
+  done()
+}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>Выполним команду <b>gulp</b> в терминале.</p>
+
+{% include component/code.html lang='bash' content='gulp' %}
+
+<p>Мы должны увидеть следующий вывод.</p>
+
+{% capture code %}
+[time] Requiring external module @babel/register
+[time] Using gulpfile ~/gulp-template/gulpfile.babel.js
+[time] Starting 'default'...
+Test message
+[time] Finished 'default' after 2.24 ms
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Если на данном этапе у вас возникли ошибки пройдитесь еще раз по каждому пункту, сверяя каждый шаг с вашим кодом, должно быть вы допустили ошибку.</p>
+
+<h2 id="linter"><span class="attention">Установка</span> линтеров</h2>
+
+<p>Линтеры позволяют поддерживать весь код проекта в единообразном стиле, придерживаясь определенных правил написания кода. Линтер не позволит пользователю создать <b>commit</b> до тех пор, пока код не будет отредактирован согласно правилам.</p>
+
+<p>В рамках сборки мы будем использовать линтеры для файлов <b>js</b>, <b>pug</b> и <b>scss</b>, а так же будем проверять соответствие кода правилам, прописанным в файлах <b>.editorconfig</b> и <b>.prettierrc</b>.</p>
+
+<p>Перед установкой зависимостей удостоверьтесь, что у вас установлены расширения для редактора кода или <b>IDE</b>, которые работают с линтерами. Это нужно для того, чтобы ошибки в коде автоматически подсвечивались в вашем редакторе. Например, для <b>VSCode</b> нужно будет установить расширения: Pug Linter (pug-lint), stylelint, ESLint.
+  <a href="{{ site.baseurl }}/blog/2023-08-25-nastrojka-vscode-program.html#extends" target="_blank">Расширения</a> и <a href="{{ site.baseurl }}/blog/2023-08-24-nastrojka-phpstorm-program.html#extends" target="_blank">плагины</a> были рассмотрены в предыдущих статьях.</p>
+
+<h3>Линтер для JS</h3>
+
+<p>Установим соответствующие зависимости.</p>
+
+{% capture code %}
+npm i -D eslint eslint-config-airbnb-base eslint-plugin-import @babel/eslint-parser
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Это инструменты и пакеты, используемые для статического анализа кода <b>JavaScript</b> с помощью <b>ESLint</b>.</p>
+
+<p><b>eslint</b> - это инструмент статического анализа кода для <b>JavaScript</b>, который помогает выявить и предотвратить потенциальные ошибки, стилистические проблемы и проблемы безопасности в вашем коде.</p>
+
+<p><b>eslint-config-airbnb-base</b> - это предустановленный конфигурационный набор правил <b>ESLint</b>, созданный и поддерживаемый <b>Airbnb</b> компанией, которая активно использует и поддерживает <b>JavaScript</b> код стандарта <b>Airbnb</b>.</p>
+
+<p><b>eslint-plugin-import</b> - это плагин для <b>ESLint</b>, который предоставляет правила и функциональность, связанные с импортами и использованием модулей. Этот плагин часто используется с <b>eslint-config-airbnb-base</b>, чтобы улучшить поддержку правил импортов в стандарте <b>Airbnb</b>.</p>
+
+<p><b>@babel/eslint-parser</b> - это парсер для <b>ESLint</b>, который позволяет использовать <b>Babel</b> для разбора синтаксиса <b>JavaScript</b> файлов вместо стандартного парсера, который используется по умолчанию.</p>
+
+<h3>Линтер для Pug</h3>
+
+<p>Установим соответствующие зависимости.</p>
+
+{% capture code %}
+npm i -D pug-lint
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Это инструмент для статического анализа кода шаблонов <b>Pug</b>.</p>
+
+<p><b>pug-lint</b> - позволяет выявлять потенциальные проблемы, стилистические ошибки и несоответствия соглашениям о форматировании в коде <b>Pug</b>.</p>
+
+<h3>Линтер для стилей CSS и Scss</h3>
+
+<p>Установим соответствующие зависимости.</p>
+
+{% capture code %}
+npm i -D stylelint stylelint-config-rational-order stylelint-config-recommended-scss stylelint-config-standard stylelint-order stylelint-scss
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Это инструменты и пакеты, используемые для статического анализа кода <b>CSS</b> (или его препроцессоров, таких как <b>SCSS</b>) с помощью <b>Stylelint</b>.</p>
+
+<p><b>stylelint</b> - помогает выявить и предотвратить потенциальные ошибки, стилистические проблемы и проблемы форматирования в вашем <b>CSS</b> коде.</p>
+
+<p><b>stylelint-config-rational-order</b> - упорядочивает свойства <b>CSS</b> в определенном логическом порядке, что улучшает читаемость и облегчает поддержание кода.</p>
+
+<p><b>stylelint-config-recommended-scss</b> - предоставляет рекомендуемые правила для <b>SCSS</b> кода (расширение <b>CSS</b>, поддерживающее дополнительные возможности, такие как переменные и вложенные стили).</p>
+
+<p><b>stylelint-config-standard</b> - предоставляет стандартные правила форматирования <b>CSS</b>, соответствующие общим стандартам и соглашениям о кодировании.</p>
+
+<p><b>stylelint-order</b> - позволяет настроить, каким образом должны быть упорядочены свойства <b>CSS</b> в вашем коде.</p>
+
+<p><b>stylelint-scss</b> - это плагин для <b>Stylelint</b>, который добавляет поддержку для <b>SCSS</b> синтаксиса и дополнительных функций, таких как вложенные правила и переменные.</p>
+
+<h3>Линтер для Editorconfig и Prettier</h3>
+
+<p>Установим соответствующие зависимости.</p>
+
+{% capture code %}
+npm i -D editorconfig-checker prettier
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p><b>editorconfig-checker</b> - это инструмент для проверки соответствия файлов вашего проекта настроенным правилам EditorConfig.</p>
+
+<p><b>prettier</b> - это инструмент для автоматического форматирования кода, который позволяет приводить код в соответствие с определенным стилем кодирования, без необходимости ручного форматирования.</p>
+
+<h3>Установим Lint staged</h3>
+
+<p>Установим соответствующие зависимости.</p>
+
+{% capture code %}
+npx mrm lint-staged
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p><b>mrm</b> - это инструмент командной строки, который предоставляет набор готовых задач (код-модификаций), которые можно применить к вашему проекту для настройки, обновления или улучшения его.</p>
+
+<p><b>lint-staged</b> - это инструмент, который позволяет запускать линтеры (например, <b>ESLint</b> или <b>Stylelint</b>) только для тех файлов, которые были изменены или добавлены в систему контроля версий, перед фиксацией изменений (<b>commit</b>). Это позволяет оптимизировать процесс проверки кода, чтобы проверять только измененные файлы, а не весь проект.</p>
+
+<p>Когда вы запускаете <b>npx mrm lint-staged</b>, команда <b>mrm</b> будет временно устанавливать и запускать задачу <b>lint-staged</b>. Задача <b>lint-staged</b>, в свою очередь, проверит измененные файлы в вашем проекте с помощью настроенных линтеров перед фиксацией изменений (commit). Это позволяет убедиться, что ваш код соответствует стандартам и соглашениям о форматировании, прежде чем он попадет в систему контроля версий.</p>
+
+<h2 id="setting-linter"><span class="attention">Настройка</span> линтеров</h2>
+
+<p>После установке в файле <b>package.json</b> появятся следующие изменения.</p>
+
+{% capture code %}
+{
+  ...
+  "scripts": {
+    ...
+    "prepare": "husky install"
+  },
+  ...
+  "devDependencies": {
+    ...
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
+
+    "editorconfig-checker": "^5.1.1",
+    "eslint": "^8.45.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "prettier": "^3.0.0",
+    "pug-lint": "^2.7.0",
+    "stylelint": "^15.10.2",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-recommended-scss": "^12.0.0",
+    "stylelint-config-standard": "^34.0.0",
+    "stylelint-order": "^6.0.3",
+    "stylelint-scss": "^5.0.1"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.css": "stylelint --fix",
+    "*.{js,css,md}": "prettier --write"
+  }
+}
+{% endcapture %}
+{% include component/code.html lang='json' content=code %}
+
+<p>Как видим установились нужные нам зависимости, а так же были добавлены <b>husky</b> и <b>lint-staged</b>.</p>
+
+<p><b>husky</b> - предназначен для управления хуками <b>Git</b> в вашем проекте. <b>Хуки Git</b> - это скрипты, которые можно запускать автоматически при определенных событиях <b>Git</b>, таких как <b>commit</b>, <b>push</b> и т.д. <b>Husky</b> позволяет легко настроить и управлять хуками, чтобы выполнять определенные действия перед или после выполнения операций с <b>Git</b>.</p>
+
+<p>В конструкции <b>scripts</b> можно заметить, что было добавлено правило <b>"prepare": "husky install"</b>. Данная команда автоматически была вызвана при инициализации <b>npx mrm lint-staged</b>, но если предположим вы захотите на основе данной сборке создать новый проект, вам понадобится установить <b>husky</b> вручную командой:</p>
+
+{% capture code %}
+npm run prepare
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Посмотрим на следующий фрагмент в файле <b>package.json</b>.</p>
+
+{% capture code %}
+"lint-staged": {
+  "*.js": "eslint --cache --fix",
+  "*.css": "stylelint --fix",
+  "*.{js,css,md}": "prettier --write"
+}
+{% endcapture %}
+{% include component/code.html lang='json' content=code %}
+
+<p>Данное правило позволяет при создании <b>commit</b>, автоматически запускать <b>eslint</b> для всех измененных файлов с расширением <b>.js</b>, <b>stylelint</b> для всех измененных файлов с расширением <b>.css</b> и <b>prettier</b> для всех измененных файлов с расширениями <b>js</b>, <b>css</b>, <b>md</b>.</p>
+
+<p>Если линтеры обнаружат проблемы, они будут пытаться исправить их автоматически (--fix), и если исправления возможны, они будут включены в <b>commit</b>. Если исправления невозможны, <b>lint-staged</b> не позволит сделать <b>commit</b>, что поможет поддерживать качество кода и согласованность в проекте. Решить найденные проблемы нужно будет вручную, отредактировав соответсвующее место.</p>
+
+<p><b>А теперь давайте изменим, дополним эти правила:</b></p>
+
+{% capture code %}
+"lint-staged": {
+  "*": "editorconfig-checker --exclude '.git|.husky|node_modules'",
+  "src/pug/**/*.pug": "pug-lint --fix",
+  "src/scss/**/*.scss": "stylelint --fix",
+  "*.js": [
+    "eslint --cache --fix",
+    "prettier --write"
+  ]
+}
+{% endcapture %}
+{% include component/code.html lang='json' content=code %}
+
+<p>Каждый прописанный линтер будет сверять, найденные файлы с определенными, заданными правилами. На данном этапе мы еще создавали файлы с правилами. Ниже я опишу, что это за файлы, а после мы их создадим.</p>
+
+<p><b>editorconfig-checker</b> - проверит все файлы в проекте (согласно правилам прописанным в файле .editorconfig), кроме тех которые находятся в каталогах <b>.git</b>, <b>.husky</b>, <b>node_modules</b>.</p>
+
+<p><b>prettier</b> - проверит все <b>js</b> файлы в проекте, согласно правилам прописанным в файле <b>.prettierrc</b>.</p>
+
+<p><b>pug-lint</b> - проверит все pug файлы в проекте, согласно правилам прописанным в файле <b>.pug-lintrc</b>.</p>
+
+<p><b>stylelint</b> - проверит все scss файлы в проекте, согласно правилам прописанным в файле <b>.stylelintrc</b>.</p>
+
+<p><b>eslint</b> - проверит все <b>js</b> файлы в проекте, согласно правилам прописанным в файле <b>.eslintrc.js</b>.</p>
+
+<h3>Создание .editorconfig</h3>
+
+<p>В корне проекта создадим файл <b>.editorconfig</b>, в нем мы будем задавать правила того как редактор кода, <b>IDE</b> должны стандартизировать содержимое файлов.</p>
+
+{% capture code %}
+# Корневой файл .editorconfig
+root = true
+
+# Все файлы
+[*]
+charset = utf-8 # кодировка
+indent_style = space # отступ через пробел
+indent_size = 2 # размер отступа 2 символа
+end_of_line = lf # unix стиль новой строки
+trim_trailing_whitespace = true # удалять пробелы в конце строк
+insert_final_newline = true # оставлять в конце файла пустую строку
+
+# Pug файлы
+[*.pug]
+trim_trailing_whitespace = false # удалять пробелы в конце строк
+
+# Md файлы
+[*.md]
+trim_trailing_whitespace = false # удалять пробелы в конце строк
+{% endcapture %}
+{% include component/code.html lang='.editorconfig' content=code %}
+
+<h3>Создание .prettierrc</h3>
+
+<p>В корне проекта создадим файл <b>.prettierrc</b>, в нем мы будем задавать дополнительные правила того как редактор кода, <b>IDE</b> должны стандартизировать содержимое <b>js</b> файлов.</p>
+
+{% capture code %}
+{
+  "singleQuote": true, // одинарные кавычки
+  "printWidth": 80, // максимальная длина строки, после которой Prettier будет автоматически переносить код на новую строку.
+  "semi": false, // автоматически добавлять точки с запятой в конце каждого выражения
+  "tabWidth": 2, // количество пробелов, которые будут заменять один символ табуляции
+  "trailingComma": "all", // нужна ли запятая в конце объекта
+  "useTabs": false, // использовать символы табуляции, вместо пробелов, в качестве отступов
+  "endOfLine": "lf", // указывает символ новой строки для использования в конце файла
+  "bracketSpacing": true, // добавить пробелы вокруг скобок в объектах и массивах
+  "arrowParens": "avoid" // определяет, следует ли оборачивать параметры стрелочных функций в круглые скобки. "avoid" означает, что скобки будут опущены, если возможно.
+}
+{% endcapture %}
+{% include component/code.html lang='.prettierrc' content=code %}
+
+<h3>Создание .pug-lintrc</h3>
+
+<p>В корне проекта создадим файл <b>.pug-lintrc</b>, в нем мы будем задавать дополнительные правила того как редактор кода, <b>IDE</b> должны стандартизировать содержимое <b>pug</b> файлов.</p>
+
+{% capture code %}
+{
+  "validateExtensions": true, // проверяет расширения файлов Pug и обнаруживает файлы с неправильными расширениями
+  "validateDivTags": true,// проверяет использование тегов &lt;div&gt; и рекомендует заменить их на более специфичные теги или сокращенную форму, если это возможно
+  "validateAttributeSeparator": { "separator": ", ", "multiLineSeparator": ",\n " }, // проверяет разделитель атрибутов и рекомендует использовать запятую и пробел между атрибутами на одной строке, а при многострочных атрибутах, использовать запятую и перевод строки
+  "validateAttributeQuoteMarks": "\"", // проверяет кавычки в атрибутах и рекомендует использовать двойные кавычки для атрибутов
+  "requireSpecificAttributes": [ { "img": [ "src", "width", "height", "alt" ] } ], // требует, чтобы для тега &lt;img&gt; были указаны обязательные атрибуты "src", "width", "height", "alt"
+  "requireSpaceAfterCodeOperator": true, // требует пробел после оператора кода (например, =) в Pug-шаблонах
+  "requireLowerCaseTags": true, // требует использовать нижний регистр для имен тегов в Pug-шаблонах
+  "requireClassLiteralsBeforeAttributes": true, // требует, чтобы классы (атрибуты с классами) шли перед другими атрибутами в тегах
+  "disallowSpacesInsideAttributeBrackets": true, // запрещает использование пробелов внутри квадратных скобок атрибутов (например, [attr= "value"])
+  "disallowLegacyMixinCall": true, // запрещает использование устаревшего синтаксиса вызова миксинов в Pug
+  "disallowDuplicateAttributes": true // запрещает использование повторяющихся атрибутов в одном теге
+}
+{% endcapture %}
+{% include component/code.html lang='.pug-lintrc' content=code %}
+
+<h3>Создание .stylelintrc</h3>
+
+<p>В корне проекта создадим файл <b>.stylelintrc</b>, в нем мы будем задавать дополнительные правила того как редактор кода, <b>IDE</b> должны стандартизировать содержимое <b>scss</b> файлов.</p>
+
+{% capture code %}
+{
+  "extends": [
+    "stylelint-config-recommended-scss", // предоставляет рекомендуемые правила для SCSS-кода (расширение CSS, поддерживающее дополнительные возможности, такие как переменные и вложенные стили).
+    "stylelint-config-rational-order" // упорядочивает свойства CSS в определенном логическом порядке, что улучшает читаемость и облегчает поддержание кода.
+  ],
+  "plugins": [
+    "stylelint-scss" // это плагин добавляет поддержку для SCSS-синтаксиса и дополнительных функций, таких как вложенные правила и переменные
+  ],
+  "rules": {
+    "at-rule-no-unknown": null, // отключает правило проверки на неизвестные @ правила
+    "scss/at-if-no-null": null, // отключает правило проверки на использование null в SCSS @if
+    "scss/at-rule-no-unknown": [ // правило для проверки на неизвестные SCSS @ правила, за исключением правила @tailwind, которое игнорируется
+      true,
+      {
+        "ignoreAtRules": [
+          "tailwind"
+        ]
+      }
+    ],
+    "declaration-empty-line-before": null, // отключает правило проверки на пустую строку перед объявлениями
+    "order/properties-order": [], // перечень порядка свойств, которые в данной конфигурации пустой, что означает отсутствие жестких правил о порядке свойств
+    "plugin/rational-order": [ // используется плагин stylelint-order для проверки порядка свойств CSS
+      true,
+      {
+        "empty-line-between-groups": true // добавить пустую строку между группами свойств
+      }
+    ],
+    "no-descending-specificity": null, // отключает правило проверки на уменьшение специфичности селекторов
+    "block-no-empty": null, // отключает правило проверки на пустые блоки CSS
+    "import-notation": null, // отключает правило проверки импорта модулей
+    "string-quotes": "double", // устанавливает двойные кавычки (") в качестве предпочтительного стиля для строк
+    "selector-class-pattern": "^(?:(?:o|c|u|t|s|is|has|_|js|qa)-)?[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*(?:__[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)?(?:--[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)?(?:\\[.+\\])?$", // устанавливает шаблон для проверки наименований классов. В данном случае, это шаблон для БЭМ-стиля и анализирует структуру именования классов.
+    "selector-no-vendor-prefix": null, // отключает правило проверки на использование вендорных префиксов в селекторах
+    "scss/no-global-function-names": null // отключает правило проверки на использование глобальных функций в SCSS
+  }
+}
+{% endcapture %}
+{% include component/code.html lang='.pug-lintrc' content=code %}
+
+<h3>Создание .eslintrc.js</h3>
+
+<p>В корне проекта создадим файл <b>.eslintrc</b>, в нем мы будем задавать дополнительные правила того как редактор кода, <b>IDE</b> должны стандартизировать содержимое <b>js</b> файлов.</p>
+
+{% capture code %}
+module.exports = {
+  root: true, // указывает, что это корневой файл конфигурации ESLint
+  env: {
+    browser: true, // предназначен для браузера
+    es2023: true, // код использует возможности ECMAScript 2023
+    jquery: false, // код не использует jquery
+  },
+  extends: [
+    'airbnb-base', // предоставляет набор рекомендованных правил от Airbnb для JavaScript
+  ],
+	parser: '@babel/eslint-parser', // здесь указан парсер, используемый для анализа JavaScript-кода, который позволяет ESLint работать с кодом, написанным с использованием Babel
+  rules: {
+    indent: ['off', 2], // отключает правило проверки отступов и разрешает использовать два пробела в качестве отступа
+    'import/no-extraneous-dependencies': [ // отключает правило проверки на наличие лишних зависимостей
+      'off',
+      {
+        devDependencies: [
+          'gulpfile.babel.js',
+          'gulp/**/*',
+        ],
+      },
+    ],
+    'import/no-import-module-exports': [ // отключает правило проверки на использование import вместо module.exports
+      'off',
+      {
+        exceptions: [
+          'gulpfile.babel.js',
+          'gulp/**/*',
+        ],
+      },
+    ],
+    'import/resolver': [ // отключает правило проверки путей к импортированным модулям
+      'off',
+      {
+        exceptions: [
+          'gulpfile.babel.js',
+          'gulp/**/*',
+        ],
+      },
+    ],
+    'implicit-arrow-linebreak': [ // отключает правило проверки на использование неявных стрелочных функций
+      'off',
+      {
+        exceptions: [
+          'gulpfile.babel.js',
+          'gulp/**/*',
+        ],
+      },
+    ],
+    'no-var': 'error', // устанавливает запрет на использование var для объявления переменных
+    'object-curly-newline': 'error', // включает правило проверки на новую строку после открывающейся фигурной скобки
+    'max-len': 'off', // отключает правило проверки максимальной длины строки кода
+    'no-multi-assign': 'off', // отключает правило проверки на множественное присваивание
+    'no-unused-vars': 'error', // включает правило проверки на неиспользуемые переменные
+    'no-undef': 'off', // отключает правило проверки на неопределенные переменные
+    'no-console': 'error', // устанавливает ошибку при использовании console.log и других методов console
+    quotes: [2, 'single'], // устанавливает одинарные кавычки для строковых литералов
+    'import/no-dynamic-require': 'off', // отключает правило проверки на использование динамических require
+    'global-require': 'off', // отключает правило проверки на использование require вне глобальной области видимости
+    semi: ['error', 'never'], // устанавливает запрет на использование точек с запятой
+    'arrow-parens': [ // устанавливает использование круглых скобок для стрелочных функций только тогда, когда это необходимо
+      'error',
+      'as-needed',
+    ],
+		'no-underscore-dangle': 'off', // проверяет и предупреждает о использовании символа подчеркивания (underscore) в идентификаторах переменных, методов и свойств объектов
+  },
+}
+{% endcapture %}
+{% include component/code.html lang='.pug-lintrc' content=code %}
+
+<h3>Создание .eslintignore</h3>
+
+<p>В корне проекта создадим файл <b>.eslintignore</b>. Он будет использоваться для указания файлов и каталогов, которые необходимо игнорировать во время анализа <b>ESLint</b>.</p>
+
+<p>Изначальное содержимое файла .gitignore будет пустым.</p>
+
+<h3>Создание .stylelintignore</h3>
+
+<p>В корне проекта создадим файл <b>.stylelintignore</b>. Он будет использоваться для указания файлов и каталогов, которые необходимо игнорировать во время анализа <b>Stylelint</b>.</p>
+
+<p>Изначальное содержимое файла .gitignore будет пустым.</p>
+
+<h2 id="test-linter"><span class="attention">Проверка</span> линтера</h2>
+
+<p>Если мы откроем файл <b>gulpfile.babel.js</b>, то можем увидеть что у нас в нем сразу два не соответствия правилам <b>no-unused-vars</b> и <b>no-console</b> (см. правила в <b>.eslintrc.js</b>).</p>
+
+<p>Изменим текст на <b>“Test message 2”</b> и попробуем сделать новый <b>commit</b>, если мы все настроили правильно, то <b>commit</b> не должен выполниться, пока мы не исправим ошибки.</p>
+
+{% capture code %}
+git add .
+git commit -m 'add lint staged'
+
+✖ eslint --cache --fix:
+~/gulp-template/gulpfile.babel.js
+1:10  error  'dest' is defined but never used  no-unused-vars
+4:5   error  Unexpected console statement      no-console
+✖ 2 problems (2 errors, 0 warnings)
+husky - pre-commit hook exited with code 1 (error)
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Так же мы можем заметить, что в корне проекта появился файл <b>.eslintcache</b>. Он используется для ускорения работы <b>eslint</b> путем кэширования предыдущих результатов. Добавим <b>.eslintcache</b> в файл <b>.gitignore</b>:</p>
+
+{% capture code %}
+.idea
+.vscode
+node_modules
+build
+.eslintcache
+{% endcapture %}
+{% include component/code.html lang='.gitignore' content=code %}
+
+<p>А так же в файл <b>package.json</b>.</p>
+
+{% capture code %}
+"lint-staged": {
+  "*": "editorconfig-checker --exclude '.git|.husky|node_modules|.eslintcache'",
+  ...
+}
+{% endcapture %}
+{% include component/code.html lang='json' content=code %}
+
+<p>Вернемся к исправлению ошибок, удалим не используемую переменную и <b>console.log</b>.</p>
+
+{% capture code %}
+export default (done) => {
+  done()
+}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>Пробуем еще раз произвести <b>commit</b>.</p>
+
+{% capture code %}
+git add .
+git commit -m 'add lint staged'
+
+✔ Preparing lint-staged...
+✔ Running tasks for staged files...
+✔ Applying modifications from tasks...
+✔ Cleaning up temporary files...
+✔ Preparing lint-staged...
+✔ Running tasks for staged files...
+✔ Applying modifications from tasks...
+✔ Cleaning up temporary files...
+[main 9840a2a] add lint staged
+11 files changed, 8835 insertions(+), 1931 deletions(-)
+create mode 100644 .editorconfig
+create mode 100644 .eslintcache
+create mode 100644 .eslintrc.js
+create mode 100755 .husky/pre-commit
+create mode 100644 .prettierrc
+create mode 100644 .pug-lintrc
+create mode 100644 .stylelintrc
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Если у вас так же не проходит <b>commit</b>, попробуйте удалить файл <b>.eslintcache</b> и повторить коммит.</p>
+
+<p>Мы успешно настроили линтер, позже мы протестируем его на других файлах таких как <b>pug</b> и <b>scss</b>.</p>
+
+<h2 id="structure"><span class="attention">Структура</span> каталогов</h2>
+
+<p>Создадим структуру нашей сборки следующим образом.</p>
+
+{% capture code %}
+mkdir -p ./src/{assets,js,pug,scss}
+
+# assets
+mkdir -p ./src/assets/{fonts,icons,images}
+mkdir -p ./src/assets/icons/{mono,multi}
+mkdir -p ./src/assets/images/favicons
+touch ./src/assets/manifest.json
+touch ./src/assets/robots.txt
+
+# js
+mkdir -p ./src/js/components
+touch ./src/js/main.js
+
+# pug
+mkdir -p ./src/pug/{components,data,layouts,markdown,pages,parts}
+
+# scss
+mkdir -p ./src/scss/{core,scaffolds}
+mkdir -p ./src/scss/core/{base,helpers}
+mkdir -p ./src/scss/scaffolds/{components,sections}
+touch ./src/scss/main.scss
+touch ./src/scss/critical.scss
+
+# libs
+mkdir -p ./src/libs
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Хотелось бы, чтобы полученная структура была добавлена в репозиторий, но так как многие каталоги у нас пока не содержат в себе файлов, они не попадут в репозиторий. Чтобы это исправить добавим файл <b>.gitkeep</b> во все пустые каталоги, которые хотим сохранить в репозитории.</p>
+
+{% capture code %}
+touch ./src/assets/fonts/.gitkeep
+touch ./src/assets/icons/mono/.gitkeep
+touch ./src/assets/icons/multi/.gitkeep
+touch ./src/assets/images/favicons/.gitkeep
+
+touch ./src/js/components/.gitkeep
+
+touch ./src/pug/components/.gitkeep
+touch ./src/pug/data/.gitkeep
+touch ./src/pug/layouts/.gitkeep
+touch ./src/pug/markdown/.gitkeep
+touch ./src/pug/pages/.gitkeep
+touch ./src/pug/parts/.gitkeep
+
+touch ./src/scss/core/base/.gitkeep
+touch ./src/scss/core/helpers/.gitkeep
+touch ./src/scss/core/scaffolds/components/.gitkeep
+touch ./src/scss/core/scaffolds/sections/.gitkeep
+
+touch ./src/libs/.gitkeep
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>Описание каталогов</h3>
+
+<ul>
+  <li><b>./src/assets</b> - содержит все оставшиеся ресурсы проекта, не вошедшие в каталоги <b>js</b>, <b>scss</b>, <b>pug</b>, <b>libs</b></li>
+  <li><b>./src/js</b> - содержит js скрипты</li>
+  <li><b>./src/pug</b> - содержит разметку</li>
+  <li><b>./src/scss</b> - содержит стили</li>
+</ul>
+
+<ul>
+  <li><b>./src/assets/fonts</b> - содержит шрифты</li>
+  <li><b>./src/assets/icons/mono</b> - содержит черно-белые svg иконки</li>
+  <li><b>./src/assets/icons/multi</b> - содержит цветные svg иконки</li>
+  <li><b>./src/assets/images/favicons</b> - содержит фавиконки</li>
+  <li><b>./src/assets/manifest.json</b> - содержит настройки для PWA</li>
+  <li><b>./src/assets/robots.txt</b> - содержит правила для поисковых роботов</li>
+</ul>
+
+<ul>
+  <li><b>./src/js/components</b> - содержит логику отдельных компонентов</li>
+  <li><b>./src/js/main.js</b> - основной исполняемый файл</li>
+</ul>
+
+<ul>
+  <li><b>./src/pug/components</b> - содержит разметку отдельных компонентов (например кнопки, иконки)</li>
+  <li><b>./src/pug/data</b> - содержит различные настройки и данные (например список ссылок для навигации)</li>
+  <li><b>./src/pug/layouts</b> - содержит шаблоны верстки</li>
+  <li><b>./src/pug/markdown</b> - содержит markdown разметку страниц, альтернатива pug разметке</li>
+  <li><b>./src/pug/pages</b> - содержит pug разметку, альтернатива markdown разметке, на самом деле markdown разметку можно внедрять в pug разметку для удобства наполнения страниц контентной информацией, но об этом позже</li>
+  <li><b>./src/pug/parts</b> - содержит отдельные секции разметки (например шапка, подвал)</li>
+</ul>
+
+<ul>
+  <li><b>./src/scss/core/base</b> - содержит базовые стили, шрифты</li>
+  <li><b>./src/scss/core/helpers</b> - содержит переменные, миксины, функции</li>
+  <li><b>./src/scss/core/scaffolds/components</b> - содержит стили компонентов верстки (что то не большое)</li>
+  <li><b>./src/scss/core/scaffolds/sections</b> - содержит стили секций верстки (что то крупное)</li>
+  <li><b>./src/scss/critical.scss</b> - содержит подключение критических стилей</li>
+  <li><b>./src/scss/main.scss</b> - содержит подключение всех остальных стилей</li>
+</ul>
+
+<ul>
+  <li><b>./src/libs</b> - содержит файлы сторонних библиотек (например слайдеры, бутстрап)</li>
+</ul>
+
+<h3>Сохраняем изменения</h3>
+
+<p>Если сейчас попытаться закоммитить изменения, то линтер нас не пропустит так как имеются пустые <b>scss</b> файлы. Чтобы все же добавить пустые <b>scss</b> файлы в репозиторий добавим в каждый <b>scss</b> файл следующий комментарий.</p>
+
+{% include component/code.html lang='scss' content='/* stylelint-disable */' %}
+
+<p>Либо в файле <b>.eslintignore</b> пропишем путь к каталогу со стилями.</p>
+
+{% include component/code.html lang='.eslintignore' content='./src/scss/**/*' %}
+
+<p>Это вынужденная мера, так как мне хочется сохранить структуру в репозиторий. В дальнейшем, когда начнем наполнять каталог <b>src</b> файлами мы удалим временные файлы <b>.gitkeep</b> и комментарии <b>/* stylelint-disable */</b>.</p>
+
+<h2 id="config"><span class="attention">Создание</span> config.js</h2>
+
+<p>Внутри каталога <b>gulp</b> создадим файл <b>config.js</b> и каталог <b>tasks</b>.</p>
+
+{% capture code %}
+mkdir -p ./gulp/tasks
+touch ./gulp/config.js
+touch ./gulp/tasks/.gitkeep
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<ul>
+  <li><b>config.js</b> - содержит все конфигурации связанные со сборкой</li>
+  <li><b>tasks</b> - содержит модули сборки, которые будут автоматизировать процесс</li>
+</ul>
+
+<p>Изначальное содержимое файла <b>config.js</b> будет таким:</p>
+
+{% capture code %}
+/**
+ * Конфигурационный файл
+ *
+ * Содержит пути к каталогам и параметры для тасков
+ */
+
+const srcPath = 'src' // ресурсы для разработки проекта
+const buildPath = 'build' // готовый продакшен проект
+
+const config = {
+  proxy: 'http://localhost', // url виртуального хоста
+  port: 3000, // порт виртуального хоста
+
+  // Пути к каталогам для разработки проекта
+  src: {
+    root: srcPath, // корневой каталог
+
+    // Шаблонизатор pug
+    pug: {
+      root: `${srcPath}/pug`, // корневой каталог pug
+      pages: `${srcPath}/pug/pages`, // pug страницы для компиляции в html
+    },
+
+    // Препроцессор Scss
+    scss: `${srcPath}/scss`, // scss стили
+
+    // Скрипты
+    js: {
+      root: `${srcPath}/js`, // корневой каталог js
+      components: `${srcPath}/js/components`, // компоненты js
+    },
+
+    libs: `${srcPath}/libs`, // сторонние библиотеки
+
+    // Различные ресурсы
+    assets: {
+      root: `${srcPath}/assets`, // корневой каталог js
+      images: `${srcPath}/assets/images`, // изображения
+      favicons: `${srcPath}/assets/favicons`, // фавиконки
+      icons: {
+        root: `${srcPath}/assets/icons`, // корневой каталог svg иконок
+        mono: `${srcPath}/assets/icons/mono`, // черно-белые иконки
+        multi: `${srcPath}/assets/icons/multi`, // цветные иконки
+      },
+      fonts: `${srcPath}/assets/fonts`, // шрифты
+    },
+  },
+
+  // Пути к каталогам для продакшен проекта
+  build: {
+    root: buildPath, // корневой каталог js
+    css: `${buildPath}/css`, // стили
+    js: `${buildPath}/js`, // скрипты
+    images: `${buildPath}/img`, // изображения
+    fonts: `${buildPath}/fonts`, // шрифты
+  },
+
+  // Определение окружения сборки проекта
+  setEnv() {
+    this.isProd = process.argv.includes('--prod') // true если сборка проекта выполнена с ключом --prod
+    this.isDev = !this.isProd // false если сборка проекта выполнена без ключа --prod
+  },
+}
+
+export default config
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h3>Редактируем gulpfile.babel.js</h3>
+
+<p>Чтобы проверить работоспособность, созданного файла <b>config.js</b>, изменим содержимое <b>gulpfile.babel.js</b> на.</p>
+
+{% capture code %}
+// Пользовательские скрипты
+import config from './gulp/config'
+
+// Устанавливаем окружение сборки dev или prod
+config.setEnv()
+
+export default done => {
+  console.log(config.isDev)
+  console.log(config.isProd)
+
+  done()
+}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>Теперь введем в терминале.</p>
+
+{% capture code %}
+gulp
+# Результат
+# true
+# false
+
+gulp --prod
+# Результат
+# false
+# true
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Как видим файл <b>config.js</b> успешно отрабатывает, чтобы понять, что тут произошло, ознакомьтесь с кодом внутри файла <b>config.js</b>.</p>
+
+{% capture code %}
+setEnv() {
+  this.isProd = process.argv.includes('--prod') // true если сборка проекта выполнена с ключом --prod
+  this.isDev = !this.isProd // false если сборка проекта выполнена без ключа --prod
+},
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h3>Сохраняем изменения</h3>
+
+<p>Если сейчас сделать <b>commit</b>, то линтер нас не пропустит так как имеется <b>console.log</b> в коде. Чтобы все же коммит прошел, пропишем в файл <b>.eslintignore</b>.</p>
+
+{% capture code %}
+gulp
+gulpfile.babel.js
+{% endcapture %}
+{% include component/code.html lang='.eslintignore' content=code %}
+
+<p>Это вынужденная мера в дальнейшем, когда начнем создавать таски мы очистим файл <b>.eslintignore</b> и уберем <b>console.log</b>.</p>
+
+<h2 id="update-package"><span class="attention">Редактируем</span> package.json</h2>
+
+<p>Удалим не нужные конструкции и добавим новые. Я собираюсь добавить описание, ключевые слова, путь до репозитория, удалить из блока <b>script</b> команду <b>test</b> и т.п. Так будет выглядеть обновленный файл.</p>
+
+{% capture code %}
+{
+  "name": "gulp-template",
+
+  // Изменяем версию проекта
+  "version": "0.0.4",
+
+  // Описание проекта
+  "description": "Gulp сборка для продуктивной верстки",
+  "keywords": ["gulp", "pug", "webpack", "scss", "svg-sprite"],
+
+  "scripts": {
+    "prepare": "husky install"
+  },
+
+  // Browserslist - это конфигурационный файл или опция, используемая различными
+  // инструментами разработки, такими как Babel, Autoprefixer, ESLint, Stylelint,
+  // PostCSS и другими, для определения списка целевых браузеров и окружений,
+  // которые должны поддерживаться вашим веб-приложением.
+  "browserslist": [
+    "last 2 version", // поддерживаются последние 2 версии браузера
+    "not dead" // старание браузеры такие как IE не поддерживаются
+  ],
+
+  // Путь до репозитория с текущей сборкой
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eliofery/gulp-template.git"
+  },
+
+  // Путь до раздела вопрос/ответ в репозитории
+  "bugs": {
+    "url": "https://github.com/Eliofery/gulp-template/issues"
+  },
+
+  // Путь до основной страницы сборки
+  "homepage": "https://github.com/Eliofery/gulp-template#readme",
+
+  // Имя автора сборки
+  "author": "Sergio Eliofery",
+
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/register": "^7.22.5",
+    "core-js": "^3.31.1",
+    "editorconfig-checker": "^5.1.1",
+    "eslint": "^8.45.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "gulp": "^4.0.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
+    "prettier": "^3.0.0",
+    "pug-lint": "^2.7.0",
+    "stylelint": "^15.10.2",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-recommended-scss": "^12.0.0",
+    "stylelint-config-standard": "^34.0.0",
+    "stylelint-order": "^6.0.3",
+    "stylelint-scss": "^5.0.1"
+  },
+  "lint-staged": {
+    "*": "editorconfig-checker --exclude '.git|.husky|node_modules|.eslintcache'",
+    "src/pug/**/*.pug": "pug-lint --fix",
+    "src/scss/**/*.scss": "stylelint --fix",
+    "*.js": [
+      "eslint --cache --fix",
+      "prettier --write"
+    ]
+  }
+}
+{% endcapture %}
+{% include component/code.html lang='.eslintignore' content=code %}
+
+<h2 id="task-clear"><span class="attention">Таск</span> clear</h2>
+
+<p>Данный такс будет удалять каталог с собранным проектом. Установим зависимость.</p>
+
+{% capture code %}
+npm i -D gulp-clean
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Внутри каталога <b>./gulp/tasks</b> создадим файл <b>clear.js</b> который будет содержать код таска.</p>
+
+{% capture code %}
+touch ./gulp/tasks/clear.js
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Так же удалим файл <b>.gitkeep</b> из каталога <b>tasks</b> он нам больше не нужен:</p>
+
+{% capture code %}
+rm ./gulp/tasks/.gitkeep
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Изначальное содержимое файла <b>clear.js</b> будет таким.</p>
+
+{% capture code %}
+/**
+ * Удаления продакшен версии проекта
+ *
+ * Полностью удаляет каталог build
+ *
+ * @link https://gulpjs.com/docs/en/api/src#options
+ * @link https://www.npmjs.com/package/gulp-clean
+ */
+
+// Сторонние библиотеки
+import { src } from 'gulp' // gulp плагин
+import clean from 'gulp-clean' // плагин для удаления каталогов
+
+// Конфиги
+import config from '../config'
+
+// Таск
+const clear = () =>
+  src(config.build.root, { // указываем путь к каталогу который хотим удалить
+    read: false, // запрещаем читать содержимое файлов
+    allowEmpty: true, // отключаем ошибки о не существующем каталоге
+  }).pipe(
+    clean({ // удаляем каталог
+      force: true, // разрешаем удаление каталогов и файлов за пределами каталога с тасками
+    }),
+  )
+
+export default clear
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>Конструкция <b>const clear =</b> означает создание таска с именем <b>clear</b>. Это то же самое как если бы написали <b>gulp.task(’clear’)</b>, подробнее об этом ниже.</p>
+
+<h3>Добавляем таск clear в gulpfile.babel.js</h3>
+
+<p>Изменим содержимое файла <b>gulpfile.babel.js</b> на.</p>
+
+{% capture code %}
+// Сторонние библиотеки
+import { series } from "gulp"
+
+// Таски
+import clear from './gulp/tasks/clear'
+
+// Конфиги
+import config from "./gulp/config"
+
+// Определяем окружения сборки dev или prod
+config.setEnv()
+
+// Сборка проекта
+export const build = series(
+  clear,
+)
+
+// Слежение за изменением файлов
+export const watch = series(
+  build,
+)
+
+export default watch
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>Здесь мы импортировали сам <b>gulp</b> через который будем объединять наши таски. Так же импортировали первый таск <b>clear</b>, который удаляет каталог с собранной версией.</p>
+
+<p>Мы создали две конструкции <b>build</b> и <b>watch</b> с использованием метода <b>series</b>, рассмотрим их поподробней.</p>
+
+<p><b>gulp.series</b> - это метод в инструменте <b>Gulp</b>, который позволяет создавать последовательные серии задач (тасков) для выполнения в определенном порядке. То есть сперва выполнится задача <b>clear</b> потом следующая за ней и т.д. по цепочке. Пока не выполнится до конца впереди идущая задача, последующая не начнется.</p>
+
+<p>Раньше в основном <b>gulp</b> таски создавались через <b>gulp.task(’build’, …)</b>, но с появлением варианта <b>gulpfile.babel.js</b> таски можно создавать используя синтаксис <b>ES6</b> вот так <b>export const build</b>.</p>
+
+<p>export const build тоже самое что и gulp.task(’build’). Где build - это имя gulp таска, оно может быть абсолютно любым, вы сами его задаете.</p>
+
+<p>Чтобы запустить таск необходимо выполнить команду.</p>
+
+{% capture code %}
+gulp build
+
+# Выполнится конструкция:
+
+#export const build = series(
+  #clear,
+#)
+
+# Или
+
+gulp watch
+
+# Выполнится конструкция:
+
+#export const watch = series(
+  #build,
+#)
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Так же можно заметить, что в самом низу мы добавили строку.</p>
+
+{% capture code %}
+export default watch
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>Она означает что по умолчанию будет запускаться таск с именем <b>watch</b>, например если набрать в терминале команду <b>gulp</b> без названий тасков.</p>
+
+{% capture code %}
+gulp
+
+# Выполнится конструкция:
+
+#export const watch = series(
+  #build,
+#)
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>Добавляем запуск тасков в package.json</h3>
+
+<p>Хорошей практикой считается выносить запуск тасков в отдельные команды, в файле <b>package.json</b>.</p>
+
+{% capture code %}
+...
+
+"scripts": {
+    ...
+    "build": "gulp build --prod",
+    "dev": "gulp watch"
+  },
+
+...
+{% endcapture %}
+{% include component/code.html lang='json' content=code %}
+
+<p>Здесь мы добавили две команды <b>"build": "gulp build --prod"</b> и <b>"dev": "gulp watch"</b>.</p>
+
+<ul>
+  <li><b>build</b> будет запускать команду <b>gulp build --prod</b></li>
+  <li><b>dev</b> будет запускать команду <b>gulp watch</b></li>
+</ul>
+
+<p>Пример как вызвать команды <b>build</b> и <b>dev</b>.</p>
+
+{% capture code %}
+# Для сборки проекта в продакшен версию
+# Для продакшн версии картинки проекта оптимизируются, код минифицируется.
+npm run build
+
+# Для сборки проекта в режиме разработки
+# При режиме разработки проект собирается без оптимизации и минификации.
+npm run dev
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Конечно сейчас преимущества в использовании команды <b>npm run dev</b> по сравнению с <b>gulp watch</b> не заметны, напротив кажется что команда <b>gulp watch</b> короче. Но так как знакомство с новым проектом обычно начинается с просмотра файла <b>package.json</b>, очень удобно видеть сразу те команды которые участвуют в сборке проекта.</p>
+
+<p>Чем открывать отдельные файлы с тасками и ознакамливаться с их наименованием, прежде чем запустить. К тому же если когда-нибудь понадобиться дописать какие-то дополнительные конструкции, например.</p>
+
+{% include component/code.html lang='bash' content='gulp build --prod --arg2 --arg3 --arg4' %}
+
+<p>То каждый раз набирать это вручную муторно, а тем более запомнить, гораздо проще набрать <b>npm run build</b>. Причем наименования <b>build</b> и <b>dev</b> общепринятые в сообществе разработчиков и запустив не известный проект можно с высокой долей вероятности предположить, что они там есть и отвечают за одну и туже логику.</p>
+
+<h3>Тестируем таск clear</h3>
+
+<p>Чтобы протестировать работоспособность таска <b>clear</b>, создадим в корне проекта каталог <b>build</b>.</p>
+
+<p>Теперь запустим команду сборки или разработки проекта.</p>
+
+{% capture code %}
+npm run build
+npm run dev
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Как видим каталог <b>build</b> в корне проекта удалился, таск успешно отработал.</p>
+
+<h2 id="task-server"><span class="attention">Таск</span> server</h2>
+
+<p>Данный такс будет создавать виртуальный сервер для отображения сверстанных страниц и автоматического обновления браузера при изменении файлов. Установим зависимость.</p>
+
+{% capture code %}
+npm i -D browser-sync
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Внутри каталога <b>./gulp/tasks</b> создадим файл <b>server.js</b> который будет содержать следующий код таска.</p>
+
+{% capture code %}
+/**
+ * Виртуальный сервер
+ *
+ * Создает виртуальный сервер, автоматически обновляет браузер при изменении файлов
+ *
+ * @link https://browsersync.io/docs/gulp
+ * @link https://browsersync.io/docs/options
+ */
+
+// Конфиги
+import config from '../config'
+
+// Создаем browserSync
+global.browserSync = require('browser-sync').create()
+
+const server = done => {
+  browserSync.init({
+    // proxy: `${config.proxy}:${config.port}`, // хост по заданной ссылке
+    // port: config.port, // использовать заданный порт
+
+    server: config.build.root, // хост по заданному каталогу
+
+    open: true, // автоматически открыть страницу в браузере после запуска таска
+    notify: false, // показать уведомление
+    cors: true, // добавить HTTP заголовок CORS
+    ui: false, // включить доступ к интерфейсу настроек browser-sync
+  })
+
+  done() // скрипт завершен
+}
+
+export default server
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>По умолчанию виртуальный сервер хостует каталог <b>build</b>, если необходимо слушать какой-то конкретный адрес расскоментируйте строки в файле <b>config.js</b></p>
+
+{% capture code %}
+proxy: `${config.proxy}:${config.port}`, // хост по заданной ссылке
+port: config.port, // использовать заданный порт
+
+// server: config.build.root, // хост по заданному каталогу
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h3>Добавляем таск server в gulpfile.babel.js</h3>
+
+<p>Изменим содержимое файла gulpfile.babel.js.</p>
+
+{% capture code %}
+// Сторонние библиотеки
+import { series } from 'gulp'
+
+// Таски
+import clear from './gulp/tasks/clear'
+import server from './gulp/tasks/server'
+
+// Конфиги
+import config from './gulp/config'
+
+// Определяем окружения сборки dev или prod
+config.setEnv()
+
+// Запуск виртуального сервера
+export const proxy = server
+
+// Сборка проекта
+export const build = series(clear)
+
+// Слежение за изменением файлов
+export const watch = series(build, server)
+
+export default watch
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>Дополнительно с добавлением таска <b>server</b> был добавлен таск <b>proxy</b>, который отдельно запускает виртуальный сервер, без полной сборки проекта.</p>
+
+<p>Так же добавим в файл <b>package.json</b>, в <b>scripts</b> команду <b>"proxy": "gulp proxy"</b>.</p>
+
+<h3>Тестируем таск server</h3>
+
+<p>Чтобы протестировать работоспособность таска <b>server</b>, запустим проект в <b>dev</b> режиме.</p>
+
+{% include component/code.html lang='bash' content='npm run dev' %}
+
+<p>При запуске виртуального сервера в браузере откроется вкладка с содержимым <b>"Cannot GET /"</b>. Чтобы это исправить создадим вручную каталог <b>build</b> и внутри него файл <b>index.html</b>:</p>
+
+{% capture code %}
+mkdir build
+touch ./build/index.html
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Добавим в index.html любое содержимое и обновим страницу. В браузере должно отобразиться, введенное нами в index.html содержимое. После чего сбросим подключение к виртуальному серверу нажав в терминале Ctrl+C и введем команду.</p>
+
+{% capture code %}
+npm run proxy
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Должна открыться страница с содержимым файла <b>index.html</b>.</p>
+
+<h2 id="task-webpack"><span class="attention">Таск</span> webpack</h2>
+
+<p>Данный такс будет объединять <b>js</b> файлы в один общий и минифицировать его. Установим зависимости.</p>
+
+{% capture code %}
+npm i -D babel-loader eslint-import-resolver-alias webpack-stream gulp-strip-comments vinyl-named-with-path
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Внутри каталога <b>./gulp/tasks</b> создадим файл <b>webpack.js</b> который будет содержать код таска.</p>
+
+{% capture code %}
+/**
+ * JS Webpack
+ *
+ * Объединяет указанные js файлы в один общий и минифицирует его
+ */
+
+// Сторонние библиотеки
+import { dest, src, watch } from 'gulp' // gulp плагин
+import plumber from 'gulp-plumber' // перехватывает ошибки
+import notify from 'gulp-notify' // уведомляет об ошибках
+import gulpif from 'gulp-if' // вызывает функции по условию
+import webpackStream from 'webpack-stream' // webpack плагин
+import named from 'vinyl-named-with-path' // дает возможность использовать ${config.src.js}/*.js конструкцию
+import strip from 'gulp-strip-comments' // очищает комментарии
+
+// Конфиги
+import config from '../config'
+import webpackConfig from '../../webpack.config'
+
+// Сборка таска
+export const webpackBuild = () =>
+  src([`${config.src.js.root}/*.js`]) // входящие файлы
+    .pipe(
+      // Отлавливаем и показываем ошибки в таске
+      plumber({
+        errorHandler: notify.onError(err => ({
+          title: 'Ошибка в задаче webpackBuild', // заголовок ошибки
+          sound: false, // уведомлять звуком
+          message: err.message, // описание ошибки
+        })),
+      }),
+    )
+    .pipe(named()) // меняем [name] на имя файла
+    .pipe(webpackStream(webpackConfig)) // настройки webpack
+    .pipe(gulpif(config.isProd, strip())) // удаляем комментарии в коде
+    .pipe(dest(`${config.build.js}`)) // исходящий файл
+    .pipe(browserSync.stream()) // обновление страницы в браузере
+
+// Слежение за изменением файлов
+export const webpackWatch = () => watch(`${config.src.js.root}/**/*.js`, webpackBuild)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>Теперь создадим в корне проекта файл <b>webpack.config</b>, который будет содержать правила и настройки по сборке <b>js</b> файлов.</p>
+
+{% capture code %}
+const path = require('path') // определение абсолютного пути
+
+// Рабочее окружение
+const isProd = process.argv.includes('--prod')
+
+module.exports = {
+  mode: isProd ? 'production' : 'development', // минификация файла
+  devtool: isProd ? false : 'inline-source-map', // если gulp сборка запущена в режиме разработки создаст sourcemap файл
+  output: {
+    filename: '[name].js', // имя файла после сборки
+  },
+  // разбиение исходного файла на чанки
+  optimization: {
+    splitChunks: {
+      chunks: 'async', // all
+      minSize: 30000, // 10000
+      maxSize: 0, // 200000
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/, // файл заканчивается на .js
+        exclude: /(node_modules|bower_components)/, // исключаем каталоги node_modules и bower_components
+        use: {
+          loader: 'babel-loader', // используем в качестве обработчика babel-loader
+        },
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.js'],
+    alias: {
+      // короткий путь до js файлов через символ @, например @/components/ButtonComponent
+      '@': path.resolve(__dirname, 'src/js'),
+    },
+  },
+}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>Для того чтобы текстовый редактор и IDE распознал короткий путь, обозначенный через символ <b>@</b> дополним правила в файле <b>.eslintrc.js</b>.</p>
+
+{% capture code %}
+module.exports = {
+	...
+
+	settings: {
+	  'import/resolver': {
+	    alias: {
+	      map: [
+	        ['@', './src/js'],
+	      ],
+	      extensions: ['.js'],
+	    },
+	  },
+	},
+}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h3>Добавляем таск webpack в gulpfile.babel.js</h3>
+
+<p>Изменим содержимое файла <b>gulpfile.babel.js</b> на.</p>
+
+{% capture code %}
+// Сторонние библиотеки
+import { series, parallel } from 'gulp'
+
+// Таски
+import clear from './gulp/tasks/clear'
+import server from './gulp/tasks/server'
+import { webpackBuild, webpackWatch } from './gulp/tasks/webpack'
+
+// Конфиги
+import config from './gulp/config'
+
+// Определяем окружения сборки dev или prod
+config.setEnv()
+
+// Запуск виртуального сервера
+export const proxy = server
+
+// Сборка проекта
+export const build = series(clear, webpackBuild)
+
+// Слежение за изменением файлов
+export const watch = series(
+  build,
+  server,
+
+  parallel(
+    webpackWatch,
+  ),
+)
+
+export default watch
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>Здесь мы добавили сразу 2 таска <b>webpackBuild</b> и <b>webpackWatch</b>. Первый таск объединяет <b>js</b> файлы, второй таск следит за изменениями <b>js</b> файлов. При изменение какого либо <b>js</b> файла внутри <b>src/js</b>, автоматически будет вызван таск <b>webpackBuild</b>, который заного объединит <b>js</b> файлы.</p>
+
+<p>Так же был добавлен новый метод <b>gulp.parallel</b>, который позволяет вызывать таски асинхронно друг другу, не дожидаясь того пока другой таск завершит свою работу. Сейчас у нас только один таск <b>webpackWatch</b>, следящий за изменением файлов, но вскоре к нему добавятся и другие.</p>
+
+<h3>Тестируем таск webpack</h3>
+
+<p>Чтобы протестировать работоспособность таска <b>webpack</b> создадим компонент кнопки.</p>
+
+{% include component/code.html lang='bash' content='touch ./src/js/components/ButtonComponent.js' %}
+
+<p>Изначальное содержимое ButtonComponent.js будет таким.</p>
+
+{% capture code %}
+export default class ButtonComponent {
+  _element = null
+
+  constructor(selector) {
+    this._element = document.querySelector(selector)
+  }
+
+  get element() {
+    return this._element
+  }
+}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>Так же удалим файл <b>.gitkeep</b> из каталога <b>srs/js/components</b>.</p>
+
+<p>Теперь в файле <b>main.js</b> импортируем созданную кнопку, напишем следующий код.</p>
+
+{% capture code %}
+import ButtonComponent from '@/components/ButtonComponent'
+
+const button = new ButtonComponent('.button')
+
+button.element.addEventListener('click', () => {
+  const message = document.createElement('div')
+
+  message.textContent = 'Нажали на кнопку'
+  document.body.insertAdjacentElement('beforebegin', message)
+})
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>Запустим сборку в режиме разработки.</p>
+
+{% capture code %}
+npm run dev
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>В каталоге <b>build</b> появится каталог <b>js</b> с файлом <b>main.js</b> внутри.</p>
+
+<p>Создадим в корне каталога <b>build</b> файл <b>index.html</b>, со следующим содержимым:</p>
+
+{% capture code %}
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;button class="button" type="button"&gt;Кнопка&lt;/button&gt;
+
+&lt;script src="js/main.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Перезапустим страницу в браузере и нажмем на кнопку. Появится сообщение “Нажали на кнопку”.</p>
+
+<h2 id="task-styles"><span class="attention">Таск</span> styles</h2>
+
+<p>Данный такс будет объединять <b>scss</b> файлы в один общий <b>css</b> и минифицировать его. Установим зависимости.</p>
+
+{% capture code %}
+npm i -D sass gulp-sass gulp-sass-glob gulp-postcss autoprefixer cssnano postcss-custom-media postcss-discard-comments
+npm i -S normalize.css
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Внутри каталога <b>./gulp/tasks</b> создадим файл <b>styles.js</b> который будет содержать код таска.</p>
+
+{% capture code %}
+/**
+ * Scss препроцессор
+ *
+ * Объединяет указанные scss файлы в один общий css файл и минифицирует
+ */
+
+// Сторонние библиотеки
+import { src, dest, watch } from 'gulp' // gulp плагин
+import plumber from 'gulp-plumber' // перехватывает ошибки
+import notify from 'gulp-notify' // уведомляет об ошибках
+import sassGlob from 'gulp-sass-glob' // позволяет использовать /**/*.scss конструкцию
+import dartSass from 'sass' // препроцессор sass
+import gulpSass from 'gulp-sass' // препроцессор sass
+import postcss from 'gulp-postcss' // позволяет использовать PostCSS для обработки CSS-файлов
+import autoPrefixer from 'autoprefixer' // автоматически добавляет префиксы для поддержки старых браузеров
+import cssnano from 'cssnano' // минифицирует css файл
+import postcssCustomMedia from 'postcss-custom-media' // группирует стили под общими медиа запросами
+import comments from 'postcss-discard-comments' // группирует стили под общими медиа запросами
+
+// Пользовательские скрипты
+import config from '../config' // конфигурационный файл
+
+// Подключение библиотеки sass
+const sass = gulpSass(dartSass)
+
+// Сборка таска
+export const stylesBuild = () => {
+  const minify = config.isProd ? cssnano() : () => {} // минификация стилей
+  const clear = config.isProd ? comments({ removeAll: true }) : () => {} // удаление комментариев
+
+  return src(`${config.src.scss}/**/*.{scss,sass}`, { sourcemaps: config.isDev }) // входящие файлы
+    .pipe(
+      // Отлавливаем и показываем ошибки в таске
+      plumber({
+        errorHandler: notify.onError(err => ({
+          title: 'Ошибка в задаче stylesBuild', // заголовок ошибки
+          sound: false, // уведомлять звуком
+          message: err.message, // описание ошибки
+        })),
+      }),
+    )
+    .pipe(sassGlob()) // проходит по всем файлам в scss, подключенным через шаблон /**/*
+    .pipe(sass.sync({
+      includePaths: ['./node_modules'], // ищет зависимости в node_modules, например normalize.css
+    }))
+    .pipe(postcss([
+      postcssCustomMedia(), // объединяет медиа запросы
+      autoPrefixer(), // автопрефиксер
+      minify, // минификация
+      clear, // очистка комментариев
+    ]))
+    .pipe(dest(config.build.css, { sourcemaps: config.isDev })) // исходящий файл
+    .pipe(browserSync.stream()) // обновление страницы в браузере
+}
+
+// Слежение за изменением файлов
+export const stylesWatch = () => {
+  watch(`${config.src.scss}/**/*.{scss,sass}`, stylesBuild)
+}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h3>Добавляем таск styles в gulpfile.babel.js</h3>
+
+<p>Изменим содержимое файла <b>gulpfile.babel.js</b> на следующий код.</p>
+
+{% capture code %}
+// Сторонние библиотеки
+import { series, parallel } from 'gulp'
+
+// Таски
+import clear from './gulp/tasks/clear'
+import server from './gulp/tasks/server'
+import { webpackBuild, webpackWatch } from './gulp/tasks/webpack'
+import { stylesBuild, stylesWatch } from './gulp/tasks/styles'
+
+// Конфиги
+import config from './gulp/config'
+
+// Определяем окружения сборки dev или prod
+config.setEnv()
+
+// Запуск виртуального сервера
+export const proxy = server
+
+// Сборка проекта
+export const build = series(
+  // clear,
+  stylesBuild,
+  webpackBuild,
+)
+
+// Слежение за изменением файлов
+export const watch = series(
+  build,
+  server,
+
+  parallel(
+    stylesWatch,
+    webpackWatch,
+  ),
+)
+
+export default watch
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<p>Здесь мы добавили сразу 2 таска <b>stylesBuild</b> и <b>stylesWatch</b>. Первый таск объединяет <b>scss</b> файлы, второй таск следит за изменениями <b>scss</b> файлов. При изменении какого либо <b>scss</b> файла внутри <b>src/scss</b>, автоматически будет вызван таск <b>stylesBuild</b>, который снова объединит <b>scss</b> файлы.</p>
+
+<h3>Создаем файлы со стилями</h3>
+
+<p>В каталоге <b>scss</b> у должна получиться следующая структура.</p>
+
+{% capture code %}
+./src/scss/
+├── core
+│    ├── base
+│    │     ├── _base.scss
+│    │     ├── _container.scss
+│    │     └── _fonts.scss
+│    └── helpers
+│        ├── _functions.scss
+│        ├── _mixins.scss
+│        └── _variables.scss
+├── critical.scss
+├── main.scss
+└── scaffolds
+    ├── components
+    │    └── .gitkeep
+    └── sections
+        └── _browser-upgrade.scss
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<ul>
+  <li><b>core</b> - хранит основные, базовые стили для любого проекта который будет создаваться через данную сборку.</li>
+  <li><b>scaffolds</b> - хранит стили специфичные только для определенного проекта который будет создаваться через данную сборку.</li>
+</ul>
+
+<ul>
+  <li><b>base</b> - хранит базовые стили используемые на всех страницах.</li>
+  <li><b>helpers</b> - хранит вспомогательные файлы такие как переменные, миксины, функции.</li>
+</ul>
+
+<ul>
+  <li><b>components</b> - хранит стили компонентов, небольших элементов.</li>
+  <li><b>sections</b> - хранит стили секций, крупных блоков, внутри которых располагаются компоненты.</li>
+</ul>
+
+<ul>
+  <li><b>main.scss</b> - основной файл со стилями подключает внутри себя остальные стили, из выше указанных каталогов.</li>
+  <li><b>critical.scss</b> - критические стили подключает внутри себя те стили которые должны быть подключены <b>inline</b> внутри <b>&lt;head&gt;</b> тега.</li>
+</ul>
+
+<h4>_base.scss</h4>
+
+<p>Отвечает за базовые стили проекта. Содержимое файла <b>_base.scss</b>.</p>
+
+{% capture code %}
+@use "sass:math";
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100vh;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+
+  min-width: $min-screen;
+  margin: 0;
+
+  color: rgb(var(--theme-text));
+  font-size: $fz;
+  font-family: $font-primary;
+  line-height: $lh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  background-color: rgb(var(--theme-bg));
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+
+  object-fit: cover;
+
+  vertical-align: middle;
+}
+
+button {
+  display: inline-block;
+
+  font-family: inherit;
+
+  cursor: pointer;
+}
+
+@each $headline, $size in $headlines {
+  $margin: $size * $lh;
+
+  #{$headline} {
+    margin: $margin 0 math.div($margin, 2);
+
+    font-weight: 500;
+    font-size: $size;
+  }
+}
+
+strong,
+b {
+  font-weight: 500;
+}
+
+.sr-only {
+  @include sr-only;
+}
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<h4>_container.scss</h4>
+
+<p>Отвечает за стили центрующего контейнера в проекте. Содержимое файла <b>_container.scss</b>.</p>
+
+{% capture code %}
+@use "sass:map";
+
+.container {
+  width: 100%;
+  max-width: map.get($container-sizes, desktop);
+  margin: 0 auto;
+  padding: 0 $container-grid;
+}
+
+@include from(mobile) {
+  .container {
+    padding: 0 $container-grid * 2;
+  }
+}
+
+@include from(desktop) {
+  .container {
+    padding: 0 $container-grid * 3;
+  }
+}
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<h4>_fonts.scss</h4>
+
+<p>Отвечает за подключение сторонних шрифтов в стилях проекта. Содержимое файла <b>_fonts.scss</b>.</p>
+
+{% capture code %}
+/* stylelint-disable scss/comment-no-empty */
+
+// 100 – Thin.
+// 200 – Extra Light (Ultra Light)
+// 300 – Light.
+// 400 – Normal.
+// 500 – Medium.
+// 600 – Semi Bold (Demi Bold)
+// 700 – Bold.
+// 800 – Extra Bold (Ultra Bold)
+
+@include font-face("Roboto", "../fonts/roboto/roboto-regular");
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<h4>_mixins.scss</h4>
+
+<p>Отвечает за миксины проекта. Содержимое файла <b>_mixins.scss</b>.</p>
+
+{% capture code %}
+@use "sass:map";
+
+// mobile first
+@mixin from($min_width) {
+  $min_width: map.get($container-sizes, $min_width);
+
+  @media screen and (min-width: $min_width) {
+    @content;
+  }
+}
+
+// desktop first
+@mixin to($max_width) {
+  $max_width: map.get($container-sizes, $max_width);
+
+  @media screen and (max-width: $max_width) {
+    @content;
+  }
+}
+
+// only mobile
+@mixin only-mobile($max_width: "mobile") {
+  $max_width: map.get($container-sizes, $max_width);
+
+  @media screen and (max-width: $max_width - 1) {
+    @content;
+  }
+}
+
+@mixin retina($dpi: 144, $dppx: 1.5) {
+  @media (min-resolution: #{$dpi}dpi), (min-resolution: #{$dppx}dppx) {
+    @content;
+  }
+}
+
+@mixin font-face($font-family, $url, $weight: normal, $style: normal) {
+  @font-face {
+    font-weight: $weight;
+    font-family: "#{$font-family}";
+    font-style: $style;
+    font-display: swap;
+    src: url("#{$url}.woff2") format("woff2");
+  }
+}
+
+@mixin list-reset {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+@mixin button-reset {
+  padding: 0;
+
+  background-color: transparent;
+  border: none;
+}
+
+@mixin sr-only {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+
+  border: 0;
+
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(100%);
+}
+
+@mixin overlay($color: #222) {
+  &::before {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba($color, 0.8);
+
+    content: "";
+  }
+}
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<h4>_variables.scss</h4>
+
+<p>Отвечает за функции проекта. Содержимое файла <b>_variables.scss</b>.</p>
+
+{% capture code %}
+$black: #222;
+$white: #fff;
+
+:root {
+  --theme-text: #{hextorgb($black)};
+  --theme-bg: #{hextorgb($white)};
+}
+
+@mixin dark-mode {
+  --theme-text: #{hextorgb($white)};
+  --theme-bg: #{hextorgb($black)};
+}
+
+.dark-mode {
+  @include dark-mode;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    @include dark-mode;
+  }
+}
+
+$font-primary: Roboto, -apple-system, Arial, sans-serif;
+
+$fz: 16px;
+$lh: 1.5;
+$font-sizes: (xxs: 12px, xs: 14px, sm: $fz, md: 18px, lg: 24px, xl: 33px, xxl: 48px);
+$headlines: (
+  h1: map-get($font-sizes, "xxl"),
+  h2: map-get($font-sizes, "xl"),
+  h3: map-get($font-sizes, "lg"),
+  h4: map-get($font-sizes, "md"),
+  h5: map-get($font-sizes, "sm"),
+  h6: map-get($font-sizes, "xs")
+);
+
+$min-screen: 320px;
+$container-sizes: (mobile: 768px, tablet: 1180px, desktop: 1700px);
+$container-grid: 20px;
+
+$transition: all 0.3s ease;
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<h4>_button.scss</h4>
+
+<p>Отвечает за стили компонента <b>button</b>. Содержимое файла <b>_button.scss</b>.</p>
+
+{% capture code %}
+.button {
+  display: inline-block;
+
+  vertical-align: middle;
+}
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<h4>_main-header.scss</h4>
+
+<p>Отвечает за стили секции <b>main-header</b>. Содержимое файла <b>_main-header.scss</b>.</p>
+
+{% capture code %}
+.main-header {
+  background-color: #ebebeb;
+}
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<h4>main.scss</h4>
+
+<p>Основной файл со стилями. Содержимое файла <b>main.scss</b>.</p>
+
+{% capture code %}
+@import "core/helpers/functions";
+@import "core/helpers/variables";
+@import "core/helpers/mixins";
+
+@import "core/base/fonts";
+
+@import "scaffolds/components/**/*";
+@import "scaffolds/sections/**/*";
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<h4>critical.scss</h4>
+
+<p>Файл с критическими стилями. Содержимое файла <b>critical.scss</b>.</p>
+
+{% capture code %}
+@import "core/helpers/functions";
+@import "core/helpers/variables";
+@import "core/helpers/mixins";
+
+@import "normalize.css/normalize";
+
+@import "core/base/base";
+
+@import "core/container/mobile";
+//@import "core/container/desktop";
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<h3>Удаляем все файлы .gitkeep внутри директорий src/scss</h3>
+
+{% capture code %}
+rm src/scss/core/base/.gitkeep
+rm src/scss/core/helpers/.gitkeep
+rm src/scss/scaffolds/components/.gitkeep
+rm src/scss/scaffolds/sections/.gitkeep
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h3>Тестируем таск styles</h3>
+
+<p>Чтобы протестировать работоспособность таска <b>styles</b> запустим сборку в режиме разработки.</p>
+
+{% include component/code.html lang='scss' content='npm run dev' %}
+
+<p>В каталоге <b>build</b> появится каталог <b>css</b> с файлом <b>main.css</b> и <b>critical.css</b> внутри. Создадим в корне каталога build файл index.html, со следующим содержимым.</p>
+
+{% capture code %}
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Title&lt;/title&gt;
+
+  &lt;link rel="stylesheet" href="css/critical.css"&gt;
+  &lt;link rel="stylesheet" href="css/main.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<p>Откроем файл <b>src/scss/core/helpers/_variables.scss</b> и изменим цвет фона.</p>
+
+{% include component/code.html lang='scss' content='$white: red;' %}
+
+<p>Страница должна автоматически обновиться, а цвет фона измениться.</p>
+
+<h2 id="task-sprites"><span class="attention">Таск</span> sprites</h2>
+
+<p>Данный такс будет cоздавать <b>svg</b> спрайт. Установим зависимости.</p>
+
+{% capture code %}
+npm i -D files-exist gulp-concat gulp-svg-symbol-view
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Внутри каталога <b>./gulp/tasks</b> создадим файл <b>sprites.js</b>.</p>
+
+{% capture code %}
+/**
+ * SVG спрайт
+ *
+ * Создает svg спрайт
+ *
+ * Пример использования в css:
+ * background: url('sprite-mono.svg#icon-name-view') no-repeat;
+ * background-size: 20px;
+ *
+ * Пример использования в html:
+ * <svg width="50" height="50" aria-hidden="true"><use href="#icon-name"></use></svg>
+ *
+ * @link https://github.com/svg/svgo
+ */
+
+// Сторонние библиотеки
+import { src, dest, watch, parallel } from 'gulp' // gulp плагин
+import filesExist from 'files-exist' // проверяет файл на существование
+import concat from 'gulp-concat' // объединяет несколько файлов в один
+import svgSprite from 'gulp-svg-symbol-view' // создает спрайт
+
+// Конфиги
+import config from '../config'
+
+// Создание черно-белого svg спрайта
+const spriteMono = () =>
+  // входящие файлы
+  src(filesExist(`${config.src.assets.icons.mono}/**/icon-*.svg`, { exceptionMessage: 'Нет ни одного файла svg' }))
+    .pipe(
+      svgSprite({
+        svgo: {
+          plugins: [
+            { cleanupIDs: true }, // удалить id
+            { removeRasterImages: true }, // удалить растровые изображения
+            { removeStyleElement: true }, // удалить &lt;style&gt;
+            { removeUselessDefs: true }, // удалить &lt;defs&gt;
+            { removeViewBox: false }, // удалить ViewBox
+            { removeComments: true }, // удалить комментарии
+            {
+              removeAttrs: {
+                attrs: ['class', 'data-name'], // удалить указанные атрибуты, 'fill', 'stroke.*'
+              },
+            },
+          ],
+        },
+      }),
+    )
+    .pipe(concat('sprite-mono.svg')) // объединение файлов
+    .pipe(dest(config.build.images)) // исходящий файл
+    .pipe(browserSync.stream()) // обновление страницы в браузере
+
+// Создание цветного svg спрайта
+const spriteMulti = () =>
+  // входящие файлы
+  src(filesExist(`${config.src.assets.icons.multi}/**/icon-*.svg`, { exceptionMessage: 'Нет ни одного файла svg' }))
+    .pipe(
+      svgSprite({
+        svgo: {
+          plugins: [
+            { cleanupIDs: true }, // удалить id
+            { removeUselessDefs: true }, // удалить &lt;defs&gt;
+            { removeViewBox: false }, // удалить ViewBox
+            { removeComments: true }, // удалить комментарии
+            { removeUselessStrokeAndFill: false }, // удалить атрибуты stroke и fill
+            { inlineStyles: true }, // поддержка встроенных стилей &lt;style&gt;&lt;/style&gt;
+            {
+              removeAttrs: {
+                attrs: ['class', 'data-name'], // удалить указанные атрибуты
+              },
+            },
+          ],
+        },
+      }),
+    )
+    .pipe(concat('sprite-multi.svg')) // объединение файлов
+    .pipe(dest(config.build.images)) // исходящий файл
+    .pipe(browserSync.stream()) // обновление страницы в браузере
+
+// Сборка всех тасков
+export const spritesBuild = parallel(spriteMono, spriteMulti)
+
+// Слежение за изменением файлов
+export const spritesWatch = () => {
+  watch(`${config.src.assets.icons.mono}/**/*.svg`, { ignoreInitial: false }, spriteMono)
+  watch(`${config.src.assets.icons.multi}/**/*.svg`, { ignoreInitial: false }, spriteMulti)
+}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h3>Добавляем таск sprites в gulpfile.babel.js</h3>
+
+<p>Изменим содержимое файла <b>gulpfile.babel.js</b> на следующий код.</p>
+
+{% capture code %}
+// Сторонние библиотеки
+import { series, parallel } from 'gulp'
+
+// Таски
+import clear from './gulp/tasks/clear'
+import server from './gulp/tasks/server'
+import { webpackBuild, webpackWatch } from './gulp/tasks/webpack'
+import { stylesBuild, stylesWatch } from './gulp/tasks/styles'
+import { spritesBuild, spritesWatch } from './gulp/tasks/sprites'
+
+// Конфиги
+import config from './gulp/config'
+
+// Определяем окружения сборки dev или prod
+config.setEnv()
+
+// Запуск виртуального сервера
+export const proxy = server
+
+// Сборка проекта
+export const build = series(
+  // clear,
+  spritesBuild,
+  stylesBuild,
+  webpackBuild
+)
+
+// Слежение за изменением файлов
+export const watch = series(
+  build,
+  server,
+
+  parallel(
+    spritesWatch,
+    stylesWatch,
+    webpackWatch
+  ),
+)
+
+export default watch
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<h3>Тестируем таск sprites</h3>
+
+<p>Чтобы протестировать таск <b>sprites.js</b> скачаем и добавим в каталог <b>./src/assets/icons/mono</b> черно-белые иконки, а в каталог <b>./src/assets/icons/multi</b> цветные иконки. Попутно удалим из этих каталогов файл <b>.gitkeep</b>. Запустим сборку в режиме разработки.</p>
+
+{% include component/code.html lang='bash' content='npm run dev' %}
+
+<p>Создадим в каталоге build файл <b>index.html</b>.</p>
+
+{% capture code %}
+&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+
+  &lt;link rel="stylesheet" href="css/critical.css"&gt;
+  &lt;link rel="stylesheet" href="css/main.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="icon icon--snow"&gt;&lt;/div&gt;
+  &lt;div class="icon icon--sun"&gt;&lt;/div&gt;
+  &lt;div class="icon icon--user"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<p>Создадим стили для иконок <b>src/scss/scaffolds/components/_icons.scss</b>.</p>
+
+{% capture code %}
+.icon {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+
+  background-size: 50px;
+  background-repeat: no-repeat;
+}
+
+.icon--snow {
+  background-image: url("../img/sprite-mono.svg#icon-snow-view");
+}
+
+.icon--sun {
+  background-image: url("../img/sprite-mono.svg#icon-sun-view");
+}
+
+.icon--user {
+  background-image: url("../img/sprite-multi.svg#icon-user-view");
+}
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<p>Обновим страницу в браузере и увидим добавленные svg иконки.</p>
+
+<h2 id="task-images"><span class="attention">Таск</span> images</h2>
+
+<p>Данный такс будет оптимизировать изображения. Установим зависимости.</p>
+
+{% include component/code.html lang='bash' content='npm i -D gulp-avif gulp-webp gulp-flatten gulp-imagemin@7.1.0 imagemin-pngquant gulp-newer' %}
+
+<p>Внутри каталога <b>./gulp/tasks</b> создадим файл images.js</p>
+
+{% capture code %}
+/**
+ * Оптимизация изображений
+ *
+ * Уменьшает размер изображений и создает webp, avif форматы
+ */
+
+// Сторонние библиотеки
+import { src, dest, watch, series } from 'gulp' // gulp плагин
+import gulpif from 'gulp-if' // вызывает функции по условию
+import newer from 'gulp-newer' // пропускает старые файлы
+import flatten from 'gulp-flatten' // настраивает исходную структуру каталогов
+import imagemin, { gifsicle, mozjpeg, optipng, svgo } from 'gulp-imagemin' // оптимизирует изображения
+import pngQuant from 'imagemin-pngquant' // оптимизирует png изображения
+import webp from 'gulp-webp' // создает webp файлы
+import avif from 'gulp-avif' // создает avif файлы
+
+// Конфиги
+import config from '../config'
+
+// Оптимизация изображений
+export const imageOptim = () =>
+  src([`${config.src.assets.images}/**/*`]) // входящие файлы
+    .pipe(newer(config.build.images)) // только те изображения которые изменились или были добавлены
+    .pipe(
+      gulpif(
+        config.isProd,
+        imagemin(
+          [
+            gifsicle({
+              interlaced: true, // чересстрочная загрузка изображения
+            }),
+            optipng({
+              optimizationLevel: 5, // уровень оптимизации png файла
+            }),
+            pngQuant({
+              quality: [0.8, 0.9], // уровень оптимизации png файла
+            }),
+            mozjpeg({
+              quality: 75, // уровень оптимизации jpg файла
+              progressive: true, // чересстрочная загрузка изображения
+            }),
+            svgo({
+              plugins: [
+                { cleanupIds: true }, // удаляет неиспользуемые id
+                { removeUselessDefs: true }, // удаляет &lt;defs&gt;
+                { removeViewBox: true }, // удаляет атрибут viewBox
+                { removeComments: true }, // удаляет комментарии
+                // { inlineStyles: { removeMatchedSelectors: false, onlyMatchedOnce: false } }, // оставляет стили в теге style
+                { mergePaths: true }, // объединяет несколько путей в один
+                { minifyStyles: false }, // не удаляет @keyframes из тега style
+              ],
+            }),
+          ],
+          {
+            verbose: config.isProd, // каждая оптимизированная картинка отобразится в терминале
+          },
+        ),
+      ),
+    )
+    .pipe(flatten({ includeParents: [1, 1] })) // сохранение структуры родительских каталогов
+    .pipe(dest(config.build.images)) // исходящие файлы
+    .pipe(browserSync.stream()) // обновление страницы в браузере
+
+// Создание Webp изображения
+export const toWebp = () =>
+  src(`${config.src.assets.images}/**/*.{jpg,png,jpeg}`) // для всех файлов формата jpg,png,jpeg будет создан файл webp
+    .pipe(webp({
+      quality: 80, // уровень оптимизации webp файла
+    }))
+    .pipe(dest(config.build.images)) // разместит оптимизированные webp файлы
+    .pipe(browserSync.stream()) // обновление страницы в браузере
+
+// Создание Avif изображения
+export const toAvif = () =>
+  src(`${config.src.assets.images}/**/*.{jpg,png,jpeg}`) // для всех файлов формата jpg,png,jpeg будет создан файл webp
+    .pipe(avif({
+      quality: 80, // уровень оптимизации avif файла
+    }))
+    .pipe(dest(config.build.images)) // разместит оптимизированные webp файлы
+    .pipe(browserSync.stream()) // обновление страницы в браузере
+
+// Выполнение всех тасков
+export const imagesBuild = series(imageOptim, toWebp, toAvif)
+
+// Слежение за изменением файлов
+export const imagesWatch = () => watch(`${config.src.assets.images}/**/*`, { ignoreInitial: false }, imagesBuild)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h3>Добавляем таск images в gulpfile.babel.js</h3>
+
+<p>Изменим содержимое файла <b>gulpfile.babel.js</b> на следующий код.</p>
+
+{% capture code %}
+// Сторонние библиотеки
+import { series, parallel } from 'gulp'
+
+// Таски
+import clear from './gulp/tasks/clear'
+import server from './gulp/tasks/server'
+import { webpackBuild, webpackWatch } from './gulp/tasks/webpack'
+import { stylesBuild, stylesWatch } from './gulp/tasks/styles'
+import { spritesBuild, spritesWatch } from './gulp/tasks/sprites'
+import { imagesBuild, imagesWatch } from './gulp/tasks/images'
+
+// Конфиги
+import config from './gulp/config'
+
+// Определяем окружения сборки dev или prod
+config.setEnv()
+
+// Запуск виртуального сервера
+export const proxy = server
+
+// Сборка проекта
+export const build = series(clear, spritesBuild, stylesBuild, webpackBuild, imagesBuild)
+
+// Слежение за изменением файлов
+export const watch = series(
+  build,
+  server,
+
+  parallel(spritesWatch, stylesWatch, webpackWatch, imagesWatch),
+)
+
+export default watch
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h3>Тестируем таск images</h3>
+
+<p>Добавим любую картинку формата <b>jpg</b> или <b>png</b> в каталог <b>src/assets/images</b> и запустим сборку в жиме разработке.</p>
+
+{% include component/code.html lang='bash' content='npm run dev' %}
+
+<p>Создадим файл <b>index.html</b> со следующим содержимым.</p>
+
+{% capture code %}
+&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+
+  &lt;link rel="stylesheet" href="css/critical.css"&gt;
+  &lt;link rel="stylesheet" href="css/main.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;picture&gt;
+  &lt;source type="image/avif" srcset="/img/example.avif"&gt;
+  &lt;source type="image/webp" srcset="/img/example.webp"&gt;
+  &lt;img src="/img/example.jpg" width="800" height="600" alt="Стопка монет" loading="lazy"&gt;
+&lt;/picture&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<p>Приоритет загрузки изображения идет сверху вниз, если браузер сможет распознать формат <b>avif</b> будет загружен этот файл и так далее. Это можно увидеть открыв инспектор и перейдя во вкладку <b>Сеть</b>. Обновим страницу и посмотрим какого формата была загружена картинка.</p>
+
+<h2 id="task-assets"><span class="attention">Таск</span> assets</h2>
+
+<p>Данный такс будет копировать файлы из каталога <b>src</b> в <b>build</b>. Установим зависимости.</p>
+
+{% capture code %}
+/**
+ * Перенос файлов в продакшн
+ *
+ * Копирует файлы из src в build
+ */
+
+// Сторонние библиотеки
+import { src, dest, watch, series } from 'gulp' // gulp плагин
+import merge from 'merge-stream' // слияние gulp потоков
+
+// Конфиги
+import config from '../config'
+
+// Переносит в корень build
+const rootBuild = () => src(
+  [
+    `${config.src.assets.favicons}/favicon.ico`,
+    `${config.src.assets.root}/manifest.json`,
+  ],
+).pipe(dest(`${config.build.root}`))
+
+// Переносит в build/fonts
+const fontsBuild = () => src(
+  [
+    `${config.src.assets.fonts}/**/*`,
+
+    `${config.src.libs}/slick-carousel/fonts/*`,
+  ],
+).pipe(dest(`${config.build.fonts}`))
+
+// Переносит в build/img
+const imageBuild = () => src(
+  [
+    `${config.src.assets.favicons}/**/*`,
+
+    `${config.src.libs}/slick-carousel/ajax-loader.gif`,
+  ]
+).pipe(dest(`${config.build.images}`))
+
+// Переносит содержимое из библиотек node_modules в src/assets/libs
+const componentsBuild = () => {
+  // Список библиотек, которые будут переноситься
+  const folders = [
+    'slick-carousel/slick',
+  ]
+
+  const tasks = folders.map(folder => {
+    const pathFolder = `node_modules/${folder}` // полный путь до node_modules библиотеки
+    const nameFolder = pathFolder.match(/^[a-zA-Z0-9_]*\/([a-zA-Z0-9-_.]*)/)[1] // название библиотеки, например slick-carousel
+
+    return src(`${pathFolder}/**/*`).pipe(dest(`${config.src.libs}/${nameFolder}`))
+  })
+
+  return merge(tasks)
+}
+
+// Выполнение всех тасков
+export const assetsBuild = series(componentsBuild, fontsBuild, rootBuild, imageBuild)
+
+// Слежение за изменением файлов
+export const assetsWatch = () => watch([
+  `${config.src.assets.fonts}/**/*`,
+  `${config.src.assets.images}/**/*`
+], assetsBuild)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h3>Добавляем таск assets в gulpfile.babel.js</h3>
+
+<p>Изменим содержимое файла <b>gulpfile.babel.js</b> на следующий код.</p>
+
+{% capture code %}
+// Сторонние библиотеки
+import { series, parallel } from 'gulp'
+
+// Таски
+import clear from './gulp/tasks/clear'
+import server from './gulp/tasks/server'
+import { webpackBuild, webpackWatch } from './gulp/tasks/webpack'
+import { stylesBuild, stylesWatch } from './gulp/tasks/styles'
+import { spritesBuild, spritesWatch } from './gulp/tasks/sprites'
+import { imagesBuild, imagesWatch } from './gulp/tasks/images'
+import { assetsBuild, assetsWatch } from './gulp/tasks/assets'
+
+// Конфиги
+import config from './gulp/config'
+
+// Определяем окружения сборки dev или prod
+config.setEnv()
+
+// Запуск виртуального сервера
+export const proxy = server
+
+// Сборка проекта
+export const build = series(
+  clear,
+  spritesBuild,
+  stylesBuild,
+  webpackBuild,
+  imagesBuild,
+  assetsBuild,
+)
+
+// Слежение за изменением файлов
+export const watch = series(
+  build,
+  server,
+
+  parallel(
+    spritesWatch,
+    stylesWatch,
+    webpackWatch,
+    imagesWatch,
+    assetsWatch,
+  ),
+)
+
+export default watch
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="task-pug"><span class="attention">Таск</span> pug</h2>
+
+<p>Данный такс будет переводить <b>pug</b> разметку в <b>html</b>. Установим зависимости.</p>
+
+{% include component/code.html lang='bash' content='npm i -D gulp-pug jstransformer jstransformer-clean-css jstransformer-markdown-it jstransformer-scss markdown-it-attrs markdown-it-kbd pug-include-glob' %}
+
+<p>Внутри каталога <b>./gulp/tasks</b> создадим файл <b>pug.js</b></p>
+
+{% capture code %}
+/**
+ * Шаблонизатор pug
+ *
+ * Компилирует pug разметку в html
+ */
+
+// Сторонние библиотеки
+import { dest, src, watch } from 'gulp' // gulp плагин
+import pug from 'gulp-pug' // шаблонизатор pug
+import plumber from 'gulp-plumber' // перехватывает ошибки
+import notify from 'gulp-notify' // уведомляет об ошибках
+import pugIncludeGlob from 'pug-include-glob' // позволяет использовать /**/*.pug конструкцию
+import fs from 'fs' // чтение файлов
+
+// Конфиги
+import config from '../config'
+
+// Дополнительные markdown библиотеки
+const md = require('jstransformer')(require('jstransformer-markdown-it')) // позволяет компилировать и преобразовывать Markdown-код
+const kbd = require('markdown-it-kbd') // позволяет добавлять тег kbd через markdown разметку [[]]
+const markdownItAttrs = require('markdown-it-attrs') // позволяет добавлять markdown разметке атрибуты
+const jstscss = require('jstransformer')(require('jstransformer-scss')) // компилирует scss в css
+const jstminify = require('jstransformer')(require('jstransformer-clean-css')) // минифицирует css
+
+// Формирование объекта с данными
+// Далее значение этого объекта в pug файле можно будет получить примерно так:
+// #{jsonData.nav.home.link}
+const getData = () => {
+  const dir = `${config.src.pug.root}/data` // здесь ищем json файлы
+  const files = fs.readdirSync(dir) // получаем список всех файлов в каталоге
+  const data = {} // хранит данные файлов
+
+  // Проходимся по каждому файлу
+  files.forEach(file => {
+    if (!file.endsWith('.json')) return // пропускаем только json файлы
+
+    const fileName = file.replace('.json', '') // формируем имя файла без его расширения
+
+    // Создаем ключ с названием файла в объекте data и помещаем в него содержимое файла
+    data[fileName] = JSON.parse(fs.readFileSync(`${dir}/${file}`, 'utf8'))
+  })
+
+  return data
+}
+
+// Сборка таска
+export const pugBuild = () => {
+  const jsonData = getData() // получаем данные
+
+  return src(`${config.src.pug.pages}/**/*.pug`) // входящие файлы
+    .pipe(
+      // Отлавливаем и показываем ошибки в таске
+      plumber({
+        errorHandler: notify.onError(err => ({
+          title: 'Ошибка в задаче pugBuild', // заголовок ошибки
+          sound: false, // уведомлять звуком
+          message: err.message, // описание ошибки
+        })),
+      }),
+    )
+    .pipe(
+      pug({
+        doctype: 'html', // чтобы не было обратного слеша у одиночных тэгов
+        pretty: true, // сжатие html разметки
+        plugins: [pugIncludeGlob()], // подключаем сторонние pug плагины
+        locals: {
+          // передаем jsonData в pug, далее используем его примерно так: #{jsonData.nav.home.link}
+          jsonData,
+        },
+        filters: {
+          // Переопределяем pug фильтр markdown-it, улучшая его стандартную функциональность
+          'markdown-it': (text, options) => {
+            // inline режим добавляет/убирает обертку в виде тега &lt;p&gt;
+            const inline = options.inline || false
+
+            return md.render(text, {
+              plugins: [kbd, markdownItAttrs], // подключаем дополнительные плагины
+              inline, // включаем/отключаем inline режим
+            }).body
+          },
+
+          // Пользовательский фильтр
+          // @var options {} имеет один параметр path, хранящий путь до critical.scss
+          'critical-css': (text, options) => {
+            const css = jstscss.render(options.path).body // компилирует scss в css
+            css.replaceAll('&quot;', '"') // jstscss при компиляции заменяет " на &quot; что не есть хорошо
+
+            // минифицирует получившейся css файл, удаляя комментарии
+            return jstminify.render(css, {
+              level: {
+                1: {
+                  specialComments: 0,
+                },
+              },
+            }).body
+          },
+
+          // Пользовательский фильтр экранирования html тегов
+          'special-chars': text =>
+            text.replaceAll('<', '&lt;').replaceAll('>', '&gt;'),
+        },
+      }),
+    )
+    .pipe(dest(config.build.root)) // исходящие файлы
+    .pipe(browserSync.stream()) // обновление страницы в браузере
+}
+
+// Слежение за изменением файлов
+export const pugWatch = () => {
+  watch(
+    [`${config.src.pug.root}/**/*.pug`, `${config.src.pug.root}/data/**/*`],
+    pugBuild,
+  )
+}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h3>Добавляем таск pug в gulpfile.babel.js</h3>
+
+<p>Изменим содержимое файла <b>gulpfile.babel.js</b> на следующий код.</p>
+
+{% capture code %}
+// Сторонние библиотеки
+import { series, parallel } from 'gulp'
+
+// Таски
+import clear from './gulp/tasks/clear'
+import server from './gulp/tasks/server'
+import { webpackBuild, webpackWatch } from './gulp/tasks/webpack'
+import { stylesBuild, stylesWatch } from './gulp/tasks/styles'
+import { spritesBuild, spritesWatch } from './gulp/tasks/sprites'
+import { imagesBuild, imagesWatch } from './gulp/tasks/images'
+import { assetsBuild, assetsWatch } from './gulp/tasks/assets'
+import { pugBuild, pugWatch } from './gulp/tasks/pug'
+
+// Конфиги
+import config from './gulp/config'
+
+// Определяем окружения сборки dev или prod
+config.setEnv()
+
+// Запуск виртуального сервера
+export const proxy = server
+
+// Сборка проекта
+export const build = series(
+  clear,
+  spritesBuild,
+  pugBuild,
+  stylesBuild,
+  webpackBuild,
+  imagesBuild,
+  assetsBuild,
+)
+
+// Слежение за изменением файлов
+export const watch = series(
+  build,
+  server,
+
+  parallel(
+    spritesWatch,
+    pugWatch,
+    stylesWatch,
+    webpackWatch,
+    imagesWatch,
+    assetsWatch,
+  ),
+)
+
+export default watch
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="task-favicons"><span class="attention">Таск</span> favicons</h2>
+
+<p>Данный такс будет создавать фавиконки различного разрешения и типа из <b>svg</b> файла. Установим зависимости.</p>
+
+{% capture code %}
+npm i -D gulp-svg2png gulp-rename gulp-image-resize gulp-to-ico
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Внутри каталога <b>./gulp/tasks</b> создадим файл <b>favicons.js</b>.</p>
+
+{% capture code %}
+/**
+ * Favicons
+ *
+ * Создает фавиконки различного разрешения и типа из svg файла
+ *
+ * Если возникает ошибка для gulp-svg2png
+ * Ошибка: DSO support routines:DLFCN_LOAD:could not load the shared library:dso_dlfcn.c:185:filename(libproviders.so):
+ * Ввести в терминале: export OPENSSL_CONF=/dev/null
+ *
+ * @link https://habr.com/ru/articles/672844/
+ */
+
+// Сторонние библиотеки
+import { src, dest, watch } from 'gulp' // gulp плагин
+import plumber from 'gulp-plumber' // перехватывает ошибки
+import notify from 'gulp-notify' // уведомляет об ошибках
+import svg2png from 'gulp-svg2png' // svg в png
+import rename from 'gulp-rename' // переименование файла
+import imageResize from 'gulp-image-resize' // изменение разрешения картинки
+import ico from 'gulp-to-ico' // png в ico
+
+// Конфиги
+import config from '../config'
+
+// Сборка таска
+export const faviconBuild = () =>
+  src(`${config.src.assets.favicons}/icon.svg`) // входящий файл
+    .pipe(
+      // Отлавливаем и показываем ошибки в таске
+      plumber({
+        errorHandler: notify.onError(err => ({
+          title: 'Ошибка в задаче faviconBuild', // заголовок ошибки
+          sound: false, // уведомлять звуком
+          message: err.message, // описание ошибки
+        })),
+      }),
+    )
+    .pipe(svg2png()) // svg в png
+
+    // изменение разрешения картинки на 512х512
+    .pipe(
+      imageResize({
+        width: 512,
+        height: 512,
+        crop: true, // должно ли изображение быть обрезано до заданных размеров
+        upscale: false, // может ли изображение быть увеличено, если указанные размеры больше, чем оригинальные размеры
+      }),
+    )
+    .pipe(rename('icon-512.png')) // переименование файла
+    .pipe(dest(config.src.assets.favicons)) // исходящий файл
+
+    // изменение разрешения картинки на 192х192
+    .pipe(
+      imageResize({
+        width: 192,
+        height: 192,
+        crop: true, // должно ли изображение быть обрезано до заданных размеров
+        upscale: false, // может ли изображение быть увеличено, если указанные размеры больше, чем оригинальные размеры
+      }),
+    )
+    .pipe(rename('icon-192.png')) // переименование файла
+    .pipe(dest(config.src.assets.favicons)) // исходящий файл
+
+    // изменение разрешения картинки на 180х180
+    .pipe(
+      imageResize({
+        width: 180,
+        height: 180,
+        crop: true, // должно ли изображение быть обрезано до заданных размеров
+        upscale: false, // может ли изображение быть увеличено, если указанные размеры больше, чем оригинальные размеры
+      }),
+    )
+    .pipe(rename('apple-touch-icon.png')) // переименование файла
+    .pipe(dest(config.src.assets.favicons)) // исходящий файл
+
+    // изменение разрешения картинки на 32х32
+    .pipe(
+      imageResize({
+        width: 32,
+        height: 32,
+        crop: true, // должно ли изображение быть обрезано до заданных размеров
+        upscale: false, // может ли изображение быть увеличено, если указанные размеры больше, чем оригинальные размеры
+      }),
+    )
+    .pipe(ico('favicon.ico')) // переименование файла
+    .pipe(dest(config.src.assets.favicons)) // исходящий файл
+
+    .pipe(browserSync.stream()) // обновление страницы в браузере
+
+// Слежение за изменением файлов
+export const faviconWatch = () =>
+  watch(`${config.src.assets.images}/favicons/icon.svg`, faviconBuild)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h3>Добавляем таск favicons в gulpfile.babel.js</h3>
+
+<p>Изменим содержимое файла <b>gulpfile.babel.js</b> на следующий код.</p>
+
+{% capture code %}
+// Сторонние библиотеки
+import { series, parallel } from 'gulp'
+
+// Таски
+import clear from './gulp/tasks/clear'
+import server from './gulp/tasks/server'
+import { webpackBuild, webpackWatch } from './gulp/tasks/webpack'
+import { stylesBuild, stylesWatch } from './gulp/tasks/styles'
+import { spritesBuild, spritesWatch } from './gulp/tasks/sprites'
+import { imagesBuild, imagesWatch } from './gulp/tasks/images'
+import { assetsBuild, assetsWatch } from './gulp/tasks/assets'
+import { pugBuild, pugWatch } from './gulp/tasks/pug'
+import { faviconBuild, faviconWatch } from './gulp/tasks/favicons'
+
+// Конфиги
+import config from './gulp/config'
+
+// Определяем окружения сборки dev или prod
+config.setEnv()
+
+// Запуск виртуального сервера
+export const proxy = server
+
+// Сборка проекта
+export const build = series(
+  clear,
+  spritesBuild,
+  pugBuild,
+  stylesBuild,
+  webpackBuild,
+  faviconBuild,
+  imagesBuild,
+  assetsBuild,
+)
+
+// Слежение за изменением файлов
+export const watch = series(
+  build,
+  server,
+
+  parallel(
+    spritesWatch,
+    pugWatch,
+    stylesWatch,
+    webpackWatch,
+    faviconWatch,
+    imagesWatch,
+    assetsWatch,
+  ),
+)
+
+export default watch
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h3>Тестируем таск favicons</h3>
+
+<p>Удалить из каталога <b>./src/assets/favicons</b> все фавиконки кроме <b>icon.svg</b>.</p>
+
+{% capture code %}
+rm ./src/assets/favicons/apple-touch-icon.png
+rm ./src/assets/favicons/favicon.ico
+rm ./src/assets/favicons/icon-192.png
+rm ./src/assets/favicons/icon-512.png
+{% endcapture %}
+{% include component/code.html lang='bash' content='npm run dev' %}
+
+<p>Запустить сборку в режиме разработки.</p>
+
+{% include component/code.html lang='bash' content='npm run dev' %}
+
+<p>В каталоге <b>./src/assets/favicons</b> автоматически должны сгенерироваться, удаленные иконки.</p>
+
+<h2 id="task-manifest"><span class="attention">Файл</span> manifest.json</h2>
+
+<p>Содержимое файла <b>manifest.json</b>.</p>
+
+{% capture code %}
+{
+  "name": "Название проекта",
+  "short_name": "Название проекта",
+  "description": "Описание проекта",
+  "lang": "ru",
+  "dir": "ltr",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "minimal-ui",
+  "orientation": "any",
+  "theme_color": "#ссс",
+  "background_color": "#ссс",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/img/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/img/icon.svg",
+      "sizes": "any",
+      "type": "image/svg",
+      "purpose": "maskable"
+    }
+  ]
+}
+{% endcapture %}
+{% include component/code.html lang='json' content=code %}
+
+<h2 id="task-robots"><span class="attention">Файл</span> robots.txt</h2>
+
+<p>Содержимое файла <b>robots.txt</b>.</p>
+
+{% capture code %}
+# robotstxt.org
+
+# Разрешить сканирование всего контента
+User-agent: *
+Disallow:
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="end"><span class="attention">Подведем</span> итоги</h2>
+
+<p>Мы полностью завершили написание своей <b>Gulp</b> сборки. Было создано множество тасков для автоматизации рутинных процессов при верстки сайта. Статья получилась довольно объемная.</p>
+
+<p>Надеюсь вы подчеркнете для себя какие либо идеи для создании своей сборки, так же не стесняйтесь использовать текущую.</p>
+
+<p><b>P.S.</b> На данный момент сборка претерпела множественные изменения и не перестает изменяться. Актуальную версию вы всегда можете найти в
+  <a href="https://github.com/eliofery/gulp-template" target="_blank" rel="nofollow">моем репозитории</a>.</p>
+
+<p>Так же каждый шаг создания <b>Gulp</b> сборки я старался комментировать в <a href="https://github.com/eliofery/gulp-template/commits/main" target="_blank" rel="nofollow">репозитории сборки</a>. Обязательно загляните туда если походу статьи вам было что-то не понятно.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
