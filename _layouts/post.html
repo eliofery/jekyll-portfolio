@@ -40,6 +40,10 @@ layout: inner
           </ul>
         </dd>
         {% endif %}
+        {% if page.source %}
+        <dt class="main-article__info-title">Исходник:</dt>
+        <dd class="main-article__info-desc"><a href="{{ page.source }}" target="_blank" rel="nofollow">ссылка</a></dd>
+        {% endif %}
       </dl>
       {% include component/share.html class="main-article__share" %}
     </div>
