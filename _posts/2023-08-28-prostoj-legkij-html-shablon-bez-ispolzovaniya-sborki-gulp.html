@@ -2,17 +2,18 @@
 layout: post
 title: Простой, легкий HTML шаблон без использования gulp сборки
 date: 2023-08-28 09:16 +0600
-description: Пример реализации простого, оптимизированного <b>HTML</b> шаблона без gulp и прочих сборок, с поддержкой базового <b>SEO</b>. Подойдет для верстки каких то простеньких страниц.
+description: Пример реализации простого, оптимизированного <b>HTML</b> шаблона без gulp и прочих сборок, с поддержкой базового <b>SEO</b>. Подойдет для верстки простеньких страниц.
 image: cover.jpg
 alt: Инициализация проекта на Jekyll
 category: frontend
-tags: [jekyll, ruby]
+tags: [html, css, js, seo]
+source: https://github.com/eliofery/simple-html-template
 published: true
 sitemap: true
 excerpt_separator: "<!--more-->"
 ---
 
-<p>Пример реализации простого, оптимизированного <b>HTML</b> шаблона без gulp и прочих сборок, с поддержкой базового <b>SEO</b>. Подойдет для верстки каких то простеньких страниц.</p>
+<p>Пример реализации простого, оптимизированного <b>HTML</b> шаблона без gulp и прочих сборок, с поддержкой базового <b>SEO</b>. Подойдет для верстки простеньких страниц.</p>
 
 <!--more-->
 
@@ -32,11 +33,11 @@ excerpt_separator: "<!--more-->"
 
 <h2 id="intro"><span class="attention">Вводная</span> часть</h2>
 
-<p>Основная идея заключается в создании заготовки простенького шаблона, который можно было бы повторно использовать для верстки каких то не больших страничек. Так же хотелось бы, чтобы шаблон имел базовое <b>SEO</b> и заготовки в виде скриптов <b>Google Analytics</b> и <b>Yandex Metrika</b>.</p>
+<p>Основная идея заключается в создании заготовки простенького шаблона, который можно было бы повторно использовать для верстки каких то не больших страничек. Так же хотелось, чтобы шаблон имел базовое <b>SEO</b> и заготовки в виде скриптов <b>Google Analytics</b> и <b>Yandex Metrika</b>.</p>
 
 <h2 id="architecture"><span class="attention">Архитектура</span> шаблона</h2>
 
-<p>Буду использовать стандартный подход в именовании и расположении файлов <b>html</b> проекта. Создайте в корне проекта следующие файлы и каталоги.</p>
+<p>Будем использовать стандартный подход в именовании и расположении файлов <b>html</b> проекта. Создайте в корне проекта следующие файлы и каталоги.</p>
 
 {% capture code %}
 ./
@@ -56,26 +57,50 @@ excerpt_separator: "<!--more-->"
   <li><b>css</b> - содержит стили</li>
   <li><b>fonts</b> - содержит шрифты</li>
   <li><b>img</b> - содержит изображения</li>
-  <li><b>js</b> - содержит js скрипты</li>
+  <li><b>js</b> - содержит JavaScript скрипты</li>
   <li><b>.editorconfig</b> - содержит правила написания кода</li>
   <li><b>.gitignore</b> - содержит перечень файлов и каталогов, которые не будут индексироваться git</li>
   <li><b>index.html</b> - содержит разметку главной страницы</li>
-  <li><b>manifest.json</b> - содержит информацию об иконках, цветовой теме, ориентации экрана, начальном URL и т. д.</li>
+  <li><b>manifest.json</b> - содержит информацию об иконках, цветовой теме, ориентации экрана, начальном URL и т.д.</li>
+  <li><b>README.md</b> - содержит описание проекта и инструкцию по его развертыванию</li>
 </ul>
 
 <h2 id="editorconfig"><span class="attention">Содержимое</span> файла .editorconfig</h2>
 
-<p>.editorconfig</p>
+<p>Более подробно ознакомиться с настройками конфигурационного файла <b>.editorconfig</b> можно на <a href="https://editorconfig.org/" target="_blank" rel="nofollow">официальном сайте</a>.</p>
+
+{% capture code %}
+# Корневой файл .editorconfig
+root = true
+
+# Все файлы
+[*]
+charset = utf-8 # кодировка
+indent_style = space # отступ через пробел
+indent_size = 2 # размер отступа 2 символа
+end_of_line = lf # unix стиль новой строки
+trim_trailing_whitespace = true # удалять пробелы в конце строк
+insert_final_newline = true # оставлять в конце файла пустую строку
+
+# Md файлы
+[*.md]
+trim_trailing_whitespace = false # удалять пробелы в конце строк
+{% endcapture %}
+{% include component/code.html lang='.editorconfig' content=code %}
 
 <h2 id="gitignore"><span class="attention">Содержимое</span> файла .gitignore</h2>
 
-<p>.gitignore</p>
+<p>Содержит перечень файлов и каталогов, которые не будут индексироваться <b>git</b>. Исключим стандартные каталоги создаваемые программами <b>VSCode</b> и <b>PhpStorm</b>.</p>
+
+{% capture code %}
+.idea
+.vscode
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
 
 <h2 id="html"><span class="attention">Содержимое</span> файла index.html</h2>
 
-<p>Начнем с основного файла шаблона, который будет отображаться в браузере. Создаем файл <b>index.html</b> и с помощью <b>Emmet</b> разворачиваем базовую разметку, введя <b>!</b> знак, и нажав <kbd>Tab</kbd>.</p>
-
-<p>Должно получиться примерно следующее.</p>
+<p>Создадим файл <b>index.html</b> и с помощью <b>Emmet</b> разворачиваем базовую разметку, введя <b>!</b> знак, и нажав <kbd>Tab</kbd>. Должно получиться примерно следующее.</p>
 
 {% capture code %}
 &lt;!doctype html&gt;
@@ -456,22 +481,194 @@ excerpt_separator: "<!--more-->"
 
 <h2 id="manifest"><span class="attention">Содержимое</span> файла manifest.json</h2>
 
-<p>.manifest</p>
+<p><b>manifest.json</b> метаинформация о приложении или расширении, которая позволяет платформе или браузеру правильно обрабатывать и представлять ваше приложение. Ознакомиться со значением свойств можно на
+  <a href="https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/manifest.json" target="_blank" rel="nofollow">сайте mdn</a>.</p>
+
+{% capture code %}
+{
+  "name": "Название сайта",
+  "short_name": "Название сайта",
+  "description": "Описание сайта",
+  "lang": "ru",
+  "dir": "ltr",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "minimal-ui",
+  "orientation": "any",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/img/favicons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/favicons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/img/favicons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg",
+      "purpose": "maskable"
+    }
+  ]
+}
+{% endcapture %}
+{% include component/code.html lang='json' content=code %}
+
+<p>В целом значение многих свойств понятны из контекста выделю лишь некоторые:</p>
+
+<ul>
+  <li><b>dir</b> - направление текста приложения, может быть слева-направо, справа-налево</li>
+  <li><b>id</b> - позволяет явно определить идентификатор, используемый для вашего приложения </li>
+  <li><b>start_url</b> - сообщает браузеру по какой ссылку открывать приложение</li>
+  <li><b>scope</b> - набор URL-адресов, которые браузер считает принадлежащими вашему приложению, и используется для принятия решения о том, когда пользователь покинул приложение</li>
+  <li><b>display</b> - настраивает вид пользовательского интерфейса браузера, может иметь значение fullscreen, standalone, minimal-ui, browser</li>
+  <li><b>prefer_related_applications</b> - это логическое значение, которое используется в качестве подсказки пользовательскому агенту, чтобы сказать, что связанные приложения должны быть предпочтительнее веб-приложения.</li>
+</ul>
 
 <h2 id="readme"><span class="attention">Содержимое</span> файла README.md</h2>
 
-<p>.readme</p>
+<p>Пользовательское описание проекта в формате <b>Markdown</b>, так же может включать в себя инструкцию по развертыванию.</p>
+
+{% capture code %}
+# Простой HTML шаблон
+
+Пример реализации простого **HTML** шаблона, без **Gulp** сборки. С базовой **SEO** настройкой.
+
+Подойдет для верстки простых одностраничных сайтов (landing page).
+
+![Page Speed статистика](https://raw.githubusercontent.com/eliofery/simple-html-template/main/img/pagespeed.jpg)
+
+## Режим разработки
+```bash
+npx browser-sync start --server --no-notify --no-ui --files '*.html,css/**/*.css,img/*'
+```
+{% endcapture %}
+{% include component/code.html lang='md' content=code %}
 
 <h2 id="style"><span class="attention">Содержимое</span> файла style.css</h2>
 
-<p>.style</p>
+<p>Базовое содержимое стилей. Хорошо бы вынести содержимое переменных и базовых стилей в отдельные файлы, но пока ограничимся одним файлом.</p>
+
+{% capture code %}
+/* Переменные */
+:root {
+--fz-label: 117px;
+--fz-heading: 78px;
+--fz-heading-2: 55px;
+--fz-heading-3: 24px;
+--fz-heading-4: 18px;
+--fz-heading-5: 16px;
+
+--color-black: #000;
+--color-white: #fff;
+
+--width-container: 360px;
+--gutter: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  :root {
+    --width-container: 768px;
+    --gutter: 40px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  :root {
+    --width-container: 1440px;
+  }
+}
+
+/* Базовая разметка */
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/roboto/roboto-regular.woff2") format("woff2");
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  position: relative;
+
+  min-width: var(--width-container);
+  min-height: 100%;
+
+  color: var(--color-black);
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: var(--fz-heading-5);
+  line-height: 1.5;
+
+  background-color: var(--color-white);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.sr-only {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+
+  border: 0;
+
+  clip: rect(0,0,0,0);
+  -webkit-clip-path: inset(100%);
+  clip-path: inset(100%);
+}
+
+.container {
+  max-width: var(--width-container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.notice {
+  margin: 0;
+  padding: 10px;
+
+  color: white;
+  text-align: center;
+
+  background-color: black;
+}
+
+.notice a {
+  color: yellow;
+}
+
+.notice a:hover,
+.notice a:focus {
+  text-decoration: none;
+}
+{% endcapture %}
+{% include component/code.html lang='css' content=code %}
 
 <h2 id="script"><span class="attention">Содержимое</span> файла script.js</h2>
 
-<p>.script</p>
+<p>Изначальное содержимое будет пустым, так как на страницу шаблона мы не добавляли динамических элементов.</p>
 
-
-
-
-
-
+<p>Простой HTML шаблон готов к использованию. С полным кодом статьи можно ознакомиться в моем <a href="https://github.com/eliofery/simple-html-template" target="_blank" rel="nofollow">репозитории</a>.</p>
