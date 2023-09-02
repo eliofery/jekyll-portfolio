@@ -1,4 +1,4 @@
-{% capture image %}images/{{ include.type | default: 'original' }}/{{ site.time | date: '%Y' }}/{{ site.time | date: '%m' }}/{{ include.slug }}/{{ include.img }}{% endcapture %}
+{% capture image %}images/{{ include.type | default: 'original' }}/{{ page.date | default: post.date | date: '%Y' }}/{{ page.date | default: post.date | date: '%m' }}/{{ include.slug }}/{{ include.img }}{% endcapture %}
 {% assign webp = image | replace:'.png','.webp' | replace:'.jpg','.webp' | replace:'.jpeg','.webp' %}
 {% capture size %}{% imagesize image:props %}{% endcapture %}
 
