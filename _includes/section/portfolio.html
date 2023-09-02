@@ -6,7 +6,8 @@
       </h2>
       <div class="main-slider__list main-section__content swiper">
         <div class="swiper-wrapper">
-          {% for post in site.portfolio limit: 5 offset: 0 %}
+          {% assign sorted_posts = site.portfolio | sort: 'date' | reverse %}
+          {% for post in sorted_posts limit: 5 offset: 0 %}
           <a class="main-slider__slide swiper-slide" href="{{ post.url }}">
             <p class="main-slider__img">
               {% include component/picture.html slug=post.slug img=post.image type='portfolio' alt=post.alt %}

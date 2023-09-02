@@ -20,9 +20,13 @@ layout: inner
       </div>
       <dl class="main-article__info">
         {% if page.work-year %}
-        <dt class="main-article__info-title">Год:</dt>
+        <dt class="main-article__info-title">Год исполнения:</dt>
         <dd class="main-article__info-desc">{{ page.work-year }}</dd>
         {% endif %}
+        <dt class="main-article__info-title">Время чтения:</dt>
+        <dd class="main-article__info-desc">
+          {% include component/word-length.html content=page.content %}
+        </dd>
         {% if page.roles %}
         <dt class="main-article__info-title">Роль:</dt>
         <dd class="main-article__info-desc">
@@ -43,14 +47,36 @@ layout: inner
           </ul>
         </dd>
         {% endif %}
+        {% if page.source %}
+        <dt class="main-article__info-title">Источник:</dt>
+        <dd class="main-article__info-desc"><a href="{{ page.source }}" target="_blank" rel="nofollow">ссылка на работу</a></dd>
+        {% endif %}
       </dl>
       {% include component/share.html class="main-article__share" %}
     </div>
   </header>
 
-  <div class="main-article__content">
-    <div class="main-article__content-container container">
+  <div class="container">
+    <div class="main-article__content">
       {{ page.content | slice: size_excerpt, size_content }}
     </div>
+
+    {% if page.previous.url or page.next.url %}
+    <div class="main-article__pagination">
+      {% if page.previous.url %}
+      <a class="main-article__pagination-prev" href="{{ page.previous.url }}">
+        <span class="main-article__pagination-label">Предыдущая работа</span>
+        <span class="main-article__pagination-title">{{page.previous.title}}</span>
+      </a>
+      {% endif %}
+
+      {% if page.next.url %}
+      <a class="main-article__pagination-next" href="{{ page.next.url }}">
+        <span class="main-article__pagination-label">Следующая работа</span>
+        <span class="main-article__pagination-title">{{page.next.title}}</span>
+      </a>
+      {% endif %}
+    </div>
+    {% endif %}
   </div>
 </article>

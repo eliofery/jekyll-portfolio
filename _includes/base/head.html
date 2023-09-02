@@ -65,3 +65,14 @@
 <!-- Шрифты -->
 <link rel="preload" as="font" href="{{ '/assets/fonts/roboto/roboto-regular.woff2' | relative_url }}" type="font/woff2" crossorigin="anonymous">
 <link rel="preload" as="font" href="{{ '/assets/fonts/oswald/Oswaldmedium.woff2' | relative_url }}" type="font/woff2" crossorigin="anonymous">
+
+<!-- todo вынести стили-->
+<style>
+  .main-slider__slide.swiper-slide-active + .main-slider__slide.swiper-slide:last-child .main-slider__info {
+    opacity: 1;
+  }
+
+  .main-article__content figure {
+    margin: 40px auto;
+  }
+</style>
