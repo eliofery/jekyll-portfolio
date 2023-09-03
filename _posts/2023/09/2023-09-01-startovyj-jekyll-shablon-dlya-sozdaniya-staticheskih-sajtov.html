@@ -2,17 +2,17 @@
 layout: post
 title: Стартовый Jekyll шаблон для создания статических сайтов
 date: 2023-09-01 09:16 +0600
-description: Установим необходимые зависимости и инициализируем проект на <b>Jekyll</b>. В дальнейшем это станет отправной точкой для создания пользовательского шаблона.
+description: Создадим стартовый <b>Jekyll</b> шаблон на основе которого в дальнейшем можно будет разрабатывать сайты. В работе будут использованы такие технологии как <b>HTML</b>, <b>Scss</b>, <b>Webp</b>.
 image: cover.jpg
-alt: Инициализация проекта на Jekyll
+alt: Стартовый Jekyll шаблон
 category: frontend
-tags: [jekyll, ruby]
+tags: [jekyll, html, scss, webp]
 published: true
 sitemap: true
 excerpt_separator: "<!--more-->"
 ---
 
-<p>Установим необходимые зависимости и инициализируем проект на <b>Jekyll</b>. В дальнейшем это станет отправной точкой для создания пользовательского шаблона.</p>
+<p>Создадим стартовый <b>Jekyll</b> шаблон на основе которого в дальнейшем можно будет разрабатывать сайты. В работе будут использованы такие технологии как <b>HTML</b>, <b>Scss</b>, <b>Webp</b>.</p>
 
 <!--more-->
 
@@ -20,8 +20,8 @@ excerpt_separator: "<!--more-->"
 
 <ol>
   <li><a href="#intro">Почему Jekyll</a></li>
-  <li><a href="#base">Базовая установка</a></li>
-  <li><a href="#init">Создание проекта</a></li>
+  <li><a href="#base">Базовая установка Jekyll</a></li>
+  <li><a href="#init">Создание проекта Jekyll</a></li>
 </ol>
 
 <h2 id="intro"><span class="attention">Почему</span> Jekyll</h2>
@@ -30,9 +30,9 @@ excerpt_separator: "<!--more-->"
 
 <p>По функциональности он практически не уступает тем же самым <b>CMS</b> системам для введения блога. Он на много производительней и прост в освоении. Идеальный вариант для создания новостных порталов, блогов и портфолио. В частности данный сайт написан на <b>Jekyll</b>.</p>
 
-<h2 id="base"><span class="attention">Базовая</span> установка</h2>
+<h2 id="base"><span class="attention">Базовая</span> установка Jekyll</h2>
 
-<p>Полная инструкция по установке <b>Jekyll</b> описана на <a href="https://jekyllrb.com/docs/installation/ubuntu/" target="_blank" rel="nofollow">официальном сайте</a>, здесь же я приведу пример установки на дистрибутив <b>Pop!_OS</b>.</p>
+<p>Полная инструкция по установке <b>Jekyll</b> описана на <a href="https://jekyllrb.com/docs/installation/ubuntu/" target="_blank" rel="nofollow">официальном сайте</a>, здесь же я приведу пример установки на дистрибутивы семейства <b>Debian</b>.</p>
 
 <p>Установите <b>Ruby</b> и других необходимых зависимостей.</p>
 
@@ -52,17 +52,17 @@ source ~/.bashrc
 
 {% include component/code.html lang='bash' content='gem install jekyll bundler' %}
 
-<h2 id="init"><span class="attention">Создание</span> проекта</h2>
+<h2 id="init"><span class="attention">Создание</span> проекта Jekyll</h2>
 
 <p>Полную инструкцию по создании проекта <b>Jekyll</b> описана на <a href="https://jekyllrb.com/docs/" target="_blank" rel="nofollow">официальном сайте</a>.</p>
 
-<p>Создать <b>jekyll</b> проект в каталоге <b>myblog</b>.</p>
+<p>Создадим <b>Jekyll</b> проект в каталоге <b>mysite</b>. Для этого в терминале введем следующую команду.</p>
 
-{% include component/code.html lang='bash' content='jekyll new myblog' %}
+{% include component/code.html lang='bash' content='jekyll new mysite' %}
 
-<p>Переходим в каталог myblog.</p>
+<p>Переходим в каталог mysite.</p>
 
-{% include component/code.html lang='bash' content='cd myblog' %}
+{% include component/code.html lang='bash' content='cd mysite' %}
 
 <p>Устанавливаем расширения прописанные в файле <b>Gemfile</b>.</p>
 
@@ -72,5 +72,47 @@ source ~/.bashrc
 
 {% include component/code.html lang='bash' content='bundle exec jekyll serve' %}
 
-<p>Переходим в браузере на виртуальный сервер <b>http://localhost:4000</b>.</p>
+<p>Переходим в браузере по ссылке <b>http://localhost:4000</b>. Так выглядит стандартный шаблон <b>Jekyll</b>, который в рамках этой статьи мы переделаем и улучшим.</p>
+
+<figure>
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-1.jpg' type='original' alt='Стандартный шаблон Jekyll' %}
+  <figcaption>Так выглядит стандартный шаблон <b>Jekyll</b>.</figcaption>
+</figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
