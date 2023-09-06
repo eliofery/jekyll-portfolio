@@ -1,5 +1,5 @@
 # Базовые настройки
-version: 0.0.26
+version: 0.0.27
 title: Портфолио Sergio Eliofery
 description: Портфолио и блог web разработчика Sergio Eliofery.
 lang: ru
@@ -25,7 +25,7 @@ liquid:
   strict_variables: false
   strict_filters: true
 
-# Настройки плагинов
+# Подключение плагинов
 plugins:
   - jekyll-paginate-v2
   - jekyll-seo-tag
