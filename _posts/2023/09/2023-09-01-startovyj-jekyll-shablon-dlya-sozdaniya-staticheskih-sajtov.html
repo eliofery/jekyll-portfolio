@@ -2,17 +2,17 @@
 layout: post
 title: Стартовый Jekyll шаблон для создания статических сайтов
 date: 2023-09-01 09:16 +0600
-description: Создадим стартовый <b>Jekyll</b> шаблон на основе которого в дальнейшем можно будет разрабатывать сайты. В работе будут использованы такие технологии как <b>Html</b>, <b>Scss</b>, <b>Webp</b>.
+description: Создадим стартовый <b>Jekyll</b> шаблон на основе которого в дальнейшем можно будет разрабатывать статические сайты. В работе будут использованы такие технологии как <b>html</b>, <b>scss</b>, <b>webp</b>, <b>npm</b>.
 image: cover.jpg
 alt: Стартовый Jekyll шаблон
 category: frontend
-tags: [jekyll, html, scss, webp]
+tags: [jekyll, html, scss, webp, npm]
 published: true
 sitemap: true
 excerpt_separator: "<!--more-->"
 ---
 
-<p>Создадим стартовый <b>Jekyll</b> шаблон на основе которого в дальнейшем можно будет разрабатывать сайты. В работе будут использованы такие технологии как <b>Html</b>, <b>Scss</b>, <b>Webp</b>.</p>
+<p>Создадим стартовый <b>Jekyll</b> шаблон на основе которого в дальнейшем можно будет разрабатывать статические сайты. В работе будут использованы такие технологии как <b>html</b>, <b>scss</b>, <b>webp</b>, <b>npm</b>.</p>
 
 <!--more-->
 
@@ -26,15 +26,17 @@ excerpt_separator: "<!--more-->"
   <li><a href="#architecture">Архитектура шаблонов</a></li>
   <li><a href="#posts">Страницы, статьи и коллекции</a></li>
   <li><a href="#auto-posts">Автоматизация создания различных типов записей</a></li>
-  <li><a href="#layout">Layout для типов записей</a></li>
+  <li><a href="#layout">Шаблоны для типов записей</a></li>
   <li><a href="#includes">Включаемые области и пользовательские данные</a></li>
+  <li><a href="#assets">Ресурсы проекта</a></li>
+  <li><a href="#seo">Seo оптимизация</a></li>
 </ol>
 
 <h2 id="intro"><span class="attention">Почему</span> Jekyll</h2>
 
 <p><b>Jekyll</b> - это генератор статических страниц, который позволяет создавать веб-сайты, состоящие из статических HTML-файлов, без необходимости использования серверных технологий или баз данных. Благодаря чему вместо покупки даже самомального виртуального хостинга можно использовать бесплатный <b>GitHub Pages</b>.</p>
 
-<p>По функциональности он практически не уступает тем же самым <b>CMS</b> системам для введения блога. Он на много производительней и прост в освоении. Идеальный вариант для создания новостных порталов, блогов и портфолио. В частности данный сайт написан на <b>Jekyll</b>.</p>
+<p>По функциональности он практически не уступает тем же самым <b>CMS</b> системам для введения блога, но на много производительней и прост в освоении. Идеальный вариант для создания новостных порталов, блогов и портфолио. В частности данный сайт написан на <b>Jekyll</b>.</p>
 
 <p>С официальным источником <b>Jekyll</b> можно <a href="https://jekyllrb.com/" target="_blank" rel="nofollow">ознакомиться здесь</a>.</p>
 
@@ -273,7 +275,33 @@ permalink: /404
 
 <p>Любой тип записи имеет некоторую конструкцию настройки, которая позволяет парсеру <b>Jekyll</b> правильно собрать страницу. Так как <b>Jekyll</b> выступает так же в роле шаблонизатора, то нам не нужно дублировать одну и туже разметку на всех страницах это позволяет сконцентрироваться только на контенте при заполнении содержимого страницы.</p>
 
-<p>Для примера рассмотрим как может быть выглядеть содержимое страницы, записи или коллекции.</p>
+<h3>Расширение jekyll-sitemap</h3>
+
+<p>Расширение автоматически создает на основе имеющегося контента <b>sitemap.xml</b> файл, который в последствии поможет в <b>seo</b> продвижении.</p>
+
+<p>Перед созданием типов записей установим расширение <b>jekyll-sitemap</b> с которым более детально можно ознакомиться на
+  <a href="https://github.com/jekyll/jekyll-sitemap" target="_blank" rel="nofollow">официальном сайте</a>. Откроем файл <b>Gemfile</b> и добавим в группу плагинов расширение.</p>
+
+{% capture code %}
+# Добавляет sitemap
+# https://github.com/jekyll/jekyll-sitemap
+gem "jekyll-sitemap"
+{% endcapture %}
+{% include component/code.html lang='Gemfile' content=code %}
+
+<p>Установим новое расширение <b>jekyll-sitemap</b>.</p>
+
+{% include component/code.html lang='bash' content='bundle install' %}
+
+<p>Добавим расширение <b>jekyll-sitemap</b> в список плагинов в файле <b>_config.yml</b>.</p>
+
+{% capture code %}
+# Подключение плагинов
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+{% endcapture %}
+{% include component/code.html lang='yml' content=code %}
 
 <h3>Тип записи "Страницы"</h3>
 
@@ -317,14 +345,14 @@ sitemap: true
   <li><b>title</b> - заголовок страницы, который переопределяет стандартный заголовок прописанный в <b>_config.yml</b></li>
   <li><b>description</b> - описание страницы, которое переопределяет стандартное описание прописанное в <b>_config.yml</b></li>
   <li><b>permalink</b> - ссылка на страницу, так как страницы были перенесены в отдельный каталог <b>_pages</b>, то нужно всегда указывать этот параметр</li>
-  <li><b>sitemap</b> - в файле <b>Gemfile</b> было прописано расширение <b>gem "jekyll-feed", "~> 0.12"</b>, далее в файле <b>_config.yml</b> это расширение было подключено <b>- jekyll-feed</b>. Этот параметр относится к этому расширению и отвечает за <b>RSS</b> подписку. По умолчанию всегда включен для всех страниц, если необходимо исключить какую либо страницу из <b>RSS</b>, то нужно указать явно этот параметр <b>sitemap: false</b>.</li>
+  <li><b>sitemap</b> - является параметром расширения <b>jekyll-sitemap</b> и отвечает за карту сайта. По умолчанию всегда включен для всех страниц, если необходимо исключить какую либо страницу из <b>sitemap.xml</b>, то нужно указать явно этот параметр <b>sitemap: false</b> для каждой такой страницы.</li>
 </ul>
 
 <h3>Тип записи "Статьи"</h3>
 
 <p>Детальное описание по работе со статьями описана в <a href="https://jekyllrb.com/docs/posts/" target="_blank" rel="nofollow">официальной документации</a> <b>Jekyll</b>.</p>
 
-<p>Тип записи <b>Статьи</b> находятся в каталоге <b>_posts</b> и если возникнет необходимость в создании новой записи, то нам достаточно создать новый файл в каталоге <b>_posts</b> в формате <b>.md</b> или <b>.html</b>.
+<p>Тип записи <b>Статьи</b> находятся в каталоге <b>_posts</b> и если возникнет необходимость в создании новой записи, то нужно создать новый файл в каталоге <b>_posts</b> в формате <b>.md</b> или <b>.html</b>.
 
 <p>Для файлов с постами так же как и для страниц, выбираем формат <b>html</b> или <b>md</b>, я оставлю <b>md</b>.</p>
 
@@ -336,7 +364,7 @@ sitemap: true
 
 <p>Как мы можем заметить название поста отличается от названия страницы, в нем присутствует приставка в виде даты создания <b>2023-09-03-</b>welcome-to-jekyll.html. Это не обязательно, но необходимо для создания архивных страницы. Поэтому рекомендую придерживаться этого правила в названии файлов этого типа записи.</p>
 
-<p>Так же в будущем постов может стать очень много и хорошо бы их структурировать по годам и месяцам. Для этого создадим внутри каталога <b>_posts</b>, каталог с годом записи <b>2023</b>, а внутри каталога <b>2023</b> создадим каталог с названием месяца <b>09</b>. Переместим в него файл с постом, должно получиться так.</p>
+<p>Так же в будущем постов может стать очень много и хорошо бы их структурировать по годам и месяцам. Для этого создадим внутри каталога <b>_posts</b>, каталог с годом записи <b>2023</b>, а внутри каталога <b>2023</b> создадим каталог с числом месяца <b>09</b>. Переместим в него файл с постом, должно получиться так.</p>
 
 {% capture code %}
 ./_posts/
@@ -392,16 +420,26 @@ print_hi('Tom')
 {% endcapture %}
 {% include component/code.html lang='md' content=code %}
 
-<p>С большинством параметров мы уже знакомы, рассмотрим новые для нас.</p>
+<p>Для наполнения контента содержимым используется <b>Markdown</b> разметка. С большинством параметров мы уже знакомы, рассмотрим новые для нас.</p>
 
 <ul>
   <li><b>date</b> - дата добавления статьи</li>
-  <li><b>category</b> - название категории к которой относится статья, может быть во множественном числе, например categories: [раз, два]</li>
-  <li><b>tags</b> - что-то на подобии категорий только без результирующей страницы, содержащей все записи относящиеся тегу</li>
+  <li><b>category</b> - название категории к которой относится статья, может быть во множественном числе, например categories: [раз, два], можно создать результирующую страницу с записями определенной категории</li>
+  <li><b>tags</b> - что-то на подобии категорий только без результирующей страницы</li>
   <li><b>published</b> - статус публикации статьи, если <b>false</b> страница не будет отображаться</li>
   <li><b>permalink</b> - для статей можно не указывать, он будет автоматически сгенерирован согласно шаблону который мы в дальнейшем настроем</li>
   <li><b>excerpt_separator</b> - разделитель между коротким описанием и полным описание статьи</li>
 </ul>
+
+<p>Для того чтобы переопределить стандартный вид ссылки на статью, нужно будет добавить параметр <b>permalink</b> в файл <b>_config.yml</b>. Более подробно о ссылках читайте в
+  <a href="https://jekyllrb.com/docs/permalinks/#built-in-formats" target="_blank" rel="nofollow">официальной документации</a>.</p>
+
+{% capture code %}
+permalink: /blog/:name-:categories.html
+{% endcapture %}
+{% include component/code.html lang='yml' content=code %}
+
+<p>В данном примере ссылка на любую статью будет начинаться со слова <b>blog</b> затем имя файла со статьей - название категории и заканчиваться ссылка будет форматом <b>.html</b>. В принципе можно не добавлять формат <b>.html</b>, но браузер <b>Firefox</b> может тогда не открыть страницу.</p>
 
 <h3>Тип записи "Коллекции"</h3>
 
@@ -426,7 +464,7 @@ collections:
     <li><b>recipe</b> - любое пользовательское имя коллекции, в данном примере мы будем создавать рецепты, ниже представлены параметр коллекции recipe, у каждой коллекции будут свои настройки
     <ul>
       <li><b>output</b> - определяет нужно ли создавать для каждой коллекции отдельную страницу</li>
-      <li><b>permalink</b> - шаблон ссылки на страницу коллекции</li>
+      <li><b>permalink</b> - шаблон ссылки на страницу коллекции, здесь у нас идет в начале ссылки имя коллекции, затем название страницы коллекции и потом день, месяц, год добавления записи.</li>
     </ul>
     </li>
   </ul>
@@ -524,7 +562,14 @@ jekyll_compose:
 
 <p>Обозначим редактор кода по умолчанию в котором будет открываться созданный файл записи, для <b>IDE PhpStorm</b> это будет <b>phpstorm</b>, для <b>VSCode</b> это будет <b>code</b>.</p>
 
-{% include component/code.html lang='bash' content='export JEKYLL_EDITOR=phpstorm' %}
+{% capture code %}
+export JEKYLL_EDITOR=phpstorm
+
+# Или
+
+export JEKYLL_EDITOR=code
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
 
 <p>Список команд для манипулирования материалом на сайте.</p>
 
@@ -556,7 +601,7 @@ bundle exec jekyll unpublish _posts/2014-01-24-my-new-draft.md
 
 <p>На сколько это можно было сделать мы упростили себе рутину по созданию файлов с записями.</p>
 
-<h2 id="layout"><span class="attention">Layout</span> для типов записей</h2>
+<h2 id="layout"><span class="attention">Шаблоны</span> для типов записей</h2>
 
 <p>Ранее мы познакомились с таким параметров как <b>layout</b> в записях. Он содержал название шаблона, который используется как основа для страницы. В этом разделе мы подробнее разберем эту тему, создадим свой шаблон и применим его к записям.</p>
 
@@ -609,7 +654,7 @@ gem 'jekyll-contentblocks'
 
 <p>Конструкция <b>&#123;&#123; &#125;&#125;</b> выводит содержимое переменной на странице. В данном примере <b>&#123;&#123; page.lang | default: site.lang | default: 'ru' &#125;&#125;</b> будет выводиться содержимое переменной <b>lang</b>, которая берется внутри разделителя <b>--- ---</b> для текущей записи, отображаемой на странице. Если переменная <b>lang</b> не будет найдена, тогда будет браться содержимое глобальной переменной <b>lang</b> из файла <b>_config.yml</b>. Если такой переменной и там не будет, то по умолчанию подставится значение <b>ru</b>.</p>
 
-<p>Конструкции <b>{% contentblock header | content | footer | script %}</b> создаются благодаря установленному расширению <b>jekyll-contentblocks</b>. Здесь мы резервируем место под определенный контент, который будет находиться внутри страниц наследующихся от шаблона <b>default.html</b>. Каждого зарезервированному блоку задается уникальное имя.</p>
+<p>Конструкции <b>{% contentblock header | content | footer | script %}</b> создаются благодаря установленному расширению <b>jekyll-contentblocks</b>. Здесь мы резервируем место под определенный контент, который будет находиться внутри страниц, наследующихся от шаблона <b>default.html</b>. Каждому зарезервированному блоку задается уникальное имя.</p>
 
 <p>В каталоге <b>_layouts</b> создадим еще один шаблон который будет наследоваться от <b>default.html</b> и назовем его <b>base.html</b>. Содержимое шаблона <b>base.html</b> будет следующим.</p>
 
@@ -626,6 +671,12 @@ layout: default
 
 &#123;% contentfor content %&#125;
   &#123;&#123; content &#125;&#125;
+&#123;% endcontentfor %&#125;
+
+&#123;% contentfor footer %&#125;
+&lt;footer&gt;
+  FOOTER
+&lt;/footer&gt;
 &#123;% endcontentfor %&#125;
 
 &#123;% contentfor script %&#125;
@@ -657,7 +708,7 @@ sitemap: true
 {% endcapture %}
 {% include component/code.html lang='html' content=code %}
 
-<p>При сборке главной страницы шаблонизатором <b>Jekyll</b> содержимое контентной области файла <b>index.html</b> попадет внутрь конструкции <b>&#123;% contentfor content %&#125;</b> в файле <b>base.html</b>, в свою очередь содержимое блоков <b>&#123;% contentfor %&#125;</b> внутри файла <b>base.html</b> попадет в файл <b>default.html</b> в зарезервированные блоки <b>&#123;% contentblock %&#125;</b> и на выходе получится единая цельная страница.</p>
+<p>При сборке главной страницы шаблонизатором <b>Jekyll</b> содержимое контентной области файла <b>index.html</b> попадет внутрь конструкции <b>&#123;% contentfor content %&#125;</b> в файле <b>base.html</b>, в свою очередь содержимое блоков <b>&#123;% contentfor %&#125;</b> внутри файла <b>base.html</b> попадет в файл <b>default.html</b> в зарезервированные блоки <b>&#123;% contentblock %&#125;</b> и так со всеми блоками, на выходе получится единая цельная страница.</p>
 
 <p>Следует для каждого файла внутри каталогов <b>_pages</b>, <b>_posts</b> и <b>_recipe</b> изменить параметр <b>layout</b> на <b>base</b>.</p>
 
@@ -670,6 +721,8 @@ sitemap: true
 <p>В данном разделе, чтобы ознакомиться с этим инструментарием в <b>Jekyll</b> мы создадим многоуровневое навигационное меню. Которое как мне кажется должно в полной мере раскрыть эту тему.</p>
 
 <p>В корне проекта создадим каталог <b>_includes</b> в нем будут находиться включаемые, повторяемые конструкции сайта. Так же в корне проекта создаем каталог <b>_data</b> в котором будут содержаться файлы с пользовательскими данными.</p>
+
+<h3>Каталог _data</h3>
 
 <p>Начнем с каталога <b>_data</b>, создадим в нам файл <b>main-nav.yml</b>. Название может быть абсолютно любым, главное чтобы было понятно, что содержит файл. В нашем случае файл <b>main-nav.yml</b> будет содержать вложенный список ссылок для основного навигационного меню.</p>
 
@@ -712,9 +765,11 @@ items:
 {% endcapture %}
 {% include component/code.html lang='yml' content=code %}
 
+<h3>Каталог _includes</h3>
+
 <p>Теперь внутри каталога <b>_includes</b> создадим файлы <b>navigation.html</b> и <b>navigation-item.html</b>. Файл <b>navigation.html</b> будет хранить основную разметку навигации. Файл <b>navigation-item.html</b> будет выводить вложенные ссылки. Такое разделение нам нужно, чтобы мы могли в рекурсивном цикле пройтись по всем ссылкам в файле <b>main-nav.yml</b>, вместо того, чтобы вручную прописывать каждые вложенные ссылки.</p>
 
-<p>Чтобы подключить включаемую область в другой файл нужно использовать конструкцию <b>&#123;% include foo-bar.html %&#125;</b>, где <b>foo-bar.html</b> полное имя с расширением подключаемого файла. По умолчанию все включаемые файлы ищутся в каталоге <b>_includes</b>. Если внутри каталога <b>_includes</b> будут другие каталоги, а в них уже файлы это необходимо будет отобразить, например <b>&#123;% include folder/foo-bar.html %&#125;</b>.</p>
+<p>Чтобы подключить включаемую область в другой файл нужно использовать конструкцию <b>&#123;% include foo-bar.html %&#125;</b>, где <b>foo-bar.html</b> полное имя с расширением подключаемого файла. Все включаемые файлы берутся из каталога <b>_includes</b>. Если внутри каталога <b>_includes</b> будут другие каталоги, а в них уже файлы это необходимо будет отобразить, например <b>&#123;% include folder/foo-bar.html %&#125;</b>.</p>
 
 <p>Содержимое файла <b>navigation.html</b> будет следующим.</p>
 
@@ -756,6 +811,8 @@ items:
 
 <p>Так же идет сравнение активной ссылки в браузере, с ссылкой текущего пункта меню <b>&#123;% if item.url == url %&#125;</b>, если они равны происходит присваивание класса <b>navigation__item--active</b>, чтобы по особенному можно было стилизовать активный пункт меню.</p>
 
+<h3>Шаблон _base.html</h3>
+
 <p>Мы успешно создали включаемую область на страницу в виде навигации с использованием пользовательских данных. Теперь осталось лишь отобразить навигацию на странице. Для этого откроем файл <b>_layouts/base.html</b> и в шапку сайта подключим навигацию.</p>
 
 {% capture code %}
@@ -788,70 +845,272 @@ layout: default
   <figcaption>Должны увидеть навигационное меню со всеми, указанными ссылками в файле <b>main-nav.yml</b>.</figcaption>
 </figure>
 
+<h2 id="assets"><span class="attention">Ресурсы</span> проекта</h2>
 
+<p>Какой сайт обходится без стилей, скриптов и прочих ресурсов. В этом разделе создадим соответствующие разделы и подключим вспомогательные ресурсы.</p>
 
+<p>По умолчанию <b>Jekyll</b> не умеет работать с <b>sass/scss</b> стилями, для этого необходимо установить соответствующее расширение.</p>
 
+<h3>Расширение jekyll-sass-converter</h3>
 
+<p>Откроем файл <b>Gemfile</b> и добавим в группу плагинов расширение <b>jekyll-sass-converter</b>. Для более детальной настройки ознакомьтесь с <a href="https://github.com/jekyll/jekyll-sass-converter" target="_blank" rel="nofollow">официальной документацией</a>.</p>
 
+{% capture code %}
+# Sass/Scss конвертер
+# https://github.com/jekyll/jekyll-sass-converter
+gem 'jekyll-sass-converter'
+{% endcapture %}
+{% include component/code.html lang='Gemfile' content=code %}
 
+<p>Установим новое расширение <b>jekyll-sass-converter</b>.</p>
 
+{% include component/code.html lang='bash' content='bundle install' %}
 
+<p>После установки расширения настроим его отредактировав файл <b>_config.yml</b>.</p>
 
+{% capture code %}
+sass:
+  sass_dir: _scss
+  style: compressed
+{% endcapture %}
+{% include component/code.html lang='yml' content=code %}
 
+<ul>
+  <li><b>sass_dir</b> - название каталога с scss стилями</li>
+  <li><b>style</b> - параметр сжатия стилей</li>
+</ul>
 
+<h3>Иерархия файлов</h3>
 
+<p>Далее создадим два каталога <b>_scss</b> для стилей и <b>assets</b> для остальных файлов, такие как шрифты, картинки, скрипты и прочее.</p>
 
+<p>Внутри каталога <b>_scss</b> продублируем иерархию файлов и их содержимое, основываясь на описанной ранее статье <a href="{{ site.baseurl }}/blog/2023-08-29-mnogofunkcionalnaya-gulp-sborka-dlya-produktivnoj-verstki-s-ispolzovaniem-pug-shablonizatora-frontend.html#task-styles" target="_blank">создание gulp сборки</a>. За некоторым исключением, файлы <b>main.scss</b> и <b>critical.scss</b> нужно будет разместить в каталоге <b>assets/css</b> если этого каталога нет создаем.</p>
 
+{% capture code %}
+./_scss
+├── core
+│    ├── base
+│    │     ├── _base.scss
+│    │     ├── _container.scss
+│    │     └── _fonts.scss
+│    └── helpers
+│        ├── _functions.scss
+│        ├── _mixins.scss
+│        └── _variables.scss
+└── scaffolds
+    ├── components
+    │    └── _button.scss
+    └── sections
+        └── _browser-upgrade.scss
 
+./assets
+└── css
+  ├── main.scss
+  └── critical.scss
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
 
+<p>Если не понятно содержимое файлов ознакомьтесь с <a href="https://github.com/eliofery/gulp-template/tree/main/src/scss" target="_blank" rel="nofollow">исходным кодом</a> <b>Gulp борки</b>.</p>
 
+<h3>Инициализция NPM</h3>
 
+<p>Инициализируем <b>npm</b> для того, чтобы можно было использовать различные сторонние решения например <b>normalize.css
+</b>.</p>
 
+{% include component/code.html lang='bash' content='npm init -y' %}
 
+<p>Установим <b>normalize.css</b>.</p>
 
+{% include component/code.html lang='bash' content='npm i -D normalize.css' %}
 
+<h3>Содержимое основных файлов стилей</h3>
 
+<p>Содержимое файла <b>main.scss</b>.</p>
 
+{% capture code %}
+---
+---
+@import "core/helpers/functions";
+@import "core/helpers/variables";
+@import "core/helpers/mixins";
 
+@import "core/base/fonts";
 
+@import "scaffolds/components/button";
 
+@import "scaffolds/sections/browser-upgrade";
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
 
+<p>Содержимое файла <b>critical.scss</b>.</p>
 
+{% capture code %}
+---
+---
+@import "core/helpers/functions";
+@import "core/helpers/variables";
+@import "core/helpers/mixins";
 
+@import "../../node_modules/normalize.css/normalize";
 
+@import "core/base/base";
+@import "core/base/container";
 
+//@import "scaffolds/components/name";
 
+//@import "scaffolds/sections/name";
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
 
+<p>Обратите внимание, что в файлах <b>main.scss</b> и <b>critical.scss</b> присутствует разделитель <b>--- ---</b>, в данном случае он не содержит в себе переменные и необходим лишь для того, чтобы <b>Jekyll</b> понял что данный файл является основным и собрал его.</p>
 
+<p>Запустим проект в режиме разработки.</p>
 
+{% include component/code.html lang='scss' content='bundle exec jekyll serve' %}
 
+<p>Откроем каталог <b>_site</b> который содержит собранный проект и зайдем в каталог <b>assets/css</b>. Как можно увидеть в каталоге содержатся два собранных файла <b>css</b>, которые теперь мы можем подключить на страницы.</p>
 
+<h3>Подключение стилей на страницах</h3>
 
+<p>Так как критические стили <b>critical.css</b> нужно будет размещать <b>inline</b> внутрь тега <b>&lt;style&gt;</b> хорошо было бы, чтобы его содержимое автоматически выносилось в этот тег. Для подключения одного файла внутрь другого мы уже знаем используется конструкция <b>&#123;% include %&#125;</b>, но она не умеет подключать файлы, находящиеся за пределами каталога <b>_includes</b>, а критические стили у нас за пределами этого каталога.</p>
 
+<p>Чтобы каждый раз вручную не переносить файл <b>critical.css</b> из каталога <b>_site/assets/css</b> в каталог <b>includes</b>, чтобы потом его подключить. Мы добавим в наш <b>Jekyll</b> шаблон пару плагинов.</p>
 
+<p>Нам понадобится <a href="https://github.com/michaelx/jekyll_file_exists" target="_blank" rel="nofollow">плагин file_exists</a>, который проверят файл на существование. И <a href="https://stackoverflow.com/a/75420946" target="_blank" rel="nofollow">плагин root_include</a>, который подключает файлы за пределами каталога <b>_includes</b>.</p>
 
+<p>В корне шаблона создадим каталог <b>_plugins</b> и внутри данного каталога создаем два файла: <b>file_exists.rb</b> и <b>include_absolute.rb</b>.</p>
 
+<p>Содержимое файла <b>file_exists.rb</b>.</p>
 
+{% capture code %}
+module Jekyll
+    class FileExistsTag &lt; Liquid::Tag
 
+        def initialize(tag_name, path, tokens)
+            super
+            @path = path
+        end
 
+        def render(context)
+            # Pipe parameter through Liquid to make additional replacements possible
+            url = Liquid::Template.parse(@path).render context
 
+            # Adds the site source, so that it also works with a custom one
+            site_source = context.registers[:site].config['source']
+            file_path = site_source + '/' + url
 
+            # Check if file exists (returns true or false)
+            "#&#123;File.exist?(file_path.strip!)&#125;"
+        end
+    end
+end
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+Liquid::Template.register_tag('file_exists', Jekyll::FileExistsTag)
+{% endcapture %}
+{% include component/code.html lang='rb' content=code %}
 
-<hr>
+<p>Содержимое файла <b>include_absolute.rb</b>.</p>
 
+{% capture code %}
+class RootInclude &lt; Liquid::Tag
+  def initialize(_tag_name, markup, _parse_context)
+    super
+    @markup = markup.strip
+  end
 
-<p>Так же в базовой записи статьи указана конструкция, которая форматирует и отображает код на странице.</p>
+  def render(context)
+    expanded_path = Liquid::Template.parse(@markup).render(context)
+    root_path = File.expand_path(context.registers[:site].config['source'])
+    final_path = File.join(root_path, expanded_path)
+    read_file(final_path, context)
+  end
+
+  def read_file(path, context)
+    file_read_opts = context.registers[:site].file_read_opts
+    File.read(path, **file_read_opts)
+  end
+end
+
+Liquid::Template.register_tag('root_include', RootInclude)
+{% endcapture %}
+{% include component/code.html lang='rb' content=code %}
+
+<p>Чтобы подключить стили откроем файл <b>_layouts/default.html</b> и ниже тега <b>&lt;base&gt;</b> добавим.</p>
+
+{% capture code %}
+&lt;!-- Критические стили   --&gt;
+&#123;% assign path = '_site/assets/css/critical.css' %&#125;
+&#123;% capture fileExists %&#125;&#123;% file_exists &#123;&#123; path &#125;&#125; %&#125;&#123;% endcapture %&#125;
+&#123;% if fileExists == 'true' %&#125;
+&#123;% capture critical %&#125;&#123;% root_include &#123;&#123; path &#125;&#125; %&#125;&#123;% endcapture %&#125;
+&lt;style&gt;&#123;&#123; critical | scssify &#125;&#125;&lt;/style&gt;
+&#123;% endif %&#125;
+
+&lt;!-- Стили --&gt;
+&lt;link rel="preload" as="style" href="&#123;&#123; '/assets/css/style.css?v=' | relative_url &#125;&#125;&#123;&#123; site.version | default: '0.0.1' &#125;&#125;" onload="this.rel='stylesheet'"&gt;
+&lt;noscript&gt;&lt;link rel="stylesheet" href="&#123;&#123; '/assets/css/style.css?v=' | relative_url &#125;&#125;&#123;&#123; site.version | default: '0.0.1' &#125;&#125;"&gt;&lt;/noscript&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<p>Здесь мы проверяем существования файла по пути <b>_site/assets/css/critical.css</b>, если файл существует то мы создаем переменную <b>critical</b> в которую помещаем его содержимое. После чего выводим это содержимое на странице, прогнав его через фильтр минификации <b>scssify</b>.</p>
+
+<p>Далее стандартным способом подключаем стили прогнав путь до файла через фильтр <b>relative_url</b>, который преобразует абсолютный <b>url</b> в относительный. Конструкция <b>onload="this.rel='stylesheet'"</b> позволит загрузить стили после загрузки всей страницы, что положительно сказывается на <b>Page Speed</b> показателях.</p>
+
+<p>В терминале выйдем из режима разработки, нажав клавиши <kbd>Ctrl + C</kbd>. Удалим каталог <b>_site</b>, чтобы проверить успешно ли собирается проект и правильно ли внедряются критические стили. Если мы сейчас просто запустим команду работы над проектом в режиме разработки, то при сборке шаблона критические стили не подключатся, так как файл <b>critical.css</b> создается позже чем собираются <b>html</b> страницы.</p>
+
+<p>Чтобы исправить этот нюанс, необходимо прежде собрать проект, а уже потом запускать режим разработки. Так же обратите внимание на новую опцию <b>--livereload</b>, благодаря нее браузер будет автоматически обновляться при изменении файлов шаблона.</p>
+
+{% include component/code.html lang='bash' content='jekyll build && bundle exec jekyll serve --livereload' %}
+
+<p>Обновим главную страницу и откроем исходный код в браузере. Как видим критические стили минифицированы и отображаются внутри тега <b>&lt;style&gt;</b>. Более того если мы изменим стили в <b>scss</b> файлах изменения автоматически применятся на странице и мы увидим обновленный вид.</p>
+
+<figure>
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-3.jpg' type='original' alt='Исходный код главной страницы' %}
+  <figcaption>Обновим главную страницу и откроем исходный код в браузере.</figcaption>
+</figure>
+
+<h3>Остальные ресурсы Assets</h3>
+
+<p>Внутри каталога <b>assets</b> создайте каталоги:</p>
+
+<ul>
+  <li><b>favicons</b> - фавиконки</li>
+  <li><b>fonts</b> - шрифты</li>
+  <li><b>icons</b> - svg иконки, черно-белые и цветные</li>
+  <li><b>images</b> - картинки</li>
+  <li><b>js</b> - javascript скрипты</li>
+</ul>
+
+<p>Должна получиться примерно следующая структура. Примерную структуру и содержимое файлов можно <a href="https://github.com/eliofery/gulp-template/tree/main/src/assets" target="_blank" rel="nofollow">подсмотреть здесь</a>.</p>
+
+{% capture code %}
+./assets/
+├── css
+     ├── critical.scss
+     └── style.scss
+├── favicons
+├── fonts
+├── icons
+├── images
+└── js
+    └── main.js
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Создадим файл <b>assets/js/main.js</b> и подключим его на странице, изменив содержимое файла <b>_layouts/base.html</b>.</p>
+
+{% capture code %}
+&#123;% contentfor script %&#125;
+&lt;script src="&#123;&#123; '/assets/js/main.js?v=' | relative_url &#125;&#125;&#123;&#123; site.version | default: '0.0.1' &#125;&#125;" type="module"&gt;&lt;/script&gt;
+&#123;% endcontentfor %&#125;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<p>Раздел получился довольно большим, местами тяжелым. Важно понимать, что это лишь пример один из всевозможных вариантов, вы вправе создавать и использовать только те каталоги которые будете использовать. Моя задача лишь показать некоторый пример как это может выглядеть, а ваша задача уловить суть и сделать, так как вам надо.</p>
+
+<h3>Highlight расширение</h3>
+
+<p>Необязательный раздел, некоторое дополнение к теме о стилях. Если открыть файл статьи, который <b>Jekyll</b> создал по умолчанию, то можно увидеть следующую конструкцию.</p>
 
 {% capture code %}
 &#123;% highlight ruby %&#125;
@@ -864,7 +1123,9 @@ print_hi('Tom')
 {% endcapture %}
 {% include component/code.html lang='md' content=code %}
 
-<p>Установим расширение улучшающее эту конструкцию, добавляя подсветку. Для этого откроем <b>Gemfile</b> и добавим в группу плагинов <b>group :jekyll_plugins do</b> новое расширение.</p>
+<p>Это обертка, чтобы выводить код и т.п. в красивом оформленном виде, с подсветкой синтаксиса. Примерно как это выглядит на данном сайте. Данная функциональность по умолчанию включена в <b>Jekyll</b> только не имеет стилей. Для того чтобы ей придать стилевой оформление установим и настроим некоторые расширения.</p>
+
+<p>Откроем <b>Gemfile</b> и добавим в группу плагинов новые расширения <b>kramdown</b> и <b>rouge</b>.</p>
 
 {% capture code %}
 # Hightlight
@@ -872,7 +1133,6 @@ print_hi('Tom')
 # https://bnhr.xyz/2017/03/25/add-syntax-highlighting-to-your-jekyll-site-with-rouge.html
 # rougify help style
 # rougify style monokai > _sass/scaffolds/components/_syntax.scss
-# gem install kramdown rouge
 gem "kramdown"
 gem "rouge"
 {% endcapture %}
@@ -882,7 +1142,7 @@ gem "rouge"
 
 {% include component/code.html lang='bash' content='bundle install' %}
 
-<p>Откроем файл <b>_config.yml</b> и ниже конструкции <b>plugins</b> добавим установленное расширение.</p>
+<p>Откроем файл <b>_config.yml</b> и ниже конструкции <b>plugins</b> добавим настройки для расширений.</p>
 
 {% capture code %}
 # Подсветка синтаксиса
@@ -893,28 +1153,216 @@ kramdown:
 {% endcapture %}
 {% include component/code.html lang='yml' content=code %}
 
-<p>Создадим каталог со стилями.</p>
-
-{% include component/code.html lang='bash' content='mkdir -p _sass/scaffolds/components/' %}
-
-<p>Посмотрим доступные стили для подсветки синтаксиса кода.</p>
+<p>Посмотрим доступные стили для подсветки синтаксиса кода. Для этого в терминале введем команду.</p>
 
 {% include component/code.html lang='bash' content='rougify help style' %}
 
-<p>Мы должны увидеть следующий перечень стилей.</p>
+<p>Появится следующий перечень стилей.</p>
 
 <pre><code>available themes:
-  base16, base16.dark, base16.light, base16.monokai, base16.monokai.dark, base16.monokai.light, base16.solarized, base16.solarized.dark, base16.solarized.light, bw, colorful, github, github.dark, github.light, gruvbox, gruvbox.dark, gruvbox.light, igorpro, magritte, molokai, monokai, monokai.sublime, pastie, thankful_eyes, tulip</code></pre>
+  base16, base16.dark, base16.light, base16.monokai, base16.monokai.dark,
+  base16.monokai.light, base16.solarized, base16.solarized.dark,
+  base16.solarized.light, bw, colorful, github, github.dark, github.light,
+  gruvbox, gruvbox.dark, gruvbox.light, igorpro, magritte, molokai, monokai,
+  monokai.sublime, pastie, thankful_eyes, tulip</code></pre>
 
 <p>Выберем любой из них и установим.</p>
 
-{% include component/code.html lang='bash' content='rougify style monokai > _sass/scaffolds/components/_syntax.scss' %}
+{% include component/code.html lang='bash' content='rougify style monokai > ./_scss/scaffolds/components/_hightlight.scss' %}
 
-<p>В указанном каталоге должен появиться файл стилей <b>_syntax.scss</b>, который будет содержать цветовое оформление в стиле <b>monokai</b>.</p>
+<p>В указанном каталоге должен появиться файл <b>_hightlight.scss</b> со стилями, который будет содержать цветовое оформление в стиле <b>monokai</b>.</p>
 
 <p>Перезапустим шаблон в режиме разработки.</p>
 
-{% include component/code.html lang='bash' content='bundle exec jekyll serve' %}
+{% include component/code.html lang='bash' content='jekyll build && bundle exec jekyll serve --livereload' %}
+
+<p>Теперь сгенерированный файл с стилями подключим к шаблону, для этого откроем файл <b>assets/css/style.scss</b> и добавим.</p>
+
+{% capture code %}
+---
+---
+@import "core/helpers/functions";
+@import "core/helpers/variables";
+@import "core/helpers/mixins";
+
+@import "core/base/fonts";
+
+@import "scaffolds/components/button";
+@import "scaffolds/components/hightlight";
+
+@import "scaffolds/sections/browser-upgrade";
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+<p>Откроем статью созданную <b>Jekyll</b> по умолчанию у меня она располагается по ссылке <b>/jekyll/2023/09/03/welcome-to-jekyll.html</b> и увидим что выбранная цветовая схема успешно применилась.</p>
+
+<figure>
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-4.jpg' type='original' alt='Оформление кода' %}
+  <figcaption>Увидим что выбранная цветовая схема успешно применилась.</figcaption>
+</figure>
+
+<h2 id="seo"><span class="attention">Seo</span> оптимизация</h2>
+
+<p>В этом разделе рассмотрим <b>Seo</b> оптимизацию, добавим <b>Open Graph</b>, <b>Twitter Cards</b>, <b>Google Analytic</b>, <b>Yandex Metrika</b> и т.п.</p>
+
+<h3>Seo расширения</h3>
+
+<p>Откроем файл <b>Gemfile</b> и добавим в группу плагинов расширение <b>jekyll-seo-tag</b>. Для более детальной настройки ознакомьтесь с <a href="https://github.com/jekyll/jekyll-seo-tag" target="_blank" rel="nofollow">официальной документацией</a>.</p>
+
+{% capture code %}
+# SEO
+# https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/installation.md
+gem "jekyll-seo-tag"
+{% endcapture %}
+{% include component/code.html lang='Gemfile' content=code %}
+
+<p>Установим новое расширение <b>jekyll-seo-tag</b>.</p>
+
+{% include component/code.html lang='bash' content='bundle install' %}
+
+<p>После установки расширения настроим его отредактировав файл <b>_config.yml</b>.</p>
+
+{% capture code %}
+plugins:
+  - jekyll-seo-tag
+  - jekyll-feed
+  - jekyll-sitemap
+{% endcapture %}
+{% include component/code.html lang='yml' content=code %}
+
+<p>Создадим файл <b>head.html</b> внутри каталога <b>_includes</b>. Теперь откроем файл <b>_layouts/default.html</b> и вынесем все содержимое тега <b>&lt;head&gt;</b> в созданный файл <b>head.html</b>.</p>
+
+{% capture code %}
+&lt;meta charset="utf-8"&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+
+&lt;title&gt;&#123;&#123; page.title &#125;&#125;&lt;/title&gt;
+
+&lt;base href="&#123;&#123; site.baseurl &#125;&#125;"&gt;
+
+&lt;!-- Критические стили   --&gt;
+&#123;% assign path = '_site/assets/css/critical.css' %&#125;
+&#123;% capture fileExists %&#125;&#123;% file_exists &#123;&#123; path &#125;&#125; %&#125;&#123;% endcapture %&#125;
+&#123;% if fileExists == 'true' %&#125;
+&#123;% capture critical %&#125;&#123;% root_include &#123;&#123; path &#125;&#125; %&#125;&#123;% endcapture %&#125;
+&lt;style&gt;&#123;&#123; critical | scssify &#125;&#125;&lt;/style&gt;
+&#123;% endif %&#125;
+
+&lt;!-- Стили --&gt;
+&lt;link rel="preload" as="style" href="&#123;&#123; '/assets/css/style.css?v=' | relative_url &#125;&#125;&#123;&#123; site.version | default: '0.0.1' &#125;&#125;" onload="this.rel='stylesheet'"&gt;
+&lt;noscript&gt;&lt;link rel="stylesheet" href="&#123;&#123; '/assets/css/style.css?v=' | relative_url &#125;&#125;&#123;&#123; site.version | default: '0.0.1' &#125;&#125;"&gt;&lt;/noscript&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<p>В файле <b>_layouts/default.html</b> подключаем <b>head.html</b>.</p>
+
+{% capture code %}
+&lt;html class="no-js" lang="&#123;&#123; page.lang | default: site.lang | default: 'ru' &#125;&#125;"&gt;
+&lt;head&gt;
+  &#123;% include head.html %&#125;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="layout"&gt;
+  &#123;% contentblock header %&#125;
+
+  &lt;main class="layout__main"&gt;
+    &#123;% contentblock content %&#125;
+  &lt;/main&gt;
+
+  &#123;% contentblock footer %&#125;
+&lt;/div&gt;
+
+&#123;% contentblock script %&#125;
+&lt;/body&gt;
+&lt;/html&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<p>Теперь базовый шаблон не содержит ни чего лишнего и далее мы можем акцентироваться на наполнении файла <b>head.html</b> прописывая в него различные конструкции.</p>
+
+<p>Подключим <b>Seo</b> расширения в файл <b>head.html</b> сразу после стилей.</p>
+
+{% capture code %}
+&#123;% seo title=false %&#125;
+&#123;% feed_meta %&#125;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<ul>
+  <li><b>seo</b> - подключит <b>Open Graph</b>, <b>Twitter Cards</b>, мета информацию <b>description</b>, <b>ld+json</b> в общем основные составляющие для seo продвижения</li>
+  <li><b>feed_meta</b> - подключит ссылку на <b>RSS</b> ленту</li>
+</ul>
+
+<h3>Google и Yandex аналитика</h3>
+
+<p>Откроем файл <b>_config.yml</b> и дабавим пользовательские переменные, которые будут хранить идентификаторы от <b>Google Analytic</b> и <b>Yandex Metrika</b>.</p>
+
+{% capture code %}
+google_analytics: UA-XXXXXXXXX-X
+yandex_metrika: XXXXXX
+{% endcapture %}
+{% include component/code.html lang='yml' content=code %}
+
+<p>В файле <b>head.html</b> ниже подключенных расширений подключим скрипты с <b>Google Analytic</b> и <b>Yandex Metrika</b>.</p>
+
+{% capture code %}
+&#123;% if jekyll.environment == 'production' and site.google_analytics and site.google_analytics != 'UA-XXXXXXXXX-X' %&#125;
+&lt;!-- Google Analytics --&gt;
+&lt;script&gt;
+    if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1")) &#123;
+        (function(i,s,o,g,r,a,m)&#123;i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()&#123;
+            (i[r].q=i[r].q||[]).push(arguments)&#125;,i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        &#125;)(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', '&#123;&#123; site.google_analytics &#125;&#125;', 'auto');
+        ga('send', 'pageview');
+    &#125;
+&lt;/script&gt;
+&#123;% endif %&#125;
+
+&#123;% if jekyll.environment == 'production' and site.yandex_metrika and site.yandex_metrika != 'XXXXXX' %&#125;
+&lt;!-- Yandex Metrika --&gt;
+&lt;script&gt;
+    (function(m,e,t,r,i,k,a)&#123;m[i]=m[i]||function()&#123;(m[i].a=m[i].a||[]).push(arguments)&#125;;
+        m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)&#125;)
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+    ym('&#123;&#123; site.yandex_metrika &#125;&#125;', "init", &#123;&#125;);
+&lt;/script&gt;
+&#123;% endif %&#125;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+<p>Скрипты будут подключены по условию если в переменная среды <b>JEKYLL_ENV</b> будет равна значению <b>production</b>, а так же пользовательская переменная <b>site.google_analytics</b> которую мы создали в файле <b>_config.yml</b> должна существовать и не должна быть равна значению <b>UA-XXXXXXXXX-X</b> и <b>XXXXXX</b>.</p>
+
+<p>Для того чтобы задать окружение для переменной среды, выполните в терминале команду.</p>
+
+{% capture code %}
+export JEKYLL_ENV=production
+
+# Или
+
+export JEKYLL_ENV=development
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Теперь когда получите идентификатор от какой-либо из этих платформ и пропишите его в файле <b>_config.yml</b>, при сборке шаблона должны подключится соответствующие скрипты.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
