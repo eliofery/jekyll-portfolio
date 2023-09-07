@@ -7,6 +7,7 @@ image: cover.jpg
 alt: Стартовый Jekyll шаблон
 category: frontend
 tags: [jekyll, html, scss, webp, npm]
+source: https://github.com/eliofery/jekyll-template
 published: true
 sitemap: true
 excerpt_separator: "<!--more-->"
@@ -30,6 +31,9 @@ excerpt_separator: "<!--more-->"
   <li><a href="#includes">Включаемые области и пользовательские данные</a></li>
   <li><a href="#assets">Ресурсы проекта</a></li>
   <li><a href="#seo">Seo оптимизация</a></li>
+  <li><a href="#pagination">Постраничная пагинация</a></li>
+  <li><a href="#picture">Изображения на сайте</a></li>
+  <li><a href="#end">Подведем итоги</a></li>
 </ol>
 
 <h2 id="intro"><span class="attention">Почему</span> Jekyll</h2>
@@ -1349,35 +1353,401 @@ export JEKYLL_ENV=development
 
 <p>Теперь когда получите идентификатор от какой-либо из этих платформ и пропишите его в файле <b>_config.yml</b>, при сборке шаблона должны подключится соответствующие скрипты.</p>
 
+<h2 id="pagination"><span class="attention">Постраничная</span> пагинация</h2>
 
+<p>В предыдущих разделах мы научились создавать статьи. При создании статьи мы определяли ее в определенную категорию через параметр <b>category</b> либо <b>categories</b>. Категории позволяют сгруппировать статьи и в дальнейшем показывать список тех статей чья категория была выбрана. И как правило при большом количестве материала принято разделять его на страницы, к примеру не более девяти статей на страницу.</p>
 
+<h3>Расширение jekyll-paginate-v2</h3>
 
+<p>В <b>Jekyll</b> подобный функционал возможен благодаря расширению <b>jekyll-paginate-v2</b>, давайте его установим. Добавим расширение в файл <b>Gemfile</b> в группу плагинов.</p>
 
+{% capture code %}
+# Пагинация
+# https://github.com/sverrirs/jekyll-paginate-v2
+gem "jekyll-paginate-v2"
+{% endcapture %}
+{% include component/code.html lang='Gemfile' content=code %}
 
+<p>Более подробно с настройкой расширения <b>jekyll-paginate-v2</b> можно познакомиться на <a href="https://github.com/sverrirs/jekyll-paginate-v2" target="_blank" rel="nofollow">официальном сайте</a>.</p>
 
+<p>Установим новое расширение <b>jekyll-paginate-v2</b>.</p>
 
+{% include component/code.html lang='bash' content='bundle install' %}
 
+<p>Далее откроем файл <b>_config.yml</b> и пропишем в нем следующие правила.</p>
 
+{% capture code %}
+# Подключение плагинов
+plugins:
+  - jekyll-seo-tag
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-paginate-v2
 
+# Пагинация
+pagination:
+  enabled: true
+  per_page: 9
+  permalink: '/page/:num/'
+  title: ':title - Страница :num'
+  limit: 0
+  sort_field: 'date'
+  sort_reverse: true
+  trail:
+    before: 2
+    after: 2
+{% endcapture %}
+{% include component/code.html lang='yml' content=code %}
 
+<ul>
+  <li><b>enabled</b> - активировать пагинацию</li>
+  <li><b>per_page</b> - количество статей на странице</li>
+  <li><b>permalink</b> - вид ссылки на другие страницы</li>
+  <li><b>title</b> - основной заголовок страницы</li>
+  <li><b>limit</b> - максимальное количество страниц пагинации, 0 без лимита</li>
+  <li><b>sort_field</b> - сортировка статей по дате</li>
+  <li><b>sort_reverse</b> - сортировка статей от новых к старым</li>
+  <li><b>trail</b> - задает количество страниц до и после текущей активной страницы, которые будут видны в пагинации</li>
+</ul>
 
+<h3>Шаблон blog.html</h3>
 
+<p>В каталоге <b>_layouts</b> создадим файл <b>blog.html</b>, это будет шаблон для страниц со списком статей.</p>
 
+{% capture code %}
+---
+layout: base
+---
+&lt;section class="blog"&gt;
+  &lt;div class="container"&gt;
+    &lt;h2 class="blog__title"&gt;&lt;span&gt;&#123;&#123; page.title &#125;&#125;&lt;/span&gt;&lt;/h2&gt;
+    &lt;div class="blog__content"&gt;
+      &#123;% if paginator.posts[0] %&#125;
+      &lt;ul class="blog__list"&gt;
+        &#123;% for post in paginator.posts %&#125;
+        &lt;li class="blog__item"&gt;
+          &lt;a class="blog__link" href="&#123;&#123; post.url &#125;&#125;"&gt;
+            &lt;time class="blog__date" datetime="&#123;&#123; post.date | date: " %Y-%m-%dT%H:%M
+            " &#125;&#125;"&gt;&#123;&#123; post.date | date: '%d.%m.%Y' &#125;&#125;&lt;/time&gt;
+            &lt;h3 class="blog__title"&gt;&#123;&#123; post.title | markdownify | strip_html | truncatewords: 15 &#125;&#125;&lt;/h3&gt;
+            &lt;div class="blog__desc"&gt;&#123;&#123; post.description | default: post.excerpt | markdownify | strip_html |
+              truncatewords: 40 &#125;&#125;
+            &lt;/div&gt;
+          &lt;/a&gt;
+        &lt;/li&gt;
+        &#123;% endfor %&#125;
+      &lt;/ul&gt;
 
+      &#123;% if paginator.page_trail %&#125;
+      &lt;ol class="blog__pagination"&gt;
+        &#123;% if paginator.previous_page %&#125;
+        &lt;li class="blog__pagination-item blog__pagination-item--prev"&gt;
+          &lt;a class="blog__pagination-link" href="&#123;&#123; paginator.previous_page_path &#125;&#125;" aria-label="Предыдущее"&gt;
+            &lt;--
+          &lt;/a&gt;
+        &lt;/li&gt;
+        &#123;% endif %&#125;
 
+        &#123;% for trail in paginator.page_trail %&#125;
+        &#123;% if page.url == trail.path %&#125;
+        &#123;% assign active = 'page-pagination__item--active' %&#125;
+        &#123;% else %&#125;
+        &#123;% assign active = '' %&#125;
+        &#123;% endif %&#125;
+        &lt;li class="blog__pagination-item &#123;&#123; active &#125;&#125;"&gt;
+          &lt;a class="blog__pagination-link" href="&#123;&#123; trail.path | remove: 'index.html' &#125;&#125;"&gt;&#123;&#123; trail.num &#125;&#125;&lt;/a&gt;
+        &lt;/li&gt;
+        &#123;% endfor %&#125;
 
+        &#123;% if paginator.next_page %&#125;
+        &lt;li class="blog__pagination-item blog__pagination-item--next"&gt;
+          &lt;a class="blog__pagination-link" href="&#123;&#123; paginator.next_page_path &#125;&#125;" aria-label="Следующее"&gt;
+            --&gt;
+          &lt;/a&gt;
+        &lt;/li&gt;
+        &#123;% endif %&#125;
+      &lt;/ol&gt;
+      &#123;% endif %&#125;
+      &#123;% else %&#125;
+      &lt;p&gt;Записей нет&lt;/p&gt;
+      &#123;% endif %&#125;
 
+      &lt;div class="blog__seo"&gt;
+        &#123;&#123; content &#125;&#125;
+      &lt;/div&gt;
 
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
 
+<p>Довольно большая разметка получилась, но здесь только самое главное.</p>
 
+<ul>
+  <li><b>&#123;&#123; page.title &#125;&#125;</b> - выводит заголовок страницы, страницу <b>blog</b> мы создадим ниже</li>
+  <li><b>&#123;% if paginator.posts[0] %&#125;</b> - проверяет наличие статей, если статей нет выводим <b>&lt;p&gt;Записей нет&lt;/p&gt;</b></li>
+  <li><b>&#123;% for post in paginator.posts %&#125;</b> - в цикле выводим каждую статью</li>
+  <li><b>&#123;&#123; post.url &#125;&#125;</b> - ссылка на статью</li>
+  <li><b>&#123;&#123; post.date | date: " %Y-%m-%dT%H:%M" &#125;&#125;</b> - дата создания статьи</li>
+  <li><b>&#123;&#123; post.title | markdownify | strip_html | truncatewords: 15 &#125;&#125;</b> - заголовок статьи, здесь применяется ряд фильтров которые удаляют <b>markdown</b> и <b>html</b> разметку и обрезают предложение до 15 слов</li>
+  <li><b>&#123;&#123; post.description | default: post.excerpt | markdownify | strip_html |
+    truncatewords: 40 &#125;&#125;</b> - описание статьи, если у статьи не будет описания по умолчанию будет браться значения из краткого описания, здесь применяется ряд фильтров которые удаляют <b>markdown</b> и <b>html</b> разметку и обрезают предложение до 40 слов</li>
+  <li><b>&#123;% if paginator.page_trail %&#125;</b> - проверка активна ли постраничная навигация</li>
+  <li><b>&#123;% if paginator.previous_page %&#125;</b> - ссылка на предыдущую страницу пагинации</li>
+  <li><b>&#123;% for trail in paginator.page_trail %&#125;</b> - перечисление доступных страниц пагинации</li>
+  <li><b>&#123;% if paginator.next_page %&#125;</b> - ссылка на следующую страницу пагинации</li>
+  <li><b>&#123;&#123; content &#125;&#125;</b> - выводит контентную часть страницы <b>blog</b> которую мы создадим ниже</li>
+</ul>
 
+<h3>Страница blog.html</h3>
 
+<p>В каталоге <b>_pages</b> создадим файл <b>blog.html</b> со следующим содержимым.</p>
 
+{% capture code %}
+---
+layout: blog
+title: Блог
+description: Статьи с рецептами
+permalink: /blog
+pagination:
+  enabled: true
+---
 
+Описание страницы Блог
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
 
+<p>Для проверки пагинации продублируем имеющуюся статью в каталоге <b>_posts</b> и в файле <b>_config.yml</b> изменим значение параметра <b>per_page</b> на 1. Чтобы выводилась одна статья на страницу и того мы должны будем увидеть пагинацию.</p>
 
+<figure>
+  {% include component/picture.html fancybox='true' slug=page.slug img='img-5.jpg' type='original' alt='Страница блог' %}
+  <figcaption>Чтобы выводилась одна статья на страницу и того мы должны будем увидеть пагинацию.</figcaption>
+</figure>
 
+<h2 id="picture"><span class="attention">Изображения</span> на сайте</h2>
 
+<p>Хорошо бы если каждая будь то статья, страница или коллекция имела изображение, некую миниатюру. В этом разделе мы создадим структуру для хранения картинок, установим ряд расширений которые позволят конвертировать формат картинки в <b>Webp</b>, создавать картинки различного разрешения и т.п.</p>
 
+<h3>Расширение mini_magick</h3>
 
+<p>Расширение <b>mini_magick</b> позволит изменять размер изображений в соответствии с пользовательскими настройками. Более детально с этим расширением можно познакомиться <a href="https://github.com/zroger/jekyll-minimagick" target="_blank" rel="nofollow">здесь</a> и <a href="https://github.com/zroger/jekyll-minimagick" target="_blank" rel="nofollow">здесь</a>.</p>
 
+<p>Добавим расширение <b>mini_magick</b> в файл <b>Gemfile</b> в группу плагинов.</p>
+
+{% capture code %}
+# Обрезка и изменение размера изображений
+# https://github.com/zroger/jekyll-minimagick
+# https://github.com/MattKevan/Jekyll-MiniMagick-new
+# https://www.kevan.tv/2016/10/17/automatic-image-resizing-with-jekyll-and-imagemagick/
+gem "mini_magick"
+{% endcapture %}
+{% include component/code.html lang='Gemfile' content=code %}
+
+<p>Далее создадим в каталоге <b>_plugins</b> файл с названием <b>jekyll_minimagick.rb</b> и вставим в него содержимое <a href="https://github.com/MattKevan/Jekyll-MiniMagick-new/blob/master/jekyll_minimagick.rb" target="_blank" rel="nofollow"> этого файла</a>. В данный файл я внес небольшие свои правки для того чтобы в будущем не было проблем с файлами <b>webp</b>. Содержимое файла <b>jekyll_minimagick.rb</b> должно получиться таким.</p>
+
+{% capture code %}
+require 'mini_magick'
+
+module Jekyll
+  module JekyllMinimagick
+
+    class GeneratedImageFile &lt; Jekyll::StaticFile
+      # Initialize a new GeneratedImage.
+      #   +site+ is the Site
+      #   +base+ is the String path to the &lt;source&gt;
+      #   +dir+ is the String path between &lt;source&gt; and the file
+      #   +name+ is the String filename of the file
+      #   +preset+ is the Preset hash from the config.
+      #
+      # Returns &lt;GeneratedImageFile&gt;
+      def initialize(site, base, dir, name, preset)
+        @site = site
+        @base = base
+        @dir  = dir
+        @name = name
+        @dst_dir = preset.delete('destination')
+        @src_dir = preset.delete('source')
+        @commands = preset
+        @relative_path = File.join(*[@dir, @name].compact)
+        @extname = File.extname(@name)
+      end
+
+      # Obtains source file path by substituting the preset's source directory
+      # for the destination directory.
+      #
+      # Returns source file path.
+      def path
+        File.join(@base, @dir.sub(@dst_dir, @src_dir), @name)
+      end
+
+      # Use MiniMagick to create a derivative image at the destination
+      # specified (if the original is modified).
+      #   +dest+ is the String path to the destination dir
+      #
+      # Returns false if the file was not modified since last time (no-op).
+      def write(dest)
+        dest_path = destination(dest)
+        dest_path ['_site/'] = ''
+
+#         puts dest_path
+
+        return false if File.exist? dest_path and !modified?
+        self.class.mtimes[path] = mtime
+
+        FileUtils.mkdir_p(File.dirname(dest_path))
+        image = ::MiniMagick::Image.open(path)
+        image.combine_options do |c|
+          @commands.each_pair do |command, arg|
+            c.send command, arg
+          end
+        end
+        image.write dest_path
+
+        true
+      end
+
+    end
+
+    class MiniMagickGenerator &lt; Generator
+      safe true
+
+      # Find all image files in the source directories of the presets specified
+      # in the site config.  Add a GeneratedImageFile to the static_files stack
+      # for later processing.
+      def generate(site)
+        return unless site.config['mini_magick']
+
+        site.config['mini_magick'].each_pair do |name, preset|
+          Dir.chdir preset['source'] do
+           Dir.glob(File.join("**", "*.{png,jpg,jpeg,gif}")) do |source|
+              site.static_files &lt;&lt; GeneratedImageFile.new(site, site.source, preset['destination'], source, preset.clone)
+             end
+          end
+        end
+      end
+    end
+
+  end
+end
+{% endcapture %}
+{% include component/code.html lang='rb' content=code %}
+
+<p>Устанавливаем расширение <b>mini_magick</b>.</p>
+
+{% include component/code.html lang='bash' content='bundle install' %}
+
+<p>Откроем файл <b>_config.yml</b> и пропишем следующие настройки.</p>
+
+{% capture code %}
+# Обрезка и изменение размера изображений
+mini_magick:
+  thumbnail:
+    source: images/original
+    destination: images/thumbnail
+    resize: "530x390^"
+    gravity: "center" # NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast
+    extent: "530x390"
+  recipe:
+    source: images/original
+    destination: images/recipe
+    resize: "550x450^"
+    gravity: "center"
+    extent: "550x450"
+  full:
+    source: images/original
+    destination: images/full
+    resize: "1920x500^"
+    gravity: "center"
+    extent: "1920x500"
+{% endcapture %}
+{% include component/code.html lang='rb' content=code %}
+
+<ul>
+  <li><b>thumbnail / recipe / full</b> - различные варианты миниатюр, каждый вариант со своими настройками</li>
+  <li><b>source</b> - источник оригинальной картинки</li>
+  <li><b>destination</b> - источник картинки определенного варианта</li>
+  <li><b>resize / extent</b> - новый размер картинки, знак ^ означает что картинка будет сохранять свои пропорции</li>
+  <li><b>gravity</b> - какую часть картинки расширение будет стремиться сохранить при обрезке</li>
+</ul>
+
+<p>Можно добавлять сколько угодно форматов картинок, расширения будет автоматически их создавать на основе оригинальной картинки.</p>
+
+<h3>Создание структуры для картинок</h3>
+
+<p>Теперь в корне проекта создадим каталог <b>images</b>, внутри данного каталога создадим каталог где будут храниться оригинальные изображения <b>original</b>. Далее нужно повторить структуру каталога <b>_posts</b>. В общем у нас должно получиться следующее.</p>
+
+{% capture code %}
+./images/
+├── original
+│    └── 2023
+└──      └── 09
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Для хранения картинок отдельной статьи нужно создать каталог для нее и назвать его так же как называется файл статьи, за исключением даты создания, указываем только имя и помещаем в этот каталог картинки. Например:</p>
+
+{% capture code %}
+./images/
+├── original
+│    └── 2023
+        └── 09
+            └── welcome-to-jekyll
+                └── cover.jpg
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Запустим проект в режиме разработки.</p>
+
+{% include component/code.html lang='bash' content='jekyll build && bundle exec jekyll serve --livereload' %}
+
+<p>В каталоге <b>images</b> должны появиться каталоги с нашими настроенными в файле <b>_config.yml</b> типами изображений.</p>
+
+{% capture code %}
+./images/
+├── full
+├── original
+├── recipe
+└── thumbnail
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Все каталоги кроме <b>original</b> не нужны нам в репозитории потому добавим их в файл <b>.gitignore</b>.</p>
+
+{% capture code %}
+images/full
+images/recipe
+images/thumbnail
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Если открыть каталог <b>_site/images</b>, то мы увидим ту же самую структуру каталогов с картинками. Помимо стандартных картинок формата <b>jpg</b> и прочее должны так же появится картинки формата <b>webp</b>.</p>
+
+<p>Теперь, чтобы вставить картинку на сайт, откроем статью и разместив в ней следующую разметку.</p>
+
+{% capture code %}
+&lt;picture&gt;
+  &lt;source srcset="/images/thumbnail/2023/09/welcome-to-jekyll/cover.webp" type="image/webp"&gt;
+  &lt;img src="/images/thumbnail/2023/09/welcome-to-jekyll/cover.jpg" alt=""&gt;
+&lt;/picture&gt;
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<p>Здесь мы указали относительный путь до нужной картинки формата <b>thumbnail</b>, так же мы могли бы указать другой формат например <b>recipe</b>.</p>
+
+{% capture code %}
+&lt;picture&gt;
+  &lt;source srcset="/images/recipe/2023/09/welcome-to-jekyll/cover.webp" type="image/webp"&gt;
+  &lt;img src="/images/recipe/2023/09/welcome-to-jekyll/cover.jpg" alt=""&gt;
+&lt;/picture&gt;
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+<h2 id="end"><span class="attention">Подведем</span> итоги</h2>
+
+<p>Мы проделали большую кропотливую работу, затронули все основные моменты. Конечно еще можно было много всего добавить, например поиск по сайту, svg спрайты, создать компоненты для удобной вставки тех же картинок и многое другое, лишь бы была фантазия.</p>
+
+<p>Надеюсь данная статья хоть немного поможет вам разобраться с этим интересным инструментом под название <b>Jekyll</b>.</p>
+
+<p>Я продолжу дальше работать над этим шаблоном доводя его до ума. Актуальная версия шаблона будет доступна в
+  <a href="https://github.com/eliofery/jekyll-template" target="_blank" rel="nofollow">моем репозитории</a>. Надеюсь когда вы будете читать эти строки шаблон будет полностью готов и вы сможете подчеркнуть еще больше идей для себя.</p>
