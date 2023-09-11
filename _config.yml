@@ -1,5 +1,5 @@
 # Базовые настройки
-version: 0.0.27
+version: 0.0.28
 title: Портфолио Sergio Eliofery
 description: Портфолио и блог web разработчика Sergio Eliofery.
 lang: ru
@@ -17,7 +17,7 @@ yandex_metrika: XXXXXX
 collections:
   portfolio:
     output: true
-    permalink: /:collection/:name-:i_day:i_month:short_year
+    permalink: /:collection/:name-:i_day:i_month:short_year.html
 
 # Режим разработки
 liquid:
@@ -104,7 +104,7 @@ svg:
 webp:
   enabled: true
   quality: 75
-  img_dir: ['/assets/img/', '/images/']
+  img_dir: ['/assets/images/', '/images/']
   nested: true
   formats: ['.jpeg', '.jpg', '.png']
   regenerate: false
