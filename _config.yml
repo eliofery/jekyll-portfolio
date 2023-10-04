@@ -1,5 +1,5 @@
 # Базовые настройки
-version: 0.0.28
+version: 0.0.29
 title: Портфолио Sergio Eliofery
 description: Портфолио и блог web разработчика Sergio Eliofery.
 lang: ru
@@ -41,6 +41,12 @@ markdown: kramdown
 kramdown:
   input: GFM
   syntax_highlighter: rouge
+
+categories-order:
+  - linux
+  - program
+  - dsa
+  - frontend
 
 # Набор правил по умолчанию для создаваемых страниц через терминал
 jekyll_compose:
