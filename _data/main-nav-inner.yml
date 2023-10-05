@@ -9,6 +9,9 @@ items:
     url: '/blog'
 
     links:
+      - title: DSA
+        url: /dsa
+
       - title: Frontend
         url: /frontend
 
