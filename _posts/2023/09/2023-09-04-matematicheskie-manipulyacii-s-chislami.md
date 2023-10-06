@@ -23,10 +23,11 @@ excerpt_separator: "<!--more-->"
 2. [Извлечение цифр](#digit)
 3. [Число в обратном порядке](#reverse-order)
 4. [Количество цифр](#count-digit)
-5. [Палиндром](#palindrom)
+5. [Палиндром число](#palindrom)
 6. [Число Армстронга](#armstrong)
 7. [Делители числа](#division)
 8. [Простое число](#prime)
+9. [Наибольший общий множитель или делитель](#gcd)
 
 <h2 id="intro"><span class="attention">Вводная</span> часть</h2>
 
