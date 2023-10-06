@@ -89,7 +89,7 @@ for (let i = 0; i < n; i++) {
   // пока число строк не будет соотвествовать условию завершения внешнего цикла
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-1"><span class="attention">Паттерн</span> первый (простой квадрат)</h2>
 
@@ -119,7 +119,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-2"><span class="attention">Паттерн</span> второй (лесенка вправо)</h2>
 
@@ -149,7 +149,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-3"><span class="attention">Паттерн</span> третий (лесенка влево)</h2>
 
@@ -183,7 +183,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-4"><span class="attention">Паттерн</span> четвертый (перевернутая лесенка вправо)</h2>
 
@@ -213,7 +213,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-5"><span class="attention">Паттерн</span> пять (перевернутая лесенка влево)</h2>
 
@@ -247,7 +247,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-6"><span class="attention">Паттерн</span> шесть (числовая лесенка вправо)</h2>
 
@@ -277,7 +277,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-7"><span class="attention">Паттерн</span> семь (числовая лесенка влево)</h2>
 
@@ -299,7 +299,7 @@ function pattern(n) {
 
       for (let j = 1; j <= n; j++) {
         if (j >= n - (n - i - 1)) {
-          result += `${j - (n - (n - i - 1)) + 1}`
+          result += `${j - i}`
         } else {
           result += ` `
         }
@@ -311,7 +311,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-8"><span class="attention">Паттерн</span> восемь (перевернутая числовая лесенка вправо)</h2>
 
@@ -341,7 +341,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-9"><span class="attention">Паттерн</span> девять (перевернутая числовая лесенка влево)</h2>
 
@@ -375,7 +375,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-10"><span class="attention">Паттерн</span> десять (числовая лесенка вправо 2)</h2>
 
@@ -405,7 +405,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-11"><span class="attention">Паттерн</span> одиннадцать (треугольник)</h2>
 
@@ -439,7 +439,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-12"><span class="attention">Паттерн</span> двенадцать (перевернутый треугольник)</h2>
 
@@ -473,7 +473,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-13"><span class="attention">Паттерн</span> тринадцать (почти ромб)</h2>
 
@@ -525,7 +525,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-14"><span class="attention">Паттерн</span> четырнадцать (стрелка вправо)</h2>
 
@@ -562,7 +562,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-15"><span class="attention">Паттерн</span> пятнадцать (бинарная лесенка вправо)</h2>
 
@@ -596,7 +596,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-16"><span class="attention">Паттерн</span> шестнадцать (зеркальные числовые лесенки)</h2>
 
@@ -636,7 +636,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-17"><span class="attention">Паттерн</span> семнадцать (числовая лесенка вправо 3)</h2>
 
@@ -671,7 +671,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 ### Вариант 2
 
@@ -696,7 +696,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-18"><span class="attention">Паттерн</span> восемнадцать (буквенная лесенка вправо)</h2>
 
@@ -728,7 +728,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-19"><span class="attention">Паттерн</span> девятнадцать (перевернутая буквенная лесенка вправо)</h2>
 
@@ -760,7 +760,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-20"><span class="attention">Паттерн</span> двадцать (буквенная лесенка вправо 2)</h2>
 
@@ -792,7 +792,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-21"><span class="attention">Паттерн</span> двадцать один (буквенный треугольник)</h2>
 
@@ -808,23 +808,34 @@ ABCDEDCBA
 console.log(pattern(5))
 
 function pattern(n) {
-let result = '\n'
+  let result = '\n'
 
-let start = 'A'.charCodeAt()
+  for (let i = 0; i < n; i++) {
+    for(let j = 0; j < n - i - 1; j++){
+      result += ' '
+    }
 
-for (let i = 0; i < n; i++) {
+    let ch = 'A'.charCodeAt()
+    let breakpoint = (2 * i + 1) / 2
 
-    for (let j = 0; j <= i; j++) {
-      result += String.fromCharCode(start + i)
+    for(let j = 1; j <= 2 * i + 1; j++) {
+      result += String.fromCharCode(ch)
+
+      if (j <= breakpoint) ch++
+      else ch--
+    }
+
+    for (let j = 0; j < n - i - 1; j++) {
+      result += ' '
     }
 
     result += '\n'
-}
+  }
 
-return result
+  return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-22"><span class="attention">Паттерн</span> двадцать два (буквенная лесенка вправо 3)</h2>
 
@@ -855,7 +866,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-23"><span class="attention">Паттерн</span> двадцать три (внутренний ромб)</h2>
 
@@ -919,7 +930,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-24"><span class="attention">Паттерн</span> двадцать четыре (бабочка)</h2>
 
@@ -969,7 +980,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-25"><span class="attention">Паттерн</span> двадцать пять (прозрачный квадрат)</h2>
 
@@ -1005,7 +1016,7 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
 
 <h2 id="pattern-26"><span class="attention">Паттерн</span> двадцать шесть (матрица убывающих чисел)</h2>
 
@@ -1045,4 +1056,4 @@ function pattern(n) {
   return result
 }
 {% endcapture %}
-{% include component/code.html lang='bash' content=code %}
+{% include component/code.html lang='js' content=code %}
