@@ -37,6 +37,15 @@ excerpt_separator: "<!--more-->"
 16. [Самый длинный подмассив с сумой k](#sum-k)
 17. [Повторения в массиве](#count)
 18. [Поиск числа с большим и меньшим повторением](#min-max)
+19. [Поиск двух чисел](#sum-2)
+20. [Сортироватьмассив с тремя числами](#sort-3)
+21. [Количество повторений числа](#maj-el)
+22. [Максимальная сумма подмассива](#max-subarray)
+23. [Покупка продажа акции](#buy-stock)
+24. [Чередование положительных и отрицательных чисел](#rearrange)
+25. [Лидирующие числа](#leaders)
+26. [Самая длинная последовательность](#long-consecutive)
+27. [Подсчет подмассивов с заданной суммой](#count-subarray-sum)
 
 <h2 id="intro"><span class="attention">Вводная</span> часть</h2>
 
@@ -562,5 +571,378 @@ function countFreq(arr) {
 
   return [maxEle, minEle]
 }
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="sum-2"><span class="attention">Поиск</span> двух чисел</h2>
+
+Рассмотрим решение задачи на нахождение двух чисел сумма которых равна заданному числу.
+
+**Например:** [6,8,12,1,4,5,10] 18 => [6,12]
+
+{% capture code %}
+const target = 18
+const arr = [6,8,12,1,4,5,10]
+let map = new Map()
+let res = []
+
+for (let i = 0; i < arr.length; i++) {
+  const search = target - arr[i]
+
+  map.set(search, arr[i])
+
+  if (map.has(arr[i])) {
+    res = [map.get(arr[i]), arr[i]]
+    break
+  }
+}
+
+// Сумма двух чисел: [6,12]
+console.log('Сумма двух чисел:', res)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+### Вариант 2
+
+{% capture code %}
+const target = 18
+const arr = [6,8,12,1,4,5,10]
+let left = 0
+let right = arr.length -1
+let res = []
+
+arr.sort((a, b) => a - b)
+
+while (left < right) {
+  let sum = arr[left] + arr[right]
+
+  if (sum === target) {
+    res = [arr[left], arr[right]]
+    break
+  } else if (sum < target) {
+    left++
+  } else {
+    right++
+  }
+}
+
+// Сумма двух чисел: [6,12]
+console.log('Сумма двух чисел:', res)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="sort-3"><span class="attention">Сортировать</span> массив с тремя числами</h2>
+
+Рассмотрим решение задачи на сортировку массива с тремя числами.
+
+**Например:** [0,1,2,0,1,2,1,2,0,0,0,1] => [0,0,0,0,0,1,1,1,1,2,2,2]
+
+{% capture code %}
+const arr = [0,1,2,0,1,2,1,2,0,0,0,1]
+const res = []
+
+for (let i = 0; i < arr.length; i++) {
+  for (let j = 0; j < arr.length; j++) {
+    if (arr[j] === i) {
+      res.push(arr[j])
+    }
+  }
+}
+
+// Отсортированный массив: [0,0,0,0,0,1,1,1,1,2,2,2]
+console.log('Отсортированный массив:', res)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+### Вариант 2
+
+{% capture code %}
+const arr = [0,1,2,0,1,2,1,2,0,0,0,1]
+let low = 0
+let mid = 0
+let high = arr.length - 1
+
+while (mid <= high) {
+  if (arr[mid] === 0) {
+    const temp = arr[low]
+    arr[low] = arr[mid]
+    arr[mid] = temp
+
+    low++
+    mid++
+  }
+
+  else if (arr[mid] === 1) {
+    mid++
+  }
+
+  else {
+    const temp = arr[mid]
+    arr[mid] = arr[high]
+    arr[high] = temp
+
+    high--
+  }
+}
+
+// Отсортированный массив: [0,0,0,0,0,1,1,1,1,2,2,2]
+console.log('Отсортированный массив:', arr)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="maj-el"><span class="attention">Количество</span> повторений числа</h2>
+
+Рассмотрим решение задачи на поиск числа которое повторяется больше чем длина массива в два раза.
+
+**Например:** [7,7,5,7,5,1,5,7,5,5,7,7,5,5,5,5] => 5
+
+{% capture code %}
+const arr = [7,7,5,7,5,1,5,7,5,5,7,7,5,5,5,5]
+let count = 0
+let el = null
+
+for (let i = 0; i < arr.length; i++) {
+  if (count === 0) {
+    count = 1
+    el = arr[i]
+  }
+
+  else if (arr[i] === el) {
+    count++
+  }
+
+  else {
+    count--
+  }
+}
+
+count = 0
+for (let item of arr) {
+  if (item === el) count++
+}
+
+if (count <= arr.length / 2) {
+  el = -1
+}
+
+// Наибольшее число: 5
+console.log('Наибольшее число:', el)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="max-subarray"><span class="attention">Максимальная</span> сумма подмассива</h2>
+
+Рассмотрим решение задачи на поиск максимальной суммы подмассива.
+
+**Например:** [-2,1,-3,4,-1,2,1,-5,4] => 6
+
+{% capture code %}
+const arr = [-2,1,-3,4,-1,2,1,-5,4]
+let max = 0
+
+for (let i = 0; i < arr.length; i++) {
+  let sum = arr[i]
+
+  for (let j = i + 1; j < arr.length; j++) {
+    sum += arr[j]
+
+    if (sum > max) {
+      max = sum
+    }
+  }
+}
+
+// Максимальная сумма подмассива: 6
+console.log('Максимальная сумма подмассива:', max)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+### Вариант 2
+
+{% capture code %}
+const arr = [-2,1,-3,4,-1,2,1,-5,4]
+let sum = 0
+let max = 0
+
+for (let item of arr) {
+  sum += item
+  max = Math.max(sum, max)
+
+  if (sum < 0) {
+    sum = 0
+  }
+}
+
+console.log(max)
+
+// Максимальная сумма подмассива: 6
+console.log('Максимальная сумма подмассива:', max)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="buy-stock"><span class="attention">Покупка</span> продажа акции</h2>
+
+Рассмотрим решение задачи на нахождение максимальной прибыли от покупки и продажи акции.
+
+**Например:** [7,1,5,3,6,4] => [1,6]
+
+{% capture code %}
+const arr = [7,1,5,3,6,4]
+let buy = 0
+let sell = 0
+let max = [buy, sell]
+
+for (let i = 0; i < arr.length; i++) {
+  buy = arr[i]
+
+  for (let j = i + 1; j < arr.length; j++) {
+    sell = arr[j]
+
+    if (sell - buy > max[1] - max[0]) {
+      max[0] = buy
+      max[1] = sell
+    }
+  }
+}
+
+// Цена покупки и продажи: max
+console.log('Цена покупки и продажи:', max)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="rearrange"><span class="attention">Чередование</span> положительных и отрицательных чисел</h2>
+
+Рассмотрим решение задачи на формирование массива в котором положительные числа чередуются с отрицательными.
+
+**Например:** [3,1,-2,-5,2,-4,3,6,7,8,9] => [3,-2,1,-5,2,-4,3,6,7]
+
+{% capture code %}
+const arr = [3,1,-2,-5,2,-4,3,6,7,8,9]
+const minus = []
+const plus = []
+const res = []
+
+for (let i = 0; i < arr.length; i++) {
+  if (arr[i] < 0) {
+    minus.push(arr[i])
+  } else {
+    plus.push(arr[i])
+  }
+}
+
+for (let i = 0; i < Math.ceil(arr.length / 2); i++) {
+  if (plus[i]) res[2 * i] = plus[i]
+  if (minus[i]) res[2 * i + 1] = minus[i]
+}
+
+// Чередующиеся числа: [3,-2,1,-5,2,-4,3,6,7]
+console.log('Чередующиеся числа:', res.filter(item => item))
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+### Вариант 2
+
+{% capture code %}
+const arr = [3,1,-2,-5,2,-4,3, 6,7,8,9]
+let posIndex = 0
+let negIndex = 1
+const res = Array(arr.length).fill(0)
+
+for (let i = 0; i < arr.length; i++) {
+  if (arr[i] < 0) {
+    res[negIndex] = arr[i]
+    negIndex += 2
+  } else {
+    res[posIndex] = arr[i]
+    posIndex += 2
+  }
+}
+
+// Чередующиеся числа: [3,-2,1,-5,2,-4,3,6,7]
+console.log('Чередующиеся числа:', res.filter(item => item))
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="leaders"><span class="attention">Лидирующие</span> числа</h2>
+
+Рассмотрим решение задачи на поиск чисел которые больше всех элементов в его правой части массива.
+
+**Например:** [10,22,12,3,0,6] => [22,12,6]
+
+{% capture code %}
+const arr = [10,22,12,3,0,6]
+const res = []
+
+for(let i = 0; i < arr.length; i++) {
+  let leader = true
+
+  for(let j = i + 1; j < arr.length; j++) {
+    if (arr[i] < arr[j]) {
+      leader = false
+      break
+    }
+  }
+
+  if (leader) res.push(arr[i])
+}
+
+// Лидирующие числа: [22,12,6]
+console.log('Лидирующие числа:', res)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="long-consecutive"><span class="attention">Самая</span> длинная последовательность</h2>
+
+Рассмотрим решение задачи на поиск самой длинной последовательности чисел в массиве.
+
+**Например:** [102,4,100,1,101,3,2,1,1,5] => 5
+
+{% capture code %}
+let arr = [102,4,100,1,101,3,2,1,1,5]
+let res = 0
+let max = 1
+
+arr.sort((a, b) => a - b)
+
+arr = [... new Set(arr)]
+
+for(let i = 0; i < arr.length - 1; i++) {
+  if (arr[i] + 1 === arr[i + 1]) {
+    max += 1
+  } else {
+    res = Math.max(res, max)
+    max = 1
+  }
+}
+
+// Самая длинная последовательность: 5
+console.log('Самая длинная последовательность:', res)
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="count-subarray-sum"><span class="attention">Подсчет</span> подмассивов с заданной суммой</h2>
+
+Рассмотрим решение задачи на подсчет количества подмассивов равное заданной сумме.
+
+**Например:** [1,2,2,3,-3,1,1,1,4,2,-3] 3 => 11
+
+{% capture code %}
+const arr = [1,2,2,3,-3,1,1,1,4,2,-3]
+const k = 3
+const map = new Map()
+let preSum = 0
+let cnt = 0
+
+map.set(0, 1)
+
+for (let i = 0; i < arr.length; i++) {
+  preSum += arr[i]
+  let remove = preSum - k
+  cnt += map.get(remove) || 1
+  map.set(preSum, map.get(preSum) + 1)
+}
+
+// Количество подмассивов: 11
+console.log('Количество подмассивов:', cnt)
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}
