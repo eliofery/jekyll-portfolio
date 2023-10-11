@@ -149,7 +149,7 @@ function isSort(arr) {
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}
 
-<h2 id="remove-duplicate"><span class="attention">Удаление</span> дубликатов из массива</h2>
+<h2 id="remove-duplicate"><span class="attention">Удаление</span> дубликатов из отсортированного массива</h2>
 
 Решение задачи с удалением дубликатов из массива.
 
@@ -229,7 +229,6 @@ const shiftedArr = [];
 
 for (let i = 0; i < arr.length; i++) {
   const newIndex = (i + n) % arr.length
-  console.log(newIndex)
   shiftedArr[newIndex] = arr[i]
 }
 
@@ -290,9 +289,9 @@ console.log('Найденный элемент:', arr[position])
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}
 
-<h2 id="union-two-sort-array"><span class="attention">Объединение</span> двух отсортированных массивов</h2>
+<h2 id="union-two-sort-array"><span class="attention">Объединение</span> двух отсортированных множеств</h2>
 
-Решение задачи с объединением двух отсортированных массивов.
+Решение задачи с объединением двух отсортированных множеств.
 
 **Например:** [1,1,2,3,4,5,9] [2,3,4,4,5,6]  => [1,2,3,4,5,9,6]
 
@@ -314,8 +313,8 @@ for (let item of union) {
   res.push(item)
 }
 
-// Объединенный массив: [1,2,3,4,5,9,6]
-console.log('Объединенный массив:', res)
+// Объединенное множество: [1,2,3,4,5,9,6]
+console.log('Объединенное множество:', res)
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}
 
@@ -400,7 +399,7 @@ console.log('Пропущенное число:', res)
 ### Вариант 2
 
 {% capture code %}
-const arr = [1,2,3,4,5,7,8,10]
+const arr = [1,2,3,4,5,6,7,8,10]
 let xor1 = 0
 let xor2 = 0
 
@@ -413,7 +412,7 @@ xor1 = xor1 ^ arr.length - 1
 
 const res = xor1 ^ xor2
 
-// Пропущенное число: [6, 9]
+// Пропущенное число: 9
 console.log('Пропущенное число:', res)
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}
@@ -622,7 +621,7 @@ while (left < right) {
   } else if (sum < target) {
     left++
   } else {
-    right++
+    right--
   }
 }
 
@@ -784,29 +783,28 @@ console.log('Максимальная сумма подмассива:', max)
 
 Рассмотрим решение задачи на нахождение максимальной прибыли от покупки и продажи акции.
 
-**Например:** [7,1,5,3,6,4] => [1,6]
+**Например:** [7,1,5,3,6,4] => 5
 
 {% capture code %}
 const arr = [7,1,5,3,6,4]
-let buy = 0
 let sell = 0
-let max = [buy, sell]
+let buy = 0
 
 for (let i = 0; i < arr.length; i++) {
-  buy = arr[i]
-
   for (let j = i + 1; j < arr.length; j++) {
-    sell = arr[j]
-
-    if (sell - buy > max[1] - max[0]) {
-      max[0] = buy
-      max[1] = sell
+    if (arr[j] - arr[i] > arr[buy] - arr[sell]) {
+      sell = i
+      buy = j
     }
   }
 }
 
-// Цена покупки и продажи: max
-console.log('Цена покупки и продажи:', max)
+// Купил: 1
+// Продал: 6
+// Максимальная прибыль: 5
+console.log('Купил:', arr[sell])
+console.log('Продал:', arr[buy])
+console.log('Максимальная прибыль:', arr[buy] - arr[sell])
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}
 
@@ -924,25 +922,24 @@ console.log('Самая длинная последовательность:', r
 
 Рассмотрим решение задачи на подсчет количества подмассивов равное заданной сумме.
 
-**Например:** [1,2,2,3,-3,1,1,1,4,2,-3] 3 => 11
+**Например:** [1,2,2,3,-3,1,1,1,4,2,-3] 3 => 7
 
 {% capture code %}
 const arr = [1,2,2,3,-3,1,1,1,4,2,-3]
 const k = 3
-const map = new Map()
-let preSum = 0
-let cnt = 0
-
-map.set(0, 1)
+let count = 0
 
 for (let i = 0; i < arr.length; i++) {
-  preSum += arr[i]
-  let remove = preSum - k
-  cnt += map.get(remove) || 1
-  map.set(preSum, map.get(preSum) + 1)
+  let sum = 0
+
+  for (let j = i; j < arr.length; j++) {
+    sum += arr[j]
+
+    if (sum === k) count++
+  }
 }
 
-// Количество подмассивов: 11
-console.log('Количество подмассивов:', cnt)
+// Количество подмассивов: 7
+console.log('Количество подмассивов:', count)
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}

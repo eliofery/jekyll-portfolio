@@ -608,7 +608,7 @@ function pattern(n) {
 </pre>
 
 {% capture code %}
-console.log(pattern(5))
+console.log(pattern(4))
 
 function pattern(n) {
   let result = '\n'

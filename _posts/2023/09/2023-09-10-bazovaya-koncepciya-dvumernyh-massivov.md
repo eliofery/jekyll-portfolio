@@ -50,29 +50,29 @@ excerpt_separator: "<!--more-->"
 
 {% capture code %}
 let matrix = [
-[1,1,1,1],
-[1,0,1,1],
-[1,1,0,1],
-[1,0,0,1],
+  [1,1,1,1],
+  [1,0,1,1],
+  [1,1,0,1],
+  [1,0,0,1],
 ]
 let col = Array(matrix.length).fill(0)
 let row = Array(matrix[0].length).fill(0)
 
 for (let i = 0; i < row.length; i++) {
-for (let j = 0; j < col.length; j++) {
-if (matrix[i][j] === 0) {
-row[i] = 1
-col[j] = 1
-}
-}
+  for (let j = 0; j < col.length; j++) {
+    if (matrix[i][j] === 0) {
+      row[i] = 1
+      col[j] = 1
+    }
+  }
 }
 
 for (let i = 0; i < row.length; i++) {
-for (let j = 0; j < col.length; j++) {
-if (row[i] || col[j]) {
-matrix[i][j] = 0
-}
-}
+  for (let j = 0; j < col.length; j++) {
+    if (row[i] || col[j]) {
+      matrix[i][j] = 0
+    }
+  }
 }
 
 /*
@@ -109,19 +109,19 @@ console.log('Новая матрица:', matrix)
 
 {% capture code %}
 const arr = [
-[1,2,3,4],
-[5,6,7,8],
-[9,10,11,12],
-[13,14,15,16],
+  [1,2,3,4],
+  [5,6,7,8],
+  [9,10,11,12],
+  [13,14,15,16],
 ]
 const res = []
 
 for (let i = 0; i < arr.length; i++) {
-res[i] = Array(arr.length).fill(0)
+  res[i] = Array(arr.length).fill(0)
 
-for (let j = 0; j < arr.length; j++) {
-res[i][j] = arr[arr.length - 1 - i][j]
-}
+  for (let j = 0; j < arr.length; j++) {
+    res[i][j] = arr[arr.length - 1 - i][j]
+  }
 }
 
 /*
@@ -158,18 +158,18 @@ console.log('Перевернутая матрица:', res)
 
 {% capture code %}
 const arr = [
-[1,2,3,4],
-[5,6,7,8],
-[9,10,11,12],
-[13,14,15,16],
+  [1,2,3,4],
+  [5,6,7,8],
+  [9,10,11,12],
+  [13,14,15,16],
 ]
 
 const res = JSON.parse(JSON.stringify(arr))
 
 for (let i = 0; i < arr.length; i++) {
-for (let j = 0; j < arr.length; j++) {
-res[j][i] = arr[arr.length - 1 - i][j]
-}
+  for (let j = 0; j < arr.length; j++) {
+    res[j][i] = arr[arr.length - 1 - i][j]
+  }
 }
 
 /*
@@ -189,30 +189,30 @@ console.log('Повернутая матрица на 90 градусов:', res
 
 {% capture code %}
 const arr = [
-[1,2,3,4],
-[5,6,7,8],
-[9,10,11,12],
-[13,14,15,16],
+  [1,2,3,4],
+  [5,6,7,8],
+  [9,10,11,12],
+  [13,14,15,16],
 ]
 
 for (let i = 0; i < arr.length; i++) {
-for (let j = i + 1; j < arr.length; j++) {
-const tmp = arr[i][j]
-arr[i][j] = arr[j][i]
-arr[j][i] = tmp
-}
+  for (let j = i + 1; j < arr.length; j++) {
+    const tmp = arr[i][j]
+    arr[i][j] = arr[j][i]
+    arr[j][i] = tmp
+  }
 }
 
 let p1 = 0
 let p2 = arr.length - 1
 
 while (p1 < p2) {
-const tmp = arr[p1]
-arr[p1] = arr[p2]
-arr[p2] = tmp
+  const tmp = arr[p1]
+  arr[p1] = arr[p2]
+  arr[p2] = tmp
 
-p1++
-p2--
+  p1++
+  p2--
 }
 
 /*
@@ -246,12 +246,12 @@ console.log('Повернутая матрица на 90 градусов:', arr
 
 {% capture code %}
 const arr = [
-[1,2,3,4,5,6],
-[20,21,22,23,24,7],
-[19,32,33,34,25,8],
-[18,31,36,35,26,9],
-[17,30,29,28,27,10],
-[16,15,14,13,12,11],
+  [1,2,3,4,5,6],
+  [20,21,22,23,24,7],
+  [19,32,33,34,25,8],
+  [18,31,36,35,26,9],
+  [17,30,29,28,27,10],
+  [16,15,14,13,12,11],
 ]
 
 let n = arr.length // row
@@ -260,39 +260,39 @@ let m = arr[0].length // col
 let left = 0
 let right = m - 1
 
-let top2 = 0
+let top = 0
 let bottom = n - 1
 
 const res = []
 
-while(top2 <= bottom && left <= right) {
-// right
-for (let i = left; i <= right; i++) {
-res.push(arr[top2][i])
-}
+while(top <= bottom && left <= right) {
+  // right
+  for (let i = left; i <= right; i++) {
+    res.push(arr[top][i])
+  }
 
-top2++
+  top++
 
-// bottom
-for (let i = top2; i <= bottom; i++) {
-res.push(arr[i][right])
-}
+  // bottom
+  for (let i = top; i <= bottom; i++) {
+    res.push(arr[i][right])
+  }
 
-right--
+  right--
 
-// left
-for (let i = right; i >= left; i--) {
-res.push(arr[bottom][i])
-}
+  // left
+  for (let i = right; i >= left; i--) {
+    res.push(arr[bottom][i])
+  }
 
-bottom--
+  bottom--
 
-// top
-for (let i = bottom; i >= top2; i--) {
-res.push(arr[i][left])
-}
+  // top
+  for (let i = bottom; i >= top; i--) {
+    res.push(arr[i][left])
+  }
 
-left++
+  left++
 }
 
 // Разворачивание элементов матрицы: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]
