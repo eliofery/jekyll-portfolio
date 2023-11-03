@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Создаем свой framework на нативном JavaScript используя Webpack
+title: Создаем самописный framework на нативном JavaScript используя Webpack
 date: 2023-09-18 14:23 +0600
-description: В этой статье речь пойдет о написании своего велосипеда в виде <b>JavaScript framework</b>. Затронем такие технологии как <b>Webpack</b>, <b>Linter</b>, <b>Jest</b>.
+description: В этой статье речь пойдет о написании своего велосипеда в виде <b>JavaScript framework</b>. Затронем такие технологии как <b>Webpack</b>, <b>Linter</b>, <b>Redux</b>.
 image:
 alt: Основное изображение
 category: frontend
-tags: [javascript, webpack, linter, jest]
+tags: [javascript, webpack, linter, redux]
 source: https://github.com/eliofery/javascript-framework-webpack
 published: true
 sitemap: true
@@ -24,6 +24,12 @@ excerpt_separator: "<!--more-->"
 3. [Установка Babel](#babel)
 4. [Установка линтеров](#linter)
 5. [Настройка линтеров](#linter-settings)
+6. [Установка Webpack](#webpack)
+7. [Настройка Webpack](#webpack-settings)
+8. [Структура проекта](#structure)
+9. [Базовая настройка проекта](#base-settings)
+10. [Ядро фремворка](#core)
+11. [Router](#router)
 
 <h2 id="intro"><span class="attention">Вводная</span> часть</h2>
 
@@ -94,7 +100,7 @@ node_modules
 
 Более подробно об установке **Babel** говорилось статье про [создание **Gulp** сборки]({{ site.baseurl }}/blog/2023-08-29-gulp-sborka-dlya-verstki-s-ispolzovaniem-pug-shablonizatora-frontend.html#gulp){:target="_blank"}, здесь же коснемся самого основного.
 
-Установим соответствующие зависимости.
+Установим необходимые зависимости.
 
 {% capture code %}
 npm i -D @babel/core @babel/register @babel/preset-env core-js
@@ -121,24 +127,44 @@ npm i -D @babel/core @babel/register @babel/preset-env core-js
 {% endcapture %}
 {% include component/code.html lang='.babelrc' content=code %}
 
+### Настройка Browserslist
+
+**Browserslist** - это инструмент, который используется для определения набора браузеров, поддерживаемых веб-проектом.
+
+В дальнейшем его настройки пригодятся для компиляции **JavaScript** кода, а так же использования **Autoprefixer** для **CSS** стилей. Отредактируем файл **package.json**, добавив следующую конструкцию:
+
+{% capture code %}
+"browserslist": [
+  "last 2 version",
+  "not dead"
+],
+{% endcapture %}
+{% include component/code.html lang='json' content=code %}
+
+Здесь мы поддерживаем последние 2 версии браузеров и все браузеры которые продолжают развиваться.
+
 <h2 id="linter"><span class="attention">Установка</span> линтеров</h2>
 
 Линтеры позволяют поддерживать весь код проекта в единообразном стиле, придерживаясь определенных правил написания кода. Линтер не позволит пользователю создать **commit** до тех пор, пока код не будет отредактирован согласно правилам.
 
-Более подробно **линтеры** были рассмотрены в статье про [создание **Gulp** сборки]({{ site.baseurl }}/blog/2023-08-29-gulp-sborka-dlya-verstki-s-ispolzovaniem-pug-shablonizatora-frontend.html#linter){:target="_blank"}, здесь же коснемся самого основного.
+Более подробно **линтеры** были рассмотрены в статье [создание **Gulp** сборки]({{ site.baseurl }}/blog/2023-08-29-gulp-sborka-dlya-verstki-s-ispolzovaniem-pug-shablonizatora-frontend.html#linter){:target="_blank"}, здесь же коснемся самого основного.
 
 ### JavaScript
 
-Установим соответствующие зависимости.
+Установим необходимые зависимости.
 
 {% capture code %}
-npm i -D eslint @babel/eslint-parser eslint-plugin-import eslint-config-airbnb-base eslint-config-prettier eslint-import-resolver-alias
+npm i -D eslint @babel/eslint-parser eslint-plugin-import eslint-config-airbnb-base eslint-config-prettier eslint-import-resolver-webpack
 {% endcapture %}
 {% include component/code.html lang='bash' content=code %}
 
+**eslint-import-resolver-webpack** - это плагин который используется для определения местоположения модулей при разрешении импортов в проектах.
+
+Описание остальных плагинов смотрите в статье [создание **Gulp** сборки]({{ site.baseurl }}/blog/2023-08-29-gulp-sborka-dlya-verstki-s-ispolzovaniem-pug-shablonizatora-frontend.html#linter){:target="_blank"}.
+
 ### CSS и SCSS
 
-Установим соответствующие зависимости.
+Установим необходимые зависимости.
 
 {% capture code %}
 npm i -D stylelint stylelint-config-rational-order stylelint-config-recommended-scss stylelint-config-standard stylelint-order stylelint-scss
@@ -147,7 +173,7 @@ npm i -D stylelint stylelint-config-rational-order stylelint-config-recommended-
 
 ### Editorconfig и Prettier
 
-Установим соответствующие зависимости.
+Установим необходимые зависимости.
 
 {% capture code %}
 npm i -D editorconfig-checker prettier
@@ -156,7 +182,7 @@ npm i -D editorconfig-checker prettier
 
 ### Lint staged
 
-Установим соответствующие зависимости.
+Установим необходимые зависимости.
 
 {% capture code %}
 npx mrm lint-staged
@@ -165,7 +191,7 @@ npx mrm lint-staged
 
 <h2 id="linter-settings"><span class="attention">Настройка </span> линтеров</h2>
 
-Более подробно настройки **линтеров** были описаны в статье про [создание **Gulp** сборки]({{ site.baseurl }}/blog/2023-08-29-gulp-sborka-dlya-verstki-s-ispolzovaniem-pug-shablonizatora-frontend.html#setting-linter){:target="_blank"}, здесь же коснемся самого основного.
+Более подробно настройки **линтеров** были описаны в статье [создание **Gulp** сборки]({{ site.baseurl }}/blog/2023-08-29-gulp-sborka-dlya-verstki-s-ispolzovaniem-pug-shablonizatora-frontend.html#setting-linter){:target="_blank"}, здесь же коснемся самого основного.
 
 Откроем файл **package.json** и отредактируем фрагмент настроек **lint-staged** следующим образом:
 
@@ -208,7 +234,7 @@ trim_trailing_whitespace = false
 {% capture code %}
 {
   "singleQuote": true,
-  "printWidth": 80,
+  "printWidth": 120,
   "semi": false,
   "tabWidth": 2,
   "trailingComma": "all",
@@ -280,24 +306,9 @@ module.exports = {
   parser: '@babel/eslint-parser',
   rules: {
     indent: ['off', 2, { MemberExpression: 'off' }],
-    'import/no-extraneous-dependencies': [
-      'off',
-      { devDependencies: ['gulpfile.babel.js', 'gulp/**/*'] },
-    ],
-    'import/no-import-module-exports': [
-      'off',
-      { exceptions: ['gulpfile.babel.js', 'gulp/**/*'] },
-    ],
-    'import/resolver': [
-      'off',
-      { exceptions: ['gulpfile.babel.js', 'gulp/**/*'] },
-    ],
-    'implicit-arrow-linebreak': [
-      'off',
-      { exceptions: ['gulpfile.babel.js', 'gulp/**/*'] },
-    ],
     'no-var': 'error',
     'no-extra-semi': 'warn',
+    'comma-dangle': ['error', 'always-multiline'],
     'computed-property-spacing': 'warn',
     'no-mixed-spaces-and-tabs': 'warn',
     'one-var': [
@@ -305,14 +316,23 @@ module.exports = {
       {
         var: 'never',
         let: 'never',
-        const: 'never'
-      }
+        const: 'never',
+      },
     ],
     'unicode-bom': 'warn',
+    'object-curly-spacing': ['error', 'always'],
+    'class-methods-use-this': 'off',
+    'default-param-last': 'off',
+    'new-cap': ['error', { properties: false }],
+    'no-plusplus': 'off',
+    'no-prototype-builtins': 'off',
+    'no-restricted-syntax': 'off',
     'no-nested-ternary': 'warn',
     'no-obj-calls': 'warn',
-    'no-undefined': 'warn',
+    'no-undefined': 'off',
     'object-curly-newline': 'off',
+    'no-return-assign': 'off',
+    'import/prefer-default-export': 'off',
     'max-len': 'off',
     'no-multi-assign': 'off',
     'no-unused-vars': 'error',
@@ -331,9 +351,8 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      alias: {
-        map: [['@', './src']],
-        extensions: ['.js'],
+      webpack: {
+        config: 'webpack.config.js',
       },
     },
   },
@@ -359,23 +378,1304 @@ module.exports = {
 
 Изначальное содержимое файла **.prettierignore** будет пустым.
 
+<h2 id="webpack"><span class="attention">Установка</span> Webpack</h2>
 
+**Webpack** - это инструмент сборки для веб-разработки, который позволяет разработчикам объединять, управлять и оптимизировать ресурсы, такие как **JavaScript**, **CSS**, изображения и многое другое, в один или несколько пакетов (**bundles**).
 
+### Основные зависимости
 
+Установим базовые зависимости.
 
+{% capture code %}
+npm i -D webpack webpack-cli webpack-dev-server webpack-merge dotenv glob-all cross-env
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
 
+**webpack** - непосредственно само ядро сборщика. Предоставляет инструменты для определения и настройки процесса сборки, включая загрузчики (loaders) и плагины (plugins), для преобразования и оптимизации ресурсов.
 
+**webpack-cli** - этот пакет предоставляет интерфейс командной строки для работы с Webpack. Он позволяет разработчикам управлять процессом сборки, запускать сборку, указывать параметры и опции, а также выполнять различные задачи, связанные с сборкой проекта, такие как создание пакетов, запуск сервера разработки и другие.
 
+**webpack-dev-server** - этот пакет представляет собой инструмент для локальной разработки веб-приложений. Он позволяет создавать и запускать локальный веб-сервер, который автоматически перезагружает приложение при изменениях в исходном коде. Это упрощает процесс разработки, поскольку разработчики могут видеть результаты своей работы в реальном времени без необходимости каждый раз вручную пересобирать и перезапускать проект.
 
+**webpack-merge** - это пакет для объединения конфигураций Webpack. Он часто используется в проектах, где требуется разделение конфигурации на несколько файлов (например, один файл для разработки и другой для продакшена) или когда необходимо объединить различные части конфигурации из разных источников.
 
+**dotenv** - это пакет используются в приложении для хранения конфиденциальных данных, настроек и другой информации, которая может изменяться в разных средах, таких как разработка, тестирование и продакшн.
 
+**glob-all** - это пакет предназначенный для выполнения сложных операций над наборами файлов, включая копирование, удаление, обработку и другие манипуляции.
 
+**cross-env** - это удобная утилита командной строки, которая предназначена для устранения различий в командной оболочке между разными операционными системами. Она часто используется в сценариях сборки и запуска **JavaScript** проектов, где необходимо задавать переменные окружения и выполнять скрипты, независимо от операционной системы.
 
+### Обработчики ресурсов (загрузчики)
 
+Обработчики ресурсов играют важную роль в обработке различных типов файлов и ресурсов в вашем проекте. Они представляют собой функции или модули, которые используются для преобразования файлов веб-приложения перед тем, как они будут включены в сборку.
 
+{% capture code %}
+npm i -D mini-css-extract-plugin style-loader css-loader postcss-loader autoprefixer sass sass-loader file-loader babel-loader image-webpack-loader
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
 
+**mini-css-extract-plugin** - этот плагин извлекает стили из **JavaScript** файлов и сохраняет их в отдельные **CSS** файлы. Это улучшает производительность и кэширование, так как стили загружаются параллельно с **JavaScript**.
 
+**style-loader** - этот загрузчик внедряет стили непосредственно в **HTML** документ с использованием тегов **&lt;style&gt;**. Это полезно для разработки, но менее эффективно в продакшн среде, поскольку это может замедлить начальную загрузку страницы.
 
+**css-loader** - этот загрузчик позволяет **Webpack** понимать и импортировать файлы **CSS** в вашем **JavaScript** коде. Он также позволяет решать проблемы, такие как обработка импортов, **CSS** модулей и минимизация **CSS**.
+
+**postcss-loader** - этот загрузчик используется для автоматической обработки **CSS** с использованием **PostCSS**. Вы можете использовать его для автопрефиксации, оптимизации **CSS**, поддержки новых возможностей **CSS** и многого другого.
+
+**autoprefixer** - этот загрузчик добавляет вендорные префиксы к CSS-свойствам и значкам, чтобы обеспечить совместимость с различными браузерами.
+
+**sass** - само ядро предпроцессора sass.
+
+**sass-loader** - этот загрузчик преобразует файлы **SASS** или **SCSS** в обычные **CSS**.
+
+**file-loader** - этот загрузчик позволяет импортировать и обрабатывать файлы, такие как изображения, в вашем **JavaScript** коде. Он может переносить файлы и предоставлять url к ним.
+
+**babel-loader** - этот загрузчик преобразует современный **JavaScript** (**ES6+**) в старый **JavaScript** (**ES5**), который совместим с большинством браузеров. Он позволяет использовать современный синтаксис и возможности языка в вашем коде и обеспечивает поддержку различных плагинов и пресетов **Babel**.
+
+**image-webpack-loader** - этот загрузчик оптимизирует изображения.
+
+### Плагины
+
+Плагины позволяют выполнять различные дополнительные задачи при сборке проекта, предоставляют более широкие и гибкие возможности, чем загрузчики (loaders), и могут использоваться для различных целей, таких как оптимизация, минификация, управление ресурсами, создание HTML-страниц, инжекция зависимостей, генерация исходных карт и многое другое.
+
+{% capture code %}
+npm i -D clean-webpack-plugin html-webpack-plugin mini-css-extract-plugin svg-sprite-html-webpack svg-inline-loader copy-webpack-plugin terser-webpack-plugin purgecss-webpack-plugin
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+**clean-webpack-plugin** - это предназначен для удаления файлов и каталогов во время сборки проекта. Этот плагин полезен, когда вы хотите гарантировать, что во время каждой новой сборки вашего проекта старые файлы и каталоги будут удалены, предотвращая накопление мусора.
+
+**html-webpack-plugin** - этот плагин позволяет автоматически создавать **HTML** файл, который будет включать в себя ссылки на все сгенерированные **JavaScript** и **CSS** файлы.
+
+**mini-css-extract-plugin** - этот плагин позволяет извлекать **CSS** код из **JavaScript** файлов и сохранять его в отдельных **CSS** файлах.
+
+**svg-sprite-html-webpack** - этот плагин создает спрайт из **svg** иконок.
+
+**svg-inline-loader** - этот плагин позволяет подключать файлы по ссылке до них, например в **css** файле.
+
+**copy-webpack-plugin** - этот плагин позволяет копировать файлы и директории из одного места в другое в процессе сборки.
+
+**terser-webpack-plugin** - этот плагин выполняет минимизацию и оптимизацию **JavaScript** кода, уменьшая его размер и улучшая производительность веб-приложения.
+
+**purgecss-webpack-plugin** - этот плагин предназначен для удаления неиспользуемых стилей из ваших **CSS** файлов. Это позволяет уменьшить размер **CSS** файлов и улучшить производительность загрузки страницы.
+
+<h2 id="webpack-settings"><span class="attention">Настройка</span> Webpack</h2>
+
+В процессе написания конфигураций для сборщика **webpack** мы разделим логику для разработки (**developer**) и готовой версией (**production**), чтобы сократить дублирования и улучшить дальнейшее сопровождение кода.
+
+В корне фреймворка создадим файл **webpack.config.js**, данный файл будет отправной точкой для отслеживания путей до файлов проекта. Благодаря его настройкам и прописанному правилу **import/resolver** в файле **.eslintrc.js** редактор кода или IDE будут понимать где искать файл, в прописанных путях. **Например:** вместо **../../components** мы сможем указать более читаемый путь **@/components**.
+
+Содержимое файла **webpack.config.js** будет следующим:
+
+{% capture code %}
+const { resolve } = require('path') // работа с путями к файлам и каталогам
+
+module.exports = {
+  resolve: {
+    extensions: ['.js'],
+
+    // короткий путь до js файлов через символ @, например @/components/ButtonComponent
+    // поиск файлов будет производиться в каталоге src
+    alias: {
+      '@': resolve(__dirname, 'src'),
+    },
+  },
+}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Далее в корне проекта создадим каталог **webpack**. Внутри данного каталога создадим следующую структуру:
+
+{% capture code %}
+./webpack
+├── loaders
+├── webpack.common.js
+├── webpack.dev.js
+└── webpack.prod.js
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+**loaders** - данный каталог будет хранить **webpack** модули для обработки ресурсов во время сборки проекта.
+
+**webpack.common.js** - конфигурационный файл, отвечающий за общую логику как для **developer**, так и для **production** версии.
+
+**webpack.dev.js** - конфигурационный файл, отвечающий за логику **developer** версии.
+
+**webpack.prod.js** - конфигурационный файл, отвечающий за логику **production** версии.
+
+### Описание файла webpack.common.js
+
+Откроем файл **webpack.common.js** и пропишем в него следующее содержимое:
+
+{% capture code %}
+const { join } = require('path') // работа с путями к файлам и каталогам
+const webpack = require('webpack') // ядро webpack
+const { merge } = require('webpack-merge') // объединяет конфигурации
+
+const HtmlWebpackPlugin = require('html-webpack-plugin') // динамически встраивает данные в html
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // сохраняет css и js в отдельные файлы
+const CopyWebpackPlugin = require('copy-webpack-plugin') // копирует файлы и директории из одного места в другое
+const SvgSpriteHtmlWebpackPlugin = require('svg-sprite-html-webpack') // создает svg спрайт
+
+const jsLoaders = require('./loaders/js-loaders') // обработка js
+const cssLoaders = require('./loaders/css-loaders') // обработка стилей
+const imageLoaders = require('./loaders/image-loaders') // обработка изображений
+const fontLoaders = require('./loaders/font-loaders') // обработка шрифтов
+
+const webpackBase = require('../webpack.config') // базовый конфигурационный файл
+
+// загрузка переменных окружения
+require('dotenv').config({
+  path: `${process.env.NODE_ENV}.env`, // путь до файла .env, например development.env или production.env
+})
+
+module.exports = merge(webpackBase, {
+  target: 'web', // целевая среду сборки браузер
+
+  // входная точка
+  entry: {
+    app: join(__dirname, '../src/main.js'), // основной JavaScript файл приложения
+  },
+
+  // исходная точка
+  output: {
+    publicPath: '/', // публичный путь для доступа к выходным файлам
+    path: join(__dirname, '../dist'), // директория для сохранения собранных файлов
+    filename: 'js/[name].bundle.js', // имя выходного файла с динамическими именами [name]
+    chunkFilename: 'js/[name]-[id].js', // имя файлов чанков с динамическими именами [name]-[id]
+    clean: true, // очистка выходной директории перед каждой сборкой
+  },
+
+  // дополнительные модули для обработки файлов
+  module: {
+    rules: [
+      // правило для обработки изображений
+      {
+        test: /\.(png|jpe?g|gif|webp)$/i,
+        use: imageLoaders,
+      },
+
+      // вместо данной конструкции будет использоваться asset/inline,
+      // приведенное ниже правило
+      // {
+      //   test: /\.svg$/,
+      //   use: SvgSpriteHtmlWebpackPlugin.getLoader(),
+      //   exclude: /node_modules/,
+      // },
+
+      // встроенные ресурсы
+      // background: url("@/assets/icons/icon-blank.svg")
+      {
+        test: /\.svg$/,
+        type: 'asset/inline',
+        resourceQuery: /inline/,
+      },
+
+      // правило для обработки шрифтов
+      {
+        test: /\.(woff2)$/i,
+        use: fontLoaders,
+      },
+
+      // правило для обработки css модулей
+      {
+        test: /\.(sa|sc|c)ss$/i,
+        use: cssLoaders.map(item => {
+          const clone = { ...item }
+
+          if (clone.loader === 'css-loader') {
+            clone.options = {
+              modules: true, // включение CSS модулей для css-loader
+            }
+          }
+
+          return clone
+        }),
+        include: /\.module\.css$/, // применяется только к файлам с расширением .module.css
+      },
+
+      // правило для обработки стилей
+      {
+        test: /\.(sa|sc|c)ss$/i,
+        use: cssLoaders,
+        exclude: /\.module\.css$/, // исключение файлов с расширением .module.css.
+      },
+
+      // правило для обработки скриптов
+      {
+        test: /\.m?js$/i,
+        use: jsLoaders,
+        exclude: /node_modules/, // исключение файлов из node_modules
+      },
+    ],
+  },
+
+  // плагины webpack
+  plugins: [
+    // определение переменных окружения
+    new webpack.DefinePlugin({
+      // API_URL будет взять с подключенного файла development.env или production.env
+      // Далее в коде проекта переменная process.env.API_URL при сборки заменится на свое значение
+      'process.env.API_URL': JSON.stringify(process.env.API_URL),
+    }),
+
+    // создание HTML файла на основе шаблона
+    new HtmlWebpackPlugin({
+      filename: 'index.html', // имя HTML файла
+      template: join(__dirname, '../src/index.html'), // шаблон основного index.html файла
+    }),
+
+    // извлечение стилей в отдельные CSS файлы
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css', // имя CSS файла
+      chunkFilename: 'css/[id].css', // имя файлов чанков стилей
+    }),
+
+    // svg спрайт
+    // пример: &lt;svg&gt; &lt;use xlink:href="#icon-test"&gt;&lt;/use&gt; &lt;/svg&gt;
+    new SvgSpriteHtmlWebpackPlugin({
+      append: false, // вставить спрайт вначале &lt;body&gt; для false
+      includeFiles: [
+        'src/assets/icons/*.svg', // подключаемые в спрайт файлы
+      ],
+    }),
+
+    // копирование файлов и ресурсов
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: join(__dirname, '../src/assets'), // откуда копировать
+          to: 'assets/[path][name][ext]', // куда копировать
+          noErrorOnMissing: true, // не генерировать ошибки при отсутствии файлов
+        },
+      ],
+    }),
+  ],
+})
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+### Обработчики ресурсов
+
+Описывая содержимое файла **webpack.common.js** была добавлена конструкция, которая подключает файлы **loaders**. Данные файлы не что иное, как вынесенная логика обработки различных форматов файлов такие как **css**, **images** и т.д. в отдельные файлы.
+
+{% capture code %}
+const jsLoaders = require('./loaders/js-loaders') // обработка js
+const cssLoaders = require('./loaders/css-loaders') // обработка стилей
+const imageLoaders = require('./loaders/image-loaders') // обработка изображений
+const fontLoaders = require('./loaders/font-loaders') // обработка шрифтов
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Создадим эти файлы внутри каталога **loaders** и опишем их:
+
+{% capture code %}
+./loaders
+├── js-loaders.js
+├── css-loaders.js
+├── font-loaders.js
+└── image-loaders.js
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+### Описание файла js-loaders.js
+
+Откроем файл **js-loaders.js** и пропишем в него следующее содержимое:
+
+{% capture code %}
+module.exports = [
+  {
+    loader: 'babel-loader', // преобразование es6+ в es5
+  },
+]
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+### Описание файла css-loaders.js
+
+Откроем файл **css-loaders.js** и пропишем в него следующее содержимое:
+
+{% capture code %}
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // извлекать css из js
+
+const devMode = process.env.NODE_ENV === 'development' // определение окружения
+
+module.exports = [
+  devMode ? { loader: 'style-loader' } : { loader: MiniCssExtractPlugin.loader }, // инлайн стили или стили в отдельный файл
+  { loader: 'css-loader' }, // поддержка css файлов
+  { loader: 'postcss-loader' }, // автопрефиксер и другие улучшения
+  { loader: 'sass-loader' }, // поддержка scss файлов
+]
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Здесь подключили различные загрузчики, которые обрабатывают **css** стили, в числе которых присутствует **postcss-loader**. Это мощный инструмент позволяет подключить множество дополнительных расширений, которые улучшат опыт взаимодействия со стилями.
+
+Для того чтобы иметь возможность подключать в **postcss-loader** различные расширения, создадим в корне проекта файл **postcss.config.js** и пропишем в него следующее содержимое:
+
+{% capture code %}
+module.exports = {
+  plugins: [
+    require('autoprefixer'), // добавляет вендорные префексы браузеров к стилям
+  ],
+}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+В данном случае был подключен **autoprefixer**, но ничто не мешает добавлять и другие требуемые расширения.
+
+### Описание файла font-loaders.js
+
+Откроем файл **font-loaders.js** и пропишем в него следующее содержимое:
+
+{% capture code %}
+module.exports = [
+  {
+    loader: 'file-loader', // импорт и обработка файлов
+    options: {
+      outputPath: 'fonts', // каталог куда будет происходить импорт
+    },
+  },
+]
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+### Описание файла image-loaders.js
+
+Откроем файл **image-loaders.js** и пропишем в него следующее содержимое:
+
+{% capture code %}
+module.exports = [
+  {
+    loader: 'file-loader', // импорт и обработка файлов
+    options: {
+      name: '[path][name].[ext]', // имя файла
+    },
+  },
+  {
+    loader: 'image-webpack-loader', // оптимизация изображений
+    options: {
+      mozjpeg: {
+        progressive: true,
+      },
+      optipng: {
+        enabled: true,
+      },
+      pngquant: {
+        quality: [0.65, 0.90],
+        speed: 4,
+      },
+      gifsicle: {
+        interlaced: false,
+      },
+      webp: {
+        quality: 75,
+      },
+    },
+  },
+]
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+### Переменные окружения
+
+В файле **webpack.common.js** был заложен фундамент для использования переменных окружений, а именно благодаря следующим блокам кода:
+
+{% capture code %}
+// загрузка переменных окружения
+require('dotenv').config({
+  path: `${process.env.NODE_ENV}.env`, // путь до файла .env, например development.env или production.env
+})
+
+...
+
+// определение переменных окружения
+new webpack.DefinePlugin({
+  // API_URL будет взять с подключенного файла development.env или production.env
+  // Далее в коде проекта переменная process.env.API_URL при сборки заменится на свое значение
+  'process.env.API_URL': JSON.stringify(process.env.API_URL),
+}),
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Теперь необходимо создать сами файлы, хранящие переменные окружения. Для этого в корне проекта создадим два файла:
+
+{% capture code %}
+./
+├── development.env
+└── production.env
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+Внутри данных файлов для примера добавим одну переменную, в разработке этих переменных может быть столько сколько необходимо.
+
+{% capture code %}
+API_URL=https://example.com
+{% endcapture %}
+{% include component/code.html lang='env' content=code %}
+
+Теперь добавим правила для запуска сборки, которые будут собирать наш фрэймворк в режиме **developer** или **production**. Для этого отредактируем содержимое файла **package.json**:
+
+{% capture code %}
+"scripts": {
+  "prepare": "husky install",
+  "develop": "cross-env NODE_ENV=development webpack serve --config webpack/webpack.dev.js",
+  "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.prod.js"
+},
+{% endcapture %}
+{% include component/code.html lang='json' content=code %}
+
+Здесь мы добавили в секцию **scripts** правила **develop** и **build**.
+
+**develop** - запускает сборку в режиме разработки, позволяя изменять код и видеть изменения в браузере \
+**build** - собирает сборку в готовый проект, который можно выгрузить на хостинг
+
+Команда **cross-env NODE_ENV=development** создает переменную **NODE_ENV** с содержимым **development** к которой далее в коде мы можем обращаться.
+
+**webpack serve** позволяет запустить сборку и поднять локальный сервер который отобразит сайт в браузере.
+
+**--config webpack/webpack.dev.js** запускает сборку с настройками прописанными в файле **webpack.dev.js**.
+
+По аналогии тоже самое происходит в **build** режиме за исключением некоторых изменений.
+
+### Описание файла webpack.dev.js
+
+Откроем файл **webpack.dev.js** и пропишем в него следующее содержимое:
+
+{% capture code %}
+const { join } = require('path') // работа с путями к файлам и каталогам
+const { merge } = require('webpack-merge') // объединяет конфигурации
+const { CleanWebpackPlugin } = require('clean-webpack-plugin') // удаляет файлы и каталоги перед каждой сборкой
+
+const common = require('./webpack.common') // общие конфигурации для dev и prod версий
+
+module.exports = merge(common, {
+  mode: 'development', // режим разработки
+  devtool: 'inline-source-map', // устанавливаем source map для отладки (eval-cheap-module-source-map)
+  devServer: { // настройки для сервера разработки
+    port: 3003, // порт
+    hot: true, // вносит изменения в код приложения без перекомпиляции всего проекта
+    compress: true, // сжатие данных
+    https: true, // использование https
+    historyApiFallback: true, // поддержка HTML5 History API
+    static: {
+      directory: join(__dirname, '../dist') // указываем путь к статическим файлам
+    },
+    devMiddleware: { // позволяет моментально видеть изменения
+      index: true, // автоматически отображение индексного файла
+      publicPath: '/', // базовый url для сервера разработки
+      writeToDisk: true, // исходные карты и ресурсы будут записаны на диск
+    },
+    client: {
+      logging: 'log' // логи будут отображаться в консоли браузера
+    },
+  },
+  plugins: [ // плагины webpack
+    new CleanWebpackPlugin({ // очистка указанных файлов и каталогов перед сборкой
+      cleanOnceBeforeBuildPatterns: [
+        join(__dirname, '../dist')
+      ]
+    })
+  ]
+})
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+### Описание файла webpack.prod.js
+
+Откроем файл **webpack.prod.js** и пропишем в него следующее содержимое:
+
+{% capture code %}
+const { join, resolve } = require('path') // работа с путями к файлам и каталогам
+const globAll = require('glob-all') // операции над файлами
+const { merge } = require('webpack-merge') // объединяет конфигурации
+
+const TerserPlugin = require('terser-webpack-plugin') // выполняет минимизацию и оптимизацию js
+const { PurgeCSSPlugin } = require('purgecss-webpack-plugin') // удаляет неиспользуемые css стили
+
+const common = require('./webpack.common') // общие конфигурации для dev и prod версий
+
+module.exports = merge(common, {
+  mode: 'production', // режим production
+  output: {
+    // исходная точка
+    publicPath: '/', // публичный путь для доступа к выходным файлам
+    path: resolve(__dirname, '../build'), // устанавливает путь для сохранения собранного кода
+    filename: 'js/[name].[contenthash].js', // настройка имени собранного файла с хэшем содержимого
+    clean: true, // очистка каталога сборки перед каждой новой сборкой
+  },
+  optimization: {
+    // настройки для оптимизации сборки
+    minimizer: [
+      new TerserPlugin({
+        parallel: true, // параллельная минимизация для ускорения сборки
+        extractComments: false, // не извлекать комментарии из сжатого кода
+        terserOptions: {
+          format: {
+            comments: false, // не сохранять комментарии
+          },
+        },
+      }),
+    ],
+  },
+  plugins: [
+    new PurgeCSSPlugin({
+      paths: globAll.sync(join(__dirname, '../src/**/*.js'), { nodir: true }), // пути к js файлам для анализа стилей
+    }),
+  ],
+})
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="structure"><span class="attention">Структура</span> проекта</h2>
+
+Опишем структуру фреймворка, в нашем случае будет использована самая простая классическая файловая структура без какой-либо сложной архитектуры на подобии **FSD**.
+
+Первое что нам понадобится это создать в корне проекта каталог **src** и внутри него будут находиться все исходники фреймворка.
+
+{% capture code %}
+./src
+├── assets
+│    ├── favicons
+│    ├── icons
+│    └── scss
+├── core
+├── components
+├── pages
+├── layouts
+├── reducers
+├── routers
+├── services
+├── store
+├── utils
+├── main.js
+└── index.html
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+**assets** - содержит различные иконки, картинки, общие стили, и т.п.
+
+**core** - ядро нашего фреймворка
+
+**components** - отдельные компоненты проектам
+
+**pages** - страницы проекта
+
+**layouts** - общий шаблон для всех страниц проекта, содержит повторяющиеся части от страницы к странице, например шапка, подвал сайта
+
+**reducers** - содержит логику по управлению состоянием в проекте
+
+**routers** - содержит маршруты проекта
+
+**services** - содержит api для подключения к сторонним ресурсам
+
+**store** - содержит state проекта, связан с **reducers**
+
+**utils** - содержит вспомогательные пользовательские функции
+
+**main.js** - основной файл запускающий программную часть проекта
+
+**index.html** - основной файл отображающий проект в браузере
+
+<h2 id="base-settings"><span class="attention">Базовая</span> настройка проекта</h2>
+
+Прежде чем приступить к написанию движка нашего будущего фреймворка начнем с описания файла **index.html** и связанных с ним **assets** файлов.
+
+### Описание файла index.html
+
+Откроем файл **index.html** и введем в него следующее содержимое:
+
+{% capture code %}
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+    &lt;title&gt;Главная страница&lt;/title&gt;
+
+    &lt;meta name="theme-color" content="#000"&gt;
+    &lt;meta name="msapplication-TileColor" content="#000"&gt;
+
+    &lt;link rel="icon" href="/assets/favicons/favicon.ico" sizes="any"&gt;
+    &lt;link rel="icon" href="/assets/favicons/icon.svg" type="image/svg+xml"&gt;
+    &lt;link rel="apple-touch-icon" href="/assets/favicons/apple-touch-icon.png"&gt;
+    &lt;link rel="manifest" href="/assets/favicons/manifest.json"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="app"&gt;&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+{% endcapture %}
+{% include component/code.html lang='html' content=code %}
+
+### Описание структуры favicons
+
+Добавим в каталог **./src/assets/favicons** следующие файлы:
+
+{% capture code %}
+./src/assets/favicons/
+├── apple-touch-icon.png
+├── favicon.ico
+├── icon-192.png
+├── icon-512.png
+├── icon.svg
+└── manifest.json
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+**Favicons будут иметь следующие разрешения:**
+
+**apple-touch-icon.png** - 180 на 180 \
+**favicon.ico** - 32 на 32 \
+**icon-192.png** - 192 на 192 \
+**icon-512** - 512 на 512 \
+**icon.svg** - svg иконка для любого другого изображения
+
+#### Опишем содержимое файла **manifest.json**:
+
+{% capture code %}
+{
+  "name": "JavaScript framework",
+  "short_name": "JavaScript framework",
+  "description": "JavaScript framework для создания spa приложений",
+  "lang": "ru",
+  "dir": "ltr",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "minimal-ui",
+  "orientation": "any",
+  "theme_color": "#000",
+  "background_color": "#000",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg",
+      "purpose": "maskable"
+    }
+  ]
+}
+{% endcapture %}
+{% include component/code.html lang='json' content=code %}
+
+### Описание структуры scss
+
+Добавим в каталог **./src/assets/scss** следующие файлы:
+
+{% capture code %}
+./src/assets/scss/
+├── global.scss
+├── mixin.scss
+└── variable.scss
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+**global.scss** - содержит глобальные стили для всего проекта \
+**mixin.scss** - содержит пользовательские scss миксины \
+**variable.scss** - содержит пользовательские scss переменные
+
+#### Опишем содержимое файла **global.scss**:
+
+{% capture code %}
+@import "variable";
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100vh;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+
+  min-width: 380px;
+  margin: 0;
+
+  color: $color-black;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  background-color: $color-grey;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+#app {
+  height: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: 1210px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.sr-only {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+
+  border: 0;
+
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(100%);
+}
+
+.active {
+  color: red;
+}
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+#### Опишем содержимое файла **mixin.scss**:
+
+{% capture code %}
+@mixin list-reset {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+#### Опишем содержимое файла **variable.scss**:
+
+{% capture code %}
+$color-black: #222;
+$color-white: #fff;
+$color-red: #f31b2c;
+$color-grey: #edf1f5;
+$color-blue: #1c90e9;
+$color-yellow: #ffdd56;
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+### Описание структуры icons
+
+Для примера добавим в каталог с иконками любой svg файл, например **icon-heart.svg**:
+
+{% capture code %}
+&lt;svg width="800" height="800" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"&gt;
+  &lt;path
+    d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z"
+    fill="currentColor"/&gt;
+&lt;/svg&gt;
+{% endcapture %}
+{% include component/code.html lang='svg' content=code %}
+
+### Завершение базовой настройки проекта
+
+И так мы завершили базовую настройку проекта, пришло время приступить не посредственно к созданию самого ядра фреймворка.
+
+<h2 id="core"><span class="attention">Ядро</span> фреймворка</h2>
+
+Определимся с функциональностью нашего фреймворка. Я выделил следующие составляющие которые в процессе мы реализуем:
+
+- **Роутинг** - фреймворк должен предоставлять механизм для маршрутизации, который позволяет управлять тем, как различные URL-адреса и маршруты в приложении соотносятся с компонентами и действиями.
+- **Управление состоянием** - возможность эффективно управлять состоянием приложения. Мы реализуем **Redux** подобное хранилище состояний.
+- **Компоненты** - фреймворк должен предоставлять инструменты для создания и взаимодействия с компонентами, позволяющими разделять интерфейс на более мелкие и переиспользуемые части.
+- **HTTP запросы** - механизм для выполнения запросов и обработки ответов с сервера. Это может включать в себя AJAX-запросы, работу с API и управление данными.
+- **Шаблонизация** - возможность генерации и рендеринга HTML-кода на основе шаблонов или компонентов.
+- **События и обработка событий** - механизм для обработки пользовательских событий, как клики, изменения ввода и другие.
+- **Маршрутизация по компонентам** - механизм для динамической загрузки и переключения между компонентами на основе URL-адреса и маршрутизации.
+
+<h2 id="router"><span class="attention">Router</span></h2>
+
+Создадим в каталоге **./src/routers** файл **index.js**. Данный файл будет содержать маршруты нашего приложения. Можно по-разному придумать в каком виде хранить и каким образом регистрировать маршруты. В своем решении мне захотелось сделать это чем то напоминающим регистрацию маршрутов во **Vue**.
+
+И так содержимое файла **./src/routers/index.js** будет следующим:
+
+{% capture code %}
+import Router from '@/core/Router/Router' // роутер фрейморка
+
+/**
+ * Регистрация роутов
+ *
+ * @type {*|null}
+ */
+const router = Router.createRoute({
+  // Вид роутинга, в рамках фреймворка будут реализованы
+  // два вида:
+  // createWebHistory - стандартный роутинг, вида /foo/bar
+  // createWebHashHistory - роутинг с хэшем, вида /#/foo/bar
+  history: Router.createWebHistory(),
+
+  // Список роутов
+  // Здесь мы используем динамический импорт для улучшения производительности
+  routes: [
+    {
+      path: '/', // ссылка на главную страницу
+      component: import('@/pages/HomePage'), // класс отвечающий за отображение главной страницы
+    },
+    {
+      path: '/about',
+      component: import('@/pages/AboutPage'),
+    },
+    {
+      path: '/.*', // 404 страница
+      component: import('@/pages/ErrorPage'), // класс отвечающий за отображение 404 страницы
+    },
+  ],
+})
+
+export default router
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Подключим созданный файл **./src/routers/index.js** в главный исполняемый файл нашего фреймворка **main.js**:
+
+{% capture code %}
+import router from '@/routers'
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Теперь приступим непосредственно к созданию **Router** для фреймворка. Для этого в каталоге **./scr/core** создадим каталог **Router**. Почему создается целый каталог вместо одного файла **Router.js** так как я предполагаю, что класс **Router** получится довольно большим и чтобы его немного разгрузить я создам некоторые другие файлы в которые вынесу часть логики файла **Router**. И так должна получиться следующая структура:
+
+{% capture code %}
+./src/core/Router/
+├── Dispatcher.js
+├── HistoryTypeEnum.js
+└── Router.js
+{% endcapture %}
+{% include component/code.html lang='bash' content=code %}
+
+**Dispatcher.js** - будет являться родительским классом для класса **Router**, будет содержать вспомогательные методы для **Router**.
+
+**HistoryTypeEnum.js** - будет содержать **ENUM** подобный объект, хранящий виды роутинга (обычный или с хэшем).
+
+**Router.js** - непосредственно сам роутинг, хранящий всю основную логику.
+
+### Описание файла HistoryTypeEnum.js
+
+Данный файл очень простым:
+
+{% capture code %}
+/**
+ * Режимы истории
+ *
+ * @type {Readonly<{STATE: string, HASH: string}>}
+ */
+const HISTORY_TYPE_ENUM = Object.freeze({
+  HASH: 'hashchange', // для ссылки с хэшем
+  STATE: 'popstate', // для стандартной ссылки
+})
+
+export default HISTORY_TYPE_ENUM
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+### Описание файла Dispatcher.js
+
+Данный класс будет использовать паттерн **Singleton** для того, чтобы все созданные маршруты аккумулировались внутри одного объекта.
+
+{% capture code %}
+import HISTORY_TYPE_ENUM from '@/core/Router/HistoryTypeEnum' // виды роутинга
+
+/**
+ * Родительский класс для Router
+ *
+ * Содержит вспомогательные методы для Router.
+ */
+export default class Dispatcher {
+  /**
+   * Разрешение на создание экземпляра класса
+   *
+   * @type {boolean}
+   * @private
+   */
+  static _initializing = false
+
+  /**
+   * Экземпляр класса
+   *
+   * @type {null}
+   * @private
+   */
+  static _instance = null
+
+  /**
+   * Режим истории по умолчанию с использованием хэша
+   *
+   * @type {string}
+   * @property
+   */
+  _history = HISTORY_TYPE_ENUM.HASH
+
+  /**
+   * Роуты
+   *
+   * @type {[]}
+   * @property
+   */
+  _routes = []
+
+  /**
+   * Основной корневой элемент в который будет добавляться разметка
+   *
+   * @type {string}
+   * @private
+   */
+  _root = '#app'
+
+  /**
+   * Данный класс является абстрактным
+   */
+  constructor() {
+    if (!Dispatcher._initializing) {
+      throw new TypeError('Нельзя напрямую создать экземпляр данного класса')
+    }
+  }
+
+  /**
+   * Получение основного корневого элемента
+   *
+   * @returns {string}
+   */
+  get root() {
+    return this._root
+  }
+
+  /**
+   * Изменение основного корневого элемента
+   *
+   * @param selector
+   */
+  set root(selector) {
+    this._root = selector
+  }
+
+  /**
+   * Создание экземпляра класса
+   *
+   * @returns {*|null}
+   */
+  static get instance() {
+    // Возвращаем объект данного класса если он был уже создан
+    if (this._instance instanceof this) {
+      return this._instance
+    }
+
+    // Если объект не был создан создаем его и возвращаем
+    Dispatcher._initializing = true
+    this._instance = new this()
+    Dispatcher._initializing = false
+
+    return this._instance
+  }
+
+  /**
+   * Получить активный режим истории
+   *
+   * @returns {string}
+   */
+  get history() {
+    return this._history
+  }
+
+  /**
+   * Получить список всех роутов
+   *
+   * @returns {[]}
+   */
+  get routes() {
+    return this._routes
+  }
+
+  /**
+   * Режим роута с хэшем
+   *
+   * @returns {string}
+   */
+  static createWebHashHistory() {
+    return HISTORY_TYPE_ENUM.HASH
+  }
+
+  /**
+   * Режим роута стандартный
+   *
+   * @returns {string}
+   */
+  static createWebHistory() {
+    return HISTORY_TYPE_ENUM.STATE
+  }
+
+  /**
+   * Форматирование текущего адреса страницы для режима хэш
+   *
+   * @returns {string}
+   * @private
+   */
+  _strippedHashPath() {
+    return `/${window.location.hash.replace(/^#\//, '')}` // '#/foo/bar' -> '/foo/bar'
+  }
+
+  /**
+   * Форматирование текущего адреса страницы в стандартном режиме
+   *
+   * @returns {string}
+   * @private
+   */
+  _strippedPath() {
+    return `/${window.location.pathname
+      .replace(/^\/+|\/+$/g, '') // '////foo/bar////' -> 'foo/bar'
+      .replace(/\/+/g, '/')}` // 'foo/////bar' -> 'foo/bar'
+  }
+}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+### Описание файла Router.js
+
+Непосредственно сам роутер который берет на себя всю основную работу.
+
+{% capture code %}
+{% raw %}
+import Dispatcher from '@/core/Router/Dispatcher' // родительский класс
+import HISTORY_TYPE_ENUM from '@/core/Router/HistoryTypeEnum' // виды роутинга
+
+/**
+ * Роутер
+ *
+ */
+export default class Router extends Dispatcher {
+  /**
+   * Хранит область где будет располагаться разметка страницы
+   *
+   * @type {null}
+   * @private
+   */
+  _pageElement = null
+
+  /**
+   * Создание роутера
+   *
+   * @param history - вид роута
+   * @param routes - маршруты
+   * @returns {*|null}
+   */
+  static createRoute({ history, routes }) {
+    const router = Router.instance
+
+    router._history = history ?? router._history
+    router._routes.push(...routes)
+
+    return router
+  }
+
+  /**
+   * Отрисовка готовой страницы
+   *
+   * @returns {Promise&lt;void&gt;}
+   */
+  render = async () => {
+    // Находим нужный роут и получаем его component,
+    // то что прописано при регистрации роутов.
+    // Например: component: import('@/pages/ProductPage')
+    const { component } = this._findRoute(this.getUri())
+
+    // Если роутер не был найден выводим служебную
+    // 404 страницу об ошибке.
+    // Для того чтобы выводилась пользовательская страница 404,
+    // при перечислении маршрутов в самом конце списка нужно указать:
+    // path: '/.*' и component: import('@/pages/ErrorPage').
+    // Далее уже в файле ErrorPage описать как будет выглядеть страница об ошибках.
+    if (!component) {
+      this._page404()
+
+      return
+    }
+
+    // Получаем параметры страницы
+    const params = this._getParams()
+
+    // Получаем саму страницу
+    const page = await this._getComponent(component, params)
+
+    // Если у страницы задан шаблон, то рендерим шаблон.
+    if (page.layout) {
+      await this._renderLayout(page.layout)
+    } else {
+      this._pageElement = null
+    }
+
+    // Рендерим страницу
+    await this._renderPage(page)
+  }
+
+  /**
+   * Рендер шаблона страницы
+   *
+   * @param layout - import('@/layouts/MainLayout')
+   * @returns {Promise&lt;void&gt;}
+   * @private
+   */
+  _renderLayout = async layout => {
+    // Страница будет содержать путь до шаблона вида import('@/layouts/MainLayout'),
+    // при создании объекта этого класса MainLayout нужно взять саму разметку шаблона
+    // и разметку его внутренних элементов.
+    const { component, elements } = await this._getComponent(layout)
+
+    // Определяем область где будет располагаться разметка страницы
+    this._pageElement = elements.page
+
+    // Получаем корневой элемент в который рендерится весь сайт
+    const root = document.querySelector(this.root)
+
+    // Очищаем старое содержимое
+    root.innerHTML = ''
+
+    // Рендерим новое
+    root.insertAdjacentElement('afterbegin', component)
+  }
+
+  /**
+   * Рендер страницы
+   *
+   * @param component
+   * @returns {Promise&lt;void&gt;}
+   * @private
+   */
+  _renderPage = async ({ component }) => {
+    // Получаем корневой элемент в который рендерится весь сайт
+    let root = document.querySelector(this._root)
+
+    // Если у страницы был найден шаблон, то рендерить нужно только саму страницу,
+    // так как шаблон уже добавлен на страницу сайта
+    if (this._pageElement) {
+      root = this._pageElement
+    }
+
+    // Очищаем старое содержимое
+    root.innerHTML = ''
+
+    // Рендерим новое
+    root.insertAdjacentElement('afterbegin', component)
+
+    // Очищаем область где будет располагаться разметка страницы
+    this._pageElement = null
+  }
+
+  /**
+   * Базовая страница 404
+   *
+   * @private
+   */
+  _page404() {
+    document.querySelector(this._root).innerHTML = 'Страница 404 не найдена'
+  }
+
+  /**
+   * Получение текущей ссылки
+   *
+   * @returns {string}
+   */
+  getUri() {
+    // Ссылка будет форматирована согласно выбранному режиму
+    if (this._history === HISTORY_TYPE_ENUM.STATE) {
+      return this._strippedPath()
+    }
+
+    return this._strippedHashPath()
+  }
+
+  /**
+   * Получение параметров из ссылки
+   *
+   * Пример: /foo/1/bar/2 => { foo: 1, bar: 2 }
+   *
+   * @returns {{}}
+   * @private
+   */
+  _getParams() {
+    return this.getUri()
+      .slice(1)
+      .split('/')
+      .reduce((acc, item, index, array) => {
+        if (index % 2 === 0 && array[index + 1]) {
+          acc[item] = array[index + 1]
+        }
+
+        return acc
+      }, {})
+  }
+
+  /**
+   * Поиск текущего роута
+   *
+   * @param route
+   * @returns {*}
+   * @private
+   */
+  _findRoute(route) {
+    return this._routes.find(item => {
+      const regex = new RegExp(`^${item.path}$`)
+
+      return route.match(regex)
+    })
+  }
+
+  /**
+   * Получение шаблона или страницы
+   *
+   * @param component - import('@/foo/bar')
+   * @param params - { foo: 1, bar: 2 }
+   * @returns {Promise&lt;*&gt;}
+   * @private
+   */
+  async _getComponent(component, params = {}) {
+    let Component = component
+
+    // Так как компонент страницы может быть передан как динамически так и нет,
+    // то мы должны проверить при динамическом импорте мы получим Promise
+    if (Component instanceof Promise) {
+      const module = await Component
+
+      Component = module.default
+    }
+
+    return new Component({
+      ...params,
+      router: this,
+    })
+  }
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
 
 
 
