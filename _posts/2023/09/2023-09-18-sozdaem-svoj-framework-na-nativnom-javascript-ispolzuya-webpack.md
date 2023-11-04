@@ -29,7 +29,11 @@ excerpt_separator: "<!--more-->"
 8. [Структура проекта](#structure)
 9. [Базовая настройка проекта](#base-settings)
 10. [Ядро фремворка](#core)
-11. [Router](#router)
+11. [Класс Router](#router)
+12. [Класс App](#app)
+13. [Класс BaseComponent](#base-component)
+14. [Класс BasePage](#base-page)
+15. [Класс MainLayout](#main-layout)
 
 <h2 id="intro"><span class="attention">Вводная</span> часть</h2>
 
@@ -1213,7 +1217,7 @@ $color-yellow: #ffdd56;
 - **События и обработка событий** - механизм для обработки пользовательских событий, как клики, изменения ввода и другие.
 - **Маршрутизация по компонентам** - механизм для динамической загрузки и переключения между компонентами на основе URL-адреса и маршрутизации.
 
-<h2 id="router"><span class="attention">Router</span></h2>
+<h2 id="router"><span class="attention">Класс</span> Router</h2>
 
 Создадим в каталоге **./src/routers** файл **index.js**. Данный файл будет содержать маршруты нашего приложения. Можно по-разному придумать в каком виде хранить и каким образом регистрировать маршруты. В своем решении мне захотелось сделать это чем то напоминающим регистрацию маршрутов во **Vue**.
 
@@ -1259,7 +1263,7 @@ export default router
 Подключим созданный файл **./src/routers/index.js** в главный исполняемый файл нашего фреймворка **main.js**:
 
 {% capture code %}
-import router from '@/routers'
+import router from '@/routers' // роутер приложения
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}
 
@@ -1315,7 +1319,7 @@ export default class Dispatcher {
    * Разрешение на создание экземпляра класса
    *
    * @type {boolean}
-   * @private
+   * @protected
    */
   static _initializing = false
 
@@ -1323,7 +1327,7 @@ export default class Dispatcher {
    * Экземпляр класса
    *
    * @type {null}
-   * @private
+   * @protected
    */
   static _instance = null
 
@@ -1347,7 +1351,7 @@ export default class Dispatcher {
    * Основной корневой элемент в который будет добавляться разметка
    *
    * @type {string}
-   * @private
+   * @protected
    */
   _root = '#app'
 
@@ -1437,7 +1441,7 @@ export default class Dispatcher {
    * Форматирование текущего адреса страницы для режима хэш
    *
    * @returns {string}
-   * @private
+   * @protected
    */
   _strippedHashPath() {
     return `/${window.location.hash.replace(/^#\//, '')}` // '#/foo/bar' -> '/foo/bar'
@@ -1447,7 +1451,7 @@ export default class Dispatcher {
    * Форматирование текущего адреса страницы в стандартном режиме
    *
    * @returns {string}
-   * @private
+   * @protected
    */
   _strippedPath() {
     return `/${window.location.pathname
@@ -1476,7 +1480,7 @@ export default class Router extends Dispatcher {
    * Хранит область где будет располагаться разметка страницы
    *
    * @type {null}
-   * @private
+   * @protected
    */
   _pageElement = null
 
@@ -1488,11 +1492,16 @@ export default class Router extends Dispatcher {
    * @returns {*|null}
    */
   static createRoute({ history, routes }) {
+    // Получаем объект класса Router
     const router = Router.instance
 
+    // Определяем режим навигации по сайту
     router._history = history ?? router._history
+
+    // Получаем зарегистрированные маршруты
     router._routes.push(...routes)
 
+    // Возвращаем объект класса Router
     return router
   }
 
@@ -1541,7 +1550,7 @@ export default class Router extends Dispatcher {
    *
    * @param layout - import('@/layouts/MainLayout')
    * @returns {Promise&lt;void&gt;}
-   * @private
+   * @protected
    */
   _renderLayout = async layout => {
     // Страница будет содержать путь до шаблона вида import('@/layouts/MainLayout'),
@@ -1567,7 +1576,7 @@ export default class Router extends Dispatcher {
    *
    * @param component
    * @returns {Promise&lt;void&gt;}
-   * @private
+   * @protected
    */
   _renderPage = async ({ component }) => {
     // Получаем корневой элемент в который рендерится весь сайт
@@ -1592,7 +1601,7 @@ export default class Router extends Dispatcher {
   /**
    * Базовая страница 404
    *
-   * @private
+   * @protected
    */
   _page404() {
     document.querySelector(this._root).innerHTML = 'Страница 404 не найдена'
@@ -1618,7 +1627,7 @@ export default class Router extends Dispatcher {
    * Пример: /foo/1/bar/2 => { foo: 1, bar: 2 }
    *
    * @returns {{}}
-   * @private
+   * @protected
    */
   _getParams() {
     return this.getUri()
@@ -1638,7 +1647,7 @@ export default class Router extends Dispatcher {
    *
    * @param route
    * @returns {*}
-   * @private
+   * @protected
    */
   _findRoute(route) {
     return this._routes.find(item => {
@@ -1654,7 +1663,7 @@ export default class Router extends Dispatcher {
    * @param component - import('@/foo/bar')
    * @param params - { foo: 1, bar: 2 }
    * @returns {Promise&lt;*&gt;}
-   * @private
+   * @protected
    */
   async _getComponent(component, params = {}) {
     let Component = component
@@ -1676,6 +1685,632 @@ export default class Router extends Dispatcher {
 {% endraw %}
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}
+
+<h2 id="app"><span class="attention">Класс</span> App</h2>
+
+Класс **App** будет исполнять роль инициализации приложения. Он будет получать созданный роут и вызывать его метод на отображение страницы. Прежде всего откроем файл **./src/main.js** и добавим в него к уже имеющемуся коду следующее содержимое:
+
+{% capture code %}
+import router from '@/routers' // роутер приложения
+import App from '@/core/App' // для инициализации приложения
+
+import '@/assets/scss/global.scss' // глобальные стили приложения
+
+const app = new App(router) // создаем приложение
+
+app.run() // инициализируем приложение
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Входной файл приложения получился у нас довольно компактным и простым. Теперь приступим непосредственно к описанию самого класса **App**. Для этого каталоге **./src/core** создадим файл **App.js** со следующим содержимым:
+
+{% capture code %}
+{% raw %}
+/**
+ * Инициализация приложения
+ *
+ */
+export default class App {
+  /**
+   * Объект класса Router
+   *
+   * @type {{}}
+   */
+  #router = {}
+
+  /**
+   * Создание приложения
+   *
+   * @param router
+   */
+  constructor(router) {
+    // Получаем объект класса Router
+    this.#router = router
+  }
+
+  /**
+   * Инициализация приложения
+   *
+   * @param selector
+   */
+  run(selector = '#app') {
+    // Определяем основной селектор приложения
+    // в котором будет производиться отрисовка сайта
+    this.#router['root'] = selector
+
+    // Рендерим страницу сайта
+    this._render()
+
+    // При изменении ссылки заново рендерим страницу
+    window.addEventListener(this.#router.history, () => this._render())
+  }
+
+  /**
+   * Рендер страницы сайта
+   *
+   * @protected
+   */
+  _render() {
+    this.#router.render()
+  }
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Мы полностью закончили с классом **App** и с входным файлом **main.js**.
+
+<h2 id="base-component"><span class="attention">Класс</span> BaseComponent</h2>
+
+Мы создали прочную основу для нашего фреймворка в роли классов **App** и **Router**, но сами по себе они ни чего не дадут без механизма работы с **DOM** деревом. Именно этим мы сейчас займемся, создадим класс **BaseComponent** который будет служить родительским классом для всех наших страниц и компонентов приложения.
+
+В каталоге **./src/core** создадим файл **BaseComponent.js** со следующим содержимым:
+
+{% capture code %}
+{% raw %}
+export default class BaseComponent {
+  /**
+   * Node элемент самого компонента
+   *
+   * @type {null}
+   * @protected
+   */
+  _component = null
+
+  /**
+   * Вложенные в компонент элементы верстки
+   *
+   * С которыми в процессе необходимо будет взаимодействовать.
+   *
+   * @type {{}}
+   * @protected
+   */
+  _elements = {}
+
+  /**
+   * Вложенные в компонент другие компоненты
+   *
+   * @type {{}}
+   * @protected
+   */
+  _components = {}
+
+  /**
+   * Для отмены прослушки событий
+   *
+   * @type {AbortController}
+   * @protected
+   */
+  _abortController = new AbortController()
+
+  /**
+   * Абстрактный класс
+   */
+  constructor() {
+    if (this.constructor.name === 'BaseComponent') {
+      throw new TypeError('Абстрактный класс!')
+    }
+  }
+
+  /**
+   * Получение разметки компонента
+   *
+   * @returns {string}
+   * @protected
+   */
+  get _template() {
+    return ''
+  }
+
+  /**
+   * Получение компонента
+   *
+   * @returns {null}
+   */
+  get component() {
+    return this._component
+  }
+
+  /**
+   * Получение вложенных в компонент элементов верстки
+   *
+   * @returns {{}}
+   */
+  get elements() {
+    return this._elements
+  }
+
+  /**
+   * Установка вложенных компонентов
+   *
+   * @param components
+   * @protected
+   */
+  _setComponents(components) {
+    this._components = components
+  }
+
+  /**
+   * Переотрисовка вложенных компонентов
+   *
+   * @param components
+   * @protected
+   */
+  _reloadComponents(components) {
+    this._setComponents(components)
+    this._initComponents()
+  }
+
+  /**
+   * Инициализация компонента
+   *
+   * @protected
+   */
+  _init() {
+    this._beforeInit().then()
+    this._initComponent()
+    this._initElements()
+    this._initComponents()
+    this._initListeners()
+    this._afterInit().then()
+  }
+
+  /**
+   * Пользовательские действия, происходящие до инициализации компонента
+   *
+   * @returns {Promise&lt;void&gt;}
+   * @protected
+   */
+  async _beforeInit() {
+    // Абстрактный метод!
+    // await this._loadData()
+    // await this._updateData()
+  }
+
+  /**
+   * Пользовательские действия, происходящие после инициализации компонента
+   *
+   * @returns {Promise&lt;void&gt;}
+   * @protected
+   */
+  async _afterInit() {
+    // Абстрактный метод!
+    // await this._loadData()
+    // await this._updateData()
+  }
+
+  /**
+   * Загрузка данных, например по api
+   *
+   * @protected
+   */
+  _loadData() {
+    // Абстрактный метод!
+  }
+
+  /**
+   * Обновление данных
+   *
+   * @protected
+   */
+  _updateData() {
+    // Абстрактный метод!
+  }
+
+  /**
+   * Создание ноды компонента
+   *
+   * @protected
+   */
+  _initComponent() {
+    // Создаем элемент обертки
+    const wrapper = document.createElement('div')
+
+    // Помещаем внутрь обертки разметку html компонента
+    wrapper.innerHTML = this._template
+
+    // Получаем разметку компонента в виде Node
+    this._component = wrapper.firstElementChild || wrapper
+  }
+
+  /**
+   * Получение вложенных элементов в компоненте
+   *
+   * @param component
+   * @protected
+   */
+  _initElements(component = this._component) {
+    // Находим все элементы внутри компонента имеющие атрибут data-el
+    const list = component.querySelectorAll('[data-el]')
+
+    // Перебираем каждый вложенный элемент с атрибутом data-el
+    list.forEach(item => {
+      // Получаем значение атрибута data-el
+      const name = item.dataset.el
+
+      // Сохраняем Node каждого элемента
+      this._elements[name] = item
+    })
+  }
+
+  /**
+   * Инициализация вложенных компонентов
+   *
+   * @protected
+   */
+  _initComponents() {
+    // Проходимся по каждому ключу объекта _components
+    for (const componentName of Object.keys(this._components)) {
+      // Ключи подключаемых компонентов должны совпадать с названием
+      // атрибута data-el у вложенных в родительский компонент элемента,
+      // находим такой элемент, на его место будет подставляться, вложенный компонент.
+      let root = this._elements[componentName]
+
+      // Вложенный компонент можно передать двумя способами:
+      // _setComponents({ nameComponent: new SomeComponent() })
+      // _setComponents({ nameComponent: SomeComponent })
+      // здесь идет определение того каким образом был передан вложенный компонент
+      // и на основе этого идет получение свойства _component, который в свою очередь хранит
+      // Node элемент компонента
+      const { component } =
+        typeof this._components[componentName] === 'object' &&
+        !Array.isArray(this._components[componentName])
+          ? this._components[componentName]
+          : new this._components[componentName]()
+
+      // Если элементы найдены, то рендерим компонент
+      if (root && component) {
+        // Получаем data-el
+        component.dataset.el = root.dataset.el
+
+        // Переопределяем внутренний элемент
+        this._elements[root.dataset.el] = component
+
+        // Рендерим компонент
+        root.insertAdjacentElement('beforebegin', component)
+        root.remove()
+        root = null
+
+        // Получаем вложенные элементы в компоненте
+        this._initElements(component)
+      }
+    }
+  }
+
+  /**
+   * Прослушка событий
+   *
+   * @protected
+   */
+  _initListeners() {
+    // Абстрактный метод!
+  }
+
+  /**
+   * Обновление содержимого компонента
+   *
+   * @param data
+   */
+  update(data = {}) {
+    // Перебираем все необходимые вложенные элементы
+    // и изменяем их внутреннее содержимое
+    for (const [key, value] of Object.entries(data)) {
+      if (this._elements[key]) {
+        this._elements[key].innerHTML = value
+      }
+    }
+  }
+
+  /**
+   * Полное удаление компонента
+   */
+  destroy() {
+    this._remove()
+    this._removeListeners()
+  }
+
+  /**
+   * Удаление компонента
+   *
+   * @protected
+   */
+  _remove() {
+    // this._component?.remove()
+    this._component.innerHTML = ''
+    this._elements = {}
+  }
+
+  /**
+   * Удаление прослушек событий
+   *
+   * @protected
+   */
+  _removeListeners() {
+    this._abortController.abort()
+  }
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Теперь можно непосредственно приступить к созданию страниц приложения.
+
+<h2 id="base-page"><span class="attention">Класс</span> BasePage</h2>
+
+У всех страниц есть общие повторяющиеся параметры поэтому создадим родительский класс **BasePage** для всех страниц. В каталоге **./src/core** создайте файл **BasePage.js** со следующим содержимым:
+
+{% capture code %}
+{% raw %}
+import BaseComponent from '@/core/BaseComponent' // Базовый компонент
+
+/**
+ * Базовая страница
+ */
+export default class BasePage extends BaseComponent {
+  /**
+   * Шаблон страницы
+   *
+   * @type {Promise&lt;{readonly default?: *}&gt;}
+   * @protected
+   */
+  _layout = import('@/layouts/MainLayout')
+
+  /**
+   * Заголовок страницы
+   *
+   * @type {string}
+   * @protected
+   */
+  _title = 'JavaScript framework'
+
+  /**
+   * Создание страницы
+   */
+  constructor() {
+    super()
+
+    document.title = 'Главая страница'
+  }
+
+  /**
+   * Получение шаблона страницы
+   *
+   * @returns {Promise&lt;{readonly default?: *}&gt;}
+   */
+  get layout() {
+    return this._layout
+  }
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="main-layout"><span class="attention">Класс</span> MainLayout</h2>
+
+При создании класса **BaseComponent** шаблоном по умолчанию для всех страниц мы определили **MainLayout**, в этом разделе давайте займемся его созданием. Создадим каталог **./src/layouts**, который будет хранить различные шаблоны приложения и внутри данного каталога создадим каталог **MainLayout** с файлом внутри **index.js** со следующим содержимым:
+
+{% capture code %}
+{% raw %}
+import BaseComponent from '@/core/BaseComponent' // базовый компонент
+
+// Стили шаблона
+import '@/layouts/MainLayout/main-layout.scss'
+
+/**
+ * Основной шаблон
+ */
+export default class MainLayout extends BaseComponent {
+  /**
+   * Создание шаблона
+   */
+  constructor() {
+    super()
+
+    // Инициализируем шаблон
+    this._init()
+  }
+
+  /**
+   * Разметка шаблона
+   *
+   * @returns {string}
+     * @protected
+     */
+  get _template() {
+      return `
+        &lt;div class="main-layout"&gt;
+          &lt;header class="main-header"&gt;
+            &lt;div class="container"&gt;Шапка сайта&lt;/div&gt;
+          &lt;/header&gt;
+
+          &lt;main data-el="page"&gt;&lt;!-- PageComponent --&gt;&lt;/main&gt;
+
+          &lt;footer class="main-footer"&gt;
+            &lt;div class="container"&gt;Copyright 2023&lt;/div&gt;
+          &lt;/footer&gt;
+        &lt;/div&gt;
+      `
+  }
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Сразу создадим файл **main-layout.scss** внутри каталога с нашим шаблоном. В нем будут стили текущего шаблона.
+
+{% capture code %}
+{% raw %}
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.main-header {
+  margin-bottom: 20px;
+
+  color: #fff;
+
+  background-color: #000;
+}
+
+.main-layout main {
+  flex-grow: 1;
+}
+
+.main-footer {
+  margin-top: 20px;
+  padding: 20px 0;
+
+  background-color: #c2c2c2;
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='scss' content=code %}
+
+Не обращайте внимание, что у нас нет разделения на отдельные стили для шапки, подвала и контента, это сделано, чтобы упростить пример. В идеале конечно хорошо было бы вынести шапку и подвал в отдельные компоненты и подключить их в шаблоне. О том как внедрять компоненты на страницу и друг в друга будет рассмотрено в следующем разделе, когда мы приступим к созданию самой страницы.
+
+А сейчас рассмотрим основную логику работы шаблона. У нас имеется атрибут **data-el="page"** он является служебным. В него всегда будет рендериться текущая страница, которая определена в файле **./src/routers/index.js**. При создании шаблона нужно всегда указывать **data-el="page"**.
+
+
+
+
+
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% capture code %}
+{% raw %}
+get _template() {
+  return `
+    &lt;div class="main-layout"&gt;
+      &lt;header class="main-header"&gt;
+        &lt;nav data-el="nav"&gt;&lt;!-- MainNavComponent --&gt;&lt;/nav&gt;
+      &lt;/header&gt;
+
+      &lt;main data-el="page"&gt;&lt;!-- PageComponent --&gt;&lt;/main&gt;
+
+      &lt;footer class="main-footer"&gt;
+        &lt;div class="container"&gt;Copyright 2023&lt;/div&gt;
+      &lt;/footer&gt;
+    &lt;/div&gt;
+  `
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+В этой разметке через атрибут **data-el** определяются области, в которые мы хоти отрисовать другие компоненты. В коде есть объект **components** хранящий различные компоненты. Важно чтобы ключи этого объекта совпадали с названием атрибута **data-el**:
+
+{% capture code %}
+{% raw %}
+// Вложенные компоненты
+const components = {
+  nav: new MainNavComponent(),
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Атрибут **data-el="page"** является служебным в него всегда будет рендериться текущая страница, которая определена в файле **./src/routers/index.js**.
+
+Так же доступ к элементам с атрибутом **data-el** можно получить через свойство **this._elements['сюда указываем имя нужного атрибута']**, например:
+
+{% capture code %}
+{% raw %}
+get _template() {
+  return `
+    &lt;div&gt;
+      &lt;button data-el="btn"&gt;Кнопка&lt;/button&gt;
+    &lt;/div&gt;
+  `
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Далее в коде мы можем обратиться к этому элементу например повесив на него событие:
+
+{% capture code %}
+{% raw %}
+_initListeners() {
+  this._elements['btn'].addEventListener('click', () => console.log('Нажали по кнопке')
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
