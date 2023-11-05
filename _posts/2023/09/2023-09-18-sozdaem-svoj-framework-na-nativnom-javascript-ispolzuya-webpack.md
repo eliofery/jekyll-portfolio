@@ -34,12 +34,18 @@ excerpt_separator: "<!--more-->"
 13. [Класс BaseComponent](#base-component)
 14. [Класс BasePage](#base-page)
 15. [Класс MainLayout](#main-layout)
+16. [Страницы HomePage, AboutPage, ErrorPage](#pages)
+17. [Компонент LogoComponent](#logo-component)
+18. [Компонент Link](#link-component)
+19. [Компонент Response](#reponse)
+20. [Компонент Store](#store)
+21. [Итоги создания фреймворка](#end)
 
 <h2 id="intro"><span class="attention">Вводная</span> часть</h2>
 
 Основная идея заключается в создании простого, легковесного **фреймворка** используя возможности нативного **JavaScript**. В дальнейшем на основе него будет создано одностраничное приложение (**SPA**).
 
-Каждый шаг создания **JavaScript framework** я старался комментировать свои шаги [в репозитории](https://github.com/eliofery/javascript-framework-webpack/commits/main){:target="_blank" rel="nofollow"}. Обязательно загляните туда если походу статьи вам будет что-то не понятно.
+Каждый шаг создания **JavaScript framework** можно будет отследить [в репозитории](https://github.com/eliofery/javascript-framework-webpack/commits/main){:target="_blank" rel="nofollow"}.
 
 <h2 id="base"><span class="attention">Базовая </span> инициализация</h2>
 
@@ -1260,6 +1266,8 @@ export default router
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}
 
+Страница **AboutPage** нам пригодится, чтобы протестировать переход между страницами без перезагрузки страницы, а страница **ErrorPage** нужна для того чтобы при переходе по не зарегистрированному маршруту отображалась пользовательская страница 404.
+
 Подключим созданный файл **./src/routers/index.js** в главный исполняемый файл нашего фреймворка **main.js**:
 
 {% capture code %}
@@ -2192,44 +2200,491 @@ export default class MainLayout extends BaseComponent {
 
 А сейчас рассмотрим основную логику работы шаблона. У нас имеется атрибут **data-el="page"** он является служебным. В него всегда будет рендериться текущая страница, которая определена в файле **./src/routers/index.js**. При создании шаблона нужно всегда указывать **data-el="page"**.
 
+<h2 id="pages"><span class="attention">Страницы</span> HomePage, AboutPage, ErrorPage</h2>
 
+В разделе [класс Router](/blog/2023-09-18-sozdaem-svoj-framework-na-nativnom-javascript-ispolzuya-webpack-frontend.html#router){:target="_blank"} при создании маршрутов были описаны страницы **HomePage**, **AboutPage** и **ErrorPage** давайте их создадим. Для этого создадим каталог **./src/pages** и внутри него файлы **HomePage.js**, **AboutPage.js** и **ErrorPage.js**.
 
+Если нужно иметь для страницы свои стили, то можно по аналогии с **MainLayout** создать каталог с названием страницы, например **HomePage** и внутри него создать файл **index.js** который будет содержать код логики страницы. И рядом с этим файлом создать файл со стилями, например **home-page.scss**. Затем подключить его в файле **HomePage/index.js** следующим образом: **@import '@/pages/HomePage/home-page.scss'**.
 
+### Страница HomePage.js
 
-
-
-
-
-
----------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Внутри главной страницы подключаем компонент **LogoComponent**, пока он еще не создан к нему приступим немного позже.
 
 {% capture code %}
 {% raw %}
+import BasePage from '@/core/BasePage' // базовая страница
+import LogoComponent from '@/components/LogoComponent' // логотип
+
+// Подключаемые компоненты
+const components = {
+  logo: new LogoComponent({ title: 'JavaScript Framework' }),
+}
+
+/**
+ * Главная страница
+ */
+export default class HomePage extends BasePage {
+  /**
+   * Создание главной страницы
+   */
+  constructor() {
+    super()
+
+    document.title = `Главная страница - ${this._title}`
+
+    // Подключение компонентов
+    this._setComponents(components)
+
+    // Инициализация главной страницы
+    this._init()
+  }
+
+  /**
+   * Разметка страницы
+   *
+   * @returns {string}
+   * @protected
+   */
+  get _template() {
+    return `
+      &lt;div class="home-page"&gt;
+        &lt;div class="container"&gt;
+          &lt;div data-el="logo"&gt;&lt;!-- LogoComponent --&gt;&lt;/div&gt;
+
+          &lt;button type="button" data-el="btn"&gt;Кнопка&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    `
+  }
+
+  /**
+   * Прослушка событий
+   *
+   * @protected
+   */
+  _initListeners() {
+    this._elements['btn'].addEventListener('click', () => console.log('Клик по кнопке'))
+  }
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+В разметке страницы или другого компонента через атрибут **data-el** определяются области, в которые мы хотим отрисовать другие компоненты. В коде есть объект **components** хранящий различные компоненты. Важно чтобы ключи этого объекта совпадали с названием атрибута **data-el**:
+
+{% capture code %}
+{% raw %}
+// Значение logo подставится на место data-el="logo"
+const components = {
+  logo: new LogoComponent({ title: 'JavaScript Framework' }),
+}
+
+...
+
+// Значение components.logo подставится на место data-el="logo"
+&lt;div data-el="logo"&gt;&lt;!-- LogoComponent --&gt;&lt;/div&gt;
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Так же доступ к элементам с атрибутом **data-el** можно получить через свойство **this._elements['сюда указываем имя нужного атрибута']**, например:
+
+{% capture code %}
+{% raw %}
+...
+
+&lt;button type="button" data-el="btn"&gt;Кнопка&lt;/button&gt;
+
+...
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Далее в коде мы можем обратиться к этому элементу например повесив на него событие:
+
+{% capture code %}
+{% raw %}
+...
+
+_initListeners() {
+  this._elements['btn'].addEventListener('click', () => console.log('Клик по кнопке'))
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Если нужно по новой рендерить компонент, то можно вызвать метод **_reloadComponents**, например:
+
+{% capture code %}
+{% raw %}
+components.logo = new LogoComponent({ title: 'JavaScript Framework 2.0' })
+
+this._reloadComponents(components)
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Основные механики заложенные в наш фреймворк по работе с компонентами мы разобрали, напоминаю что данная логика прописана в файле **./src/core/BaseComponent.js**.
+
+### Страница AboutPage.js
+
+Страницы **AboutPage** будет носить чисто информативный характер, для того чтобы мы могли протестировать переключение между страницами без перезагрузки страницы.
+
+{% capture code %}
+{% raw %}
+import BasePage from '@/core/BasePage' // базовая страница
+
+/**
+ * Страница о нас
+ */
+export default class AboutPage extends BasePage {
+  /**
+   * Создание страницы о нас
+   */
+  constructor() {
+    super()
+
+    document.title = `О нас - ${this._title}`
+
+    // Инициализация страницы о нас
+    this._init()
+  }
+
+  /**
+   * Разметка страницы
+   *
+   * @returns {string}
+     * @protected
+     */
+  get _template() {
+      return `
+        &lt;div&gt;
+          Создание самописного framework на нативном JavaScript с использованием Webpack.
+        &lt;/div&gt;
+      `
+  }
+
+  /**
+   * Прослушка событий
+   *
+   * @protected
+   */
+  _initListeners() {}
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+### Страница ErrorPage.js
+
+Страницы **ErrorPage** будет отображаться при переходе по не зарегистрированному маршруту.
+
+{% capture code %}
+{% raw %}
+import BasePage from '@/core/BasePage' // базовая страница
+
+/**
+ * Страница 404
+ */
+export default class ErrorPage extends BasePage {
+  /**
+   * Создание страницы
+   */
+  constructor() {
+    super()
+
+    document.title = `Страница 404 - ${this._title}`
+
+    // Инициализация страницы
+    this._init()
+  }
+
+  /**
+   * Разметка страницы
+   *
+   * @returns {string}
+     * @protected
+     */
+  get _template() {
+      return `
+        &lt;div&gt;
+          Страница не найдена 404.
+        &lt;/div&gt;
+      `
+  }
+
+  /**
+   * Прослушка событий
+   *
+   * @protected
+   */
+  _initListeners() {}
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+<h2 id="logo-component"><span class="attention">Компонент</span> LogoComponent</h2>
+
+В предыдущем разделе мы создали страницу **HomePage**, где внедряли компонент **LogoComponent**. В этом разделе мы опишем его.
+
+Создадим каталог **./src/components/LogoComponent** и внутри него файл **index.js** который будет содержать всю логику компонента. Так же рядом можно создать файл со стилями данного компонента, например **logo.scss**. Опишем наш компонент:
+
+{% capture code %}
+{% raw %}
+import BaseComponent from '@/core/BaseComponent' // базовый компонент
+
+import '@/components/LogoComponent/logo.scss'
+
+/**
+ * Логотип
+ */
+export default class LogoComponent extends BaseComponent {
+  /**
+   * Создание главной страницы
+   */
+  constructor({ title = '' } = {}) {
+    super()
+
+    this._title = title
+
+    // Инициализация компонента лого
+    this._init()
+  }
+
+  /**
+   * Разметка компонента
+   *
+   * @returns {string}
+   * @protected
+   */
+  get _template() {
+    return `
+      &lt;div&gt;
+        &lt;img src="logo.svg" width="150" height="80" alt="${this._title}"&gt;
+      &lt;/div&gt;
+    `
+  }
+
+  /**
+   * Прослушка событий
+   *
+   * @protected
+   */
+  _initListeners() {}
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Главным отличием компонента от страницы является, то что он наследуется не от **BasePage**, а напрямую от **BaseComponent**. В остальном он так же может внедрять внутрь себя другие компоненты, как это было показано на примере **HomePage**.
+
+В конструктор компонента мы можем передавать какие-то специфичные для этого компонента параметры и затем в коде обращаться к ним, как это сделано на примере значения **title**.
+
+Теперь в **HomePage** на место **&lt;div data-el="logo"&gt;&lt;!-- LogoComponent --&gt;&lt;/div&gt;** подставится содержимое **get _template()** компонента **LogoComponent**.
+
+<h2 id="link-component"><span class="attention">Компонент</span> Link</h2>
+
+Компонент **Link** нужен для того, что бы реализовать переключение между страницами без перезагрузки страницы. Добавим данный компонент для этого создадим файл **./src/core/Link.js**. Опишем его код:
+
+{% capture code %}
+{% raw %}
+import Router from '@/core/Router/Router' // роутер
+import BaseComponent from '@/core/BaseComponent' // базовый компонент
+
+/**
+ * Ссылка на внутренние страницы приложения
+ */
+export default class Link extends BaseComponent {
+  /**
+   * Список всех проинициализированных ссылок
+   *
+   * @type {[]}
+   * @protected
+   */
+  static _links = []
+
+  /**
+   * Создание ссылки
+   *
+   * @param url
+   * @param html
+   * @param attributes
+   * @param activeClass
+   */
+  constructor({
+    url = '',
+    html = '',
+    attributes = {},
+    activeClass = 'active',
+  } = {}) {
+    super()
+
+    this._router = Router.instance // роутер
+
+    this._url = this._correctUrl(url) // ссылка
+    this._html = html // содержимое ссылки
+    this._attributes = attributes // атрибуты ссылки
+    this._activeClass = activeClass // класс активной ссылки
+
+    this._init() // инициализация компонента Link
+  }
+
+  /**
+   * Получение роутера
+   *
+   * @returns {Router.instance}
+   */
+  get router() {
+    return this._router
+  }
+
+  /**
+   * Получение активного класса
+   *
+   * @returns {string}
+   */
+  get activeClass() {
+    return this._activeClass
+  }
+
+  /**
+   * Исправление ссылки для ссылки вида хэш
+   *
+   * @param url
+   * @returns {*}
+   * @protected
+   */
+  _correctUrl(url) {
+    if (this._router.history === Router.createWebHashHistory()) {
+      url = url.replace(/^\//, '/#/') // меняет / -> /#/
+    }
+
+    return url
+  }
+
+  /**
+   * Инициализация компонента
+   *
+   * @protected
+   */
+  _initComponent() {
+    // Создаем элемент ссылка
+    this._component = document.createElement('a')
+
+    // Если урл ссылки соответствует урл в браузере делаем ссылку активной
+    if (this._url === this._router.getUri()) {
+      this._component.classList.add(this._activeClass)
+    }
+
+    // Добавляем урл в ссылку
+    this._component.setAttribute('href', this._url)
+
+    // Добавляем содержимое в ссылку
+    this._component.innerHTML = this._html
+
+    // Добавляем аттрибуты ссылки
+    Object.entries(this._attributes).forEach(([prop, value]) => {
+      this._component.setAttribute(prop, `${value}`)
+    })
+
+    // Аккумулируем все ссылки
+    Link._links.push({
+      link: this._component,
+      activeClass: this._activeClass,
+    })
+  }
+
+  /**
+   * Прослушка событий
+   *
+   * @protected
+   */
+  _initListeners() {
+    this._component.addEventListener('click', async evt => {
+      // Отменяем стандартный переход по ссылки
+      evt.preventDefault()
+
+      // Получаем урл ссылки
+      const path = evt.currentTarget.getAttribute('href')
+
+      // Меняем урл в браузере на урл ссылки
+      window.history.pushState(null, null, path)
+
+      // Переключаем классы у активных ссылок
+      this._toggleClass()
+
+      // Рендарим страницу
+      await this._router.render()
+    })
+
+    // Переключаем классы у активных ссылок при изменении страницы
+    window.addEventListener(this._router.history, () => this._toggleClass(), {
+      signal: this._abortController.signal,
+    })
+  }
+
+  /**
+   * Переключаем классы у активных ссылок
+   *
+   * @protected
+   */
+  _toggleClass() {
+    Link._links.forEach(({ link, activeClass }) => {
+      const linkUri = new URL(link.href).pathname
+
+      if (linkUri === this._router.getUri()) {
+        link.classList.add(activeClass)
+      } else {
+        link.classList.remove(activeClass)
+      }
+    })
+  }
+}
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Теперь мы можем подключить компонент **Link** к примеру в **MainLayout**, например:
+
+{% capture code %}
+{% raw %}
+...
+
+const components = {
+  homeLink: new Link({
+    url: '/',
+    html: 'Главная страница',
+    attributes: { class: 'home' },
+  }),
+
+  aboutLink: new Link({
+    url: '/about',
+    html: 'О фреймворке',
+    attributes: { class: 'framework' },
+  }),
+}
+
+...
+
+constructor() {
+  super()
+
+  // Установка компонентов
+  this._setComponents(components)
+
+  // Инициализируем шаблон
+  this._init()
+}
+
 get _template() {
   return `
     &lt;div class="main-layout"&gt;
       &lt;header class="main-header"&gt;
-        &lt;nav data-el="nav"&gt;&lt;!-- MainNavComponent --&gt;&lt;/nav&gt;
+        &lt;div class="container"&gt;
+          &lt;div data-el="homeLink"&gt;&lt;!-- homeLink --&gt;&lt;/div&gt;
+          &lt;div data-el="aboutLink"&gt;&lt;!-- aboutLink --&gt;&lt;/div&gt;
+        &lt;/div&gt;
       &lt;/header&gt;
 
       &lt;main data-el="page"&gt;&lt;!-- PageComponent --&gt;&lt;/main&gt;
@@ -2244,87 +2699,436 @@ get _template() {
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}
 
-В этой разметке через атрибут **data-el** определяются области, в которые мы хоти отрисовать другие компоненты. В коде есть объект **components** хранящий различные компоненты. Важно чтобы ключи этого объекта совпадали с названием атрибута **data-el**:
+<h2 id="response"><span class="attention">Класс</span> Response</h2>
+
+Создадим простой аналог библиотеки **axios** для запросов данных у сервера по **api**. Для этого создадим файл **./src/core/Response.js** со следующим содержимым:
 
 {% capture code %}
 {% raw %}
-// Вложенные компоненты
-const components = {
-  nav: new MainNavComponent(),
+/**
+ * Запросы к серверу
+ *
+ * Вольная реализация axios.
+ */
+export default class Response {
+  // Используется для создания объекта класса
+  static _initialization = false
+
+  // Опции запроса
+  _options = {}
+
+  // Базовый урл запроса
+  _baseUrl = ''
+
+  /**
+   * Создание запроса напрямую запрещен
+   */
+  constructor() {
+    if (!Response._initialization) {
+      throw new TypeError('Нельзя напрямую создать экземпляр данного класса')
+    }
+  }
+
+  /**
+   * Создание запроса
+   *
+   * @param options
+   * @returns {Response}
+   */
+  static create(options = {}) {
+    // Создаем объект класса
+    Response._initialization = true
+    const response = new Response()
+    Response._initialization = false
+
+    // Получаем базовый урл
+    response._baseUrl = options.baseUrl ?? ''
+
+    // Удаляем базовый урл из опциональных параметров
+    delete options.baseUrl
+
+    // Получаем опциональные параметры
+    response._options = options
+
+    return response
+  }
+
+  /**
+   * Запрос на сервер
+   *
+   * @param url
+   * @param options
+   * @returns {Promise&lt;any&gt;}
+   * @private
+   */
+  _response = async (url, options = {}) => {
+    try {
+      const response = await fetch(url, options)
+
+      return await response.json()
+    } catch (e) {
+      // eslint-disable-next-line
+      if (process.env.NODE_ENV === 'development') console.log(e.message)
+      throw e
+    }
+  }
+
+  /**
+   * Получение данных методом GET
+   *
+   * @param url
+   * @returns {Promise&lt;*&gt;}
+   */
+  get(url = '') {
+    url = new URL(url, this._baseUrl)
+
+    return this._response(url.href, this._options)
+  }
+
+  /**
+   * Получение данных методом POST
+   *
+   * @param url
+   * @param data
+   * @returns {Promise&lt;*&gt;}
+   */
+  post(url = '', data = {}) {
+    url = new URL(url, this._baseUrl)
+
+    this._options = {
+      ...this._options,
+      method: 'post',
+      body: data,
+    }
+
+    return this._response(url.href, this._options)
+  }
 }
 {% endraw %}
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}
 
-Атрибут **data-el="page"** является служебным в него всегда будет рендериться текущая страница, которая определена в файле **./src/routers/index.js**.
+### ProductService.js
 
-Так же доступ к элементам с атрибутом **data-el** можно получить через свойство **this._elements['сюда указываем имя нужного атрибута']**, например:
+Теперь создадим **api** сервис который используя созданный класс **Response** будет позволять получать данные с удаленного сервера.
+
+Для этого создадим файл **/src/services/ProductService.js** со следующим содержимым:
 
 {% capture code %}
 {% raw %}
-get _template() {
-  return `
-    &lt;div&gt;
-      &lt;button data-el="btn"&gt;Кнопка&lt;/button&gt;
-    &lt;/div&gt;
-  `
+import Response from '@/core/Response' // подобие axios
+
+// Подготовительные POST запросы
+const apiClientPost = Response.create({
+  baseUrl: process.env.API_URL, // смотреть файл development.env или production.env
+  credentials: 'omit',
+  headers: {
+    'Content-Type': 'application/json; charset=UTF-8',
+  },
+})
+
+// Подготовительные GET запросы
+const apiClientGet = Response.create({
+  baseUrl: process.env.API_URL, // смотреть файл development.env или production.env
+  credentials: 'omit',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+})
+
+export default {
+  /**
+   * Добавление продукта
+   *
+   * @param data
+   * @returns {*}
+   */
+  addProducts(data) {
+    return apiClientPost.post('/products/add', data)
+  },
+
+  /**
+   * Получение продуктов
+   *
+   * @returns {*}
+   */
+  loadProducts() {
+    return apiClientGet.get('/products')
+  },
 }
 {% endraw %}
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}
 
-Далее в коде мы можем обратиться к этому элементу например повесив на него событие:
+Далее мы можем получить данные с сервера например на странице **HomePage**:
 
 {% capture code %}
 {% raw %}
-_initListeners() {
-  this._elements['btn'].addEventListener('click', () => console.log('Нажали по кнопке')
+import ProductService from '@/services/ProductService'
+
+const { addProducts, loadProducts } = ProductService
+
+const products = await loadProducts()
+const res = await addProducts(JSON.stringify({ name: 'Product new', type: 'discount' }))
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
+
+Это примерный псевдо код как можно воспользоваться созданным сервисом для общего понимания принципа.
+
+Мы могли без проблем напрямую через класс **Response** обратиться к **api** серверу, но тогда бы у нас обращение к серверу было бы разбросанно по всему коду нашего проекта. Прелесть создания сервисов в том, что мы собираем подключение к серверу в одном месте и потом в нужных участках кода обращаемся к нему. И если в дальнейшем понадобится изменить какие-то параметры подключения мы это сделаем в одном месте.
+
+<h2 id="store"><span class="attention">Класс</span> Store</h2>
+
+Создадим простой аналог библиотеки **Redux** для сохранения состояний приложения. Для этого добавим файл **./src/core/Store.js** со следующим содержимым:
+
+{% capture code %}
+{% raw %}
+/**
+ * Менеджер состояний
+ *
+ * Вольная реализация Redux.
+ */
+export default class Store {
+  /**
+   * Редьюсеры
+   *
+   * @type {[]}
+   * @protected
+   */
+  _reducers = []
+
+  /**
+   * Состояния
+   *
+   * @type {{}}
+   * @protected
+   */
+  _state = {}
+
+  /**
+   * События
+   *
+   * @type {{}}
+   * @protected
+   */
+  _listeners = {}
+
+  /**
+   * Создание хранилища
+   *
+   * @param reducers
+   * @param initState
+   */
+  constructor(reducers = [], initState = {}) {
+    this._reducers = reducers
+    this._state = initState
+  }
+
+  /**
+   * Получить состояние
+   *
+   * @param name
+   * @returns {{}|*}
+   */
+  getState(name = '') {
+    if (this._state[name]) {
+      return this._state[name]
+    }
+
+    return this._state
+  }
+
+  /**
+   * Установить состояние
+   *
+   * @param newState
+   * @protected
+   */
+  _setState(newState) {
+    this._state = newState
+  }
+
+  /**
+   * Подписки на события
+   *
+   * @param name
+   * @param callback
+   * @returns {(function(): void)|*}
+   */
+  subscribe(name, callback) {
+    if (!this._listeners[name]) {
+      this._listeners[name] = []
+    }
+
+    this._listeners[name].push(callback)
+
+    return () => {
+      this._listeners = this._listeners[name].filter(
+        listener => listener !== callback,
+      )
+    }
+  }
+
+  /**
+   * Вызов события
+   *
+   * @param action
+   */
+  dispatch(action) {
+    for (const reducer of this._reducers) {
+      const previousState = this.getState()
+      const newState = reducer(previousState, action)
+
+      if (newState) {
+        this._setState(newState)
+
+        const listeners = this._listeners[action.type]
+
+        if (listeners) {
+          const currentState = this.getState()
+
+          for (const listener of listeners) {
+            listener(currentState)
+          }
+        }
+      }
+    }
+  }
 }
 {% endraw %}
 {% endcapture %}
 {% include component/code.html lang='js' content=code %}
 
+### bidsReducer
 
+Пример того как мог бы выглядеть **reducer**. Создайте файл **./src/reducers/bidsReducer.js** со следующим содержимым:
 
+{% capture code %}
+{% raw %}
+import BidService from '@/services/BidService' // запросы заявок
 
+const { loadBids } = BidService // получение заявок
 
+export const REFRESH_BIDS = 'REFRESH_BIDS' // для обновления заявок
 
+/**
+ * Обновление заявок
+ *
+ * @param bids
+ * @returns {{bids, type: string}}
+ */
+export const refreshBids = bids => ({
+  type: REFRESH_BIDS,
+  bids,
+})
 
+/**
+ * Получение заявок
+ *
+ * @type {*}
+ */
+const bids = await loadBids()
 
+/**
+ * Состояние заявок
+ *
+ * @type {{bids: *, countBids}}
+ */
+export const bidsState = {
+  bids,
+  countBids: bids.length,
+}
 
+/**
+ * Reducer заявок
+ *
+ * @param previousState
+ * @param action
+ * @returns {*|null}
+ */
+export const bidsReducer = (previousState, action) => {
+  switch (action.type) {
+    case REFRESH_BIDS:
+      previousState.bids = action.bids
 
+      return {
+        ...previousState,
+      }
 
+    default:
+      return null
+  }
+}
 
+export default bidsReducer
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
 
+### Создание менеджера состояния
 
+Теперь когда у нас есть менеджер состояний и редьюсер добавим наше хранилище. Для этого создадим файл **./src/store/index.js** со следующим содержимым:
 
+{% capture code %}
+{% raw %}
+import Store from '@/core/Store' // хранилище типа Redux
+import { bidsReducer, bidsState } from '@/reducers/bidsReducer' // reducer для заявок
 
+// Объединяем все reducer
+const reducers = [bidsReducer]
 
+// Объединяем все состояния
+const initState = {
+  ...bidsState,
+}
 
+// Регистрация хранилища состояний
+const store = new Store(reducers, initState)
+const storeKey = Symbol.for('storeKey')
 
+// Не обязательно использовать globalThis можно просто вернуть store
+// globalThis в дальнейшем может пригодиться для отладки
+globalThis[storeKey] = store
 
+export default globalThis[storeKey]
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
 
+### Пример использования менеджера состояния
 
+Где-то в коде страницы или компонента мы можем подписаться на событие **REFRESH_BIDS**.
 
+{% capture code %}
+{% raw %}
+import store from '@/store'
 
+store.subscribe(REFRESH_BIDS, () => {
+  // Здесь происходит какая то логика.
+  // Данный колбэк сработает при вызове редьюсера у которого параметр type будет равен REFRESH_BIDS.
+})
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
 
+И затем к примеру в другом компоненте вызвать действие редьюсера:
 
+{% capture code %}
+{% raw %}
+const data = [1,2,3,4,5]
 
+store.dispatch(refreshBids(data))
+{% endraw %}
+{% endcapture %}
+{% include component/code.html lang='js' content=code %}
 
+<h2 id="end"><span class="attention">Итоги</span> создания фреймворка</h2>
 
+Мы проделали большую работу в создании собственного фреймворка. Многие вещи скорей всего до конца не раскрыты ввиду того, что требуется большое количество времени чтобы все более подробно и детально расписать.
 
+Насколько мог я, прокомментировал каждую строчку кода, и надеюсь это поможет хоть немного при изучении данного материала понять логику и суть проделанной работы.
 
+Ну а пока можете ознакомиться с [готовым сайтом](https://github.com/eliofery/javascript-framework-shop){:target="_blank" rel="nofollow"} написанном мной на этом фреймворке. [Исходники готового сайта](https://github.com/eliofery/javascript-framework-shop){:target="_blank" rel="nofollow"} так же будут доступны в репозитории.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+Успешного изучения **JavaScript**.
