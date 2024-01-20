@@ -26,9 +26,10 @@
         {% endfor %}
         <h3 class="main-blog__subtitle main-blog__subtitle--blog">Категории</h3>
         <div class="main-blog__list category-list">
-          {% for category in site.categories %}
-          {% capture category_name %}{{ category | first | slugify }}{% endcapture %}
-          <a class="category-list__link" href="{{ site.baseurl }}/{{ category_name }}">{{ category_name | capitalize }} ({{ category[1].size }})</a>
+          {% for cat in site.categories-order %}
+          <a class="category-list__link" href="{{ site.baseurl }}/{{ cat }}">
+            {{ cat | capitalize }} ({{ site.categories[cat].size }})
+          </a>
           {% endfor %}
         </div>
       </div>

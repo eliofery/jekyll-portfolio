@@ -42,11 +42,13 @@ kramdown:
   input: GFM
   syntax_highlighter: rouge
 
+# Порядок категорий
 categories-order:
   - linux
   - program
   - dsa
   - frontend
+  - backend
 
 # Набор правил по умолчанию для создаваемых страниц через терминал
 jekyll_compose:
@@ -95,15 +97,15 @@ pagination:
     after: 2
 
 # Архивные страницы по годам и т.д.
-jekyll-archives:
-  enabled: [year]
-  layout: archive
-  permalinks:
-    year: '/:year/'
-    month: '/:year/:month/'
-    day: '/:year/:month/:day/'
-    tag: '/tag/:name/'
-    category: '/category/:name/'
+#jekyll-archives:
+#  enabled: [year]
+#  layout: archive
+#  permalinks:
+#    year: '/:year/'
+#    month: '/:year/:month/'
+#    day: '/:year/:month/:day/'
+#    tag: '/tag/:name/'
+#    category: '/category/:name/'
 
 # Оптимизация изображений
 svg:
