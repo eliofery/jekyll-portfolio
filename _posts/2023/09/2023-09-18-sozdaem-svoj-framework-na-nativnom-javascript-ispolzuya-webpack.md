@@ -3,7 +3,7 @@ layout: post
 title: Создаем самописный framework на нативном JavaScript используя Webpack
 date: 2023-09-18 14:23 +0600
 description: В этой статье речь пойдет о написании своего велосипеда в виде <b>JavaScript framework</b>. Затронем такие технологии как <b>Webpack</b>, <b>Linter</b>, <b>Redux</b>.
-image:
+image: cover.jpg
 alt: Основное изображение
 category: frontend
 tags: [javascript, webpack, linter, redux]
