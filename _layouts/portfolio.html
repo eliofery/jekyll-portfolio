@@ -20,7 +20,7 @@ layout: inner
       </div>
       <dl class="main-article__info">
         {% if page.work-year %}
-        <dt class="main-article__info-title">Год исполнения:</dt>
+        <dt class="main-article__info-title">Год создания:</dt>
         <dd class="main-article__info-desc">{{ page.work-year }}</dd>
         {% endif %}
         <dt class="main-article__info-title">Время чтения:</dt>
@@ -49,7 +49,7 @@ layout: inner
         {% endif %}
         {% if page.source %}
         <dt class="main-article__info-title">Источник:</dt>
-        <dd class="main-article__info-desc"><a href="{{ page.source }}" target="_blank" rel="nofollow">ссылка на работу</a></dd>
+        <dd class="main-article__info-desc"><a href="{{ page.source }}" target="_blank" rel="nofollow">ссылка на проект</a></dd>
         {% endif %}
       </dl>
       {% include component/share.html class="main-article__share" %}

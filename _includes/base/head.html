@@ -80,6 +80,22 @@
     overflow: auto;
   }
 
+  .inner-category__desc {
+    margin-top: 60px;
+
+    color: rgba(var(--color-text), 0.7);
+  }
+
+  .main-slider__slide.swiper-slide-active + .main-slider__slide.swiper-slide:last-child .main-slider__info,
+  .main-slider__slide.swiper-slide-active .main-slider__info {
+    opacity: 0;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+  }
+
   @media screen and (min-width: 900px) {
     .main-blog__block:nth-of-type(4) {
       grid-column: 2/3;

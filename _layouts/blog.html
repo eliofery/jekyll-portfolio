@@ -76,9 +76,12 @@ layout: default
         <p>Записей нет</p>
         {% endif %}
 
-        <div class="">
+        {% assign con = content | remove: ' ' %}
+        {% if con and con != '' %}
+        <div class="inner-category__desc">
           {{ content }}
         </div>
+        {% endif %}
       </div>
     </div>
   </div>
