@@ -4,7 +4,7 @@ title: Разработка интернет магазина недвижимо
 date: 2024-01-25 07:06 +0600
 description: Реализация интернет магазина продажи квартир на нативном <b>JavaScript</b>.
 image: cover.jpg
-alt: Блог-портфолио сайт
+alt: Интернет магазин
 work-year: 2023
 roles: [frontend]
 tags: [javascript, webpack, spa, linter, redux]
