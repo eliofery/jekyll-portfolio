@@ -89,11 +89,16 @@
   .main-slider__slide.swiper-slide-active + .main-slider__slide.swiper-slide:last-child .main-slider__info,
   .main-slider__slide.swiper-slide-active .main-slider__info {
     opacity: 0;
+  }
 
-    &:hover,
-    &:focus {
-      opacity: 1;
-    }
+  .main-slider__slide.swiper-slide-active + .main-slider__slide.swiper-slide:last-child:hover .main-slider__info,
+  .main-slider__slide.swiper-slide-active:hover .main-slider__info {
+    opacity: 1;
+  }
+
+  .main-slider__slide.swiper-slide-active + .main-slider__slide.swiper-slide:last-child:focus .main-slider__info,
+  .main-slider__slide.swiper-slide-active:focus .main-slider__info {
+    opacity: 1;
   }
 
   @media screen and (min-width: 900px) {

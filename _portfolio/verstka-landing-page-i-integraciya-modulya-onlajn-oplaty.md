@@ -8,6 +8,7 @@ alt: Landing page
 work-year: 2023
 roles: [верстка, онлайн оплата]
 tags: [gulp, scss, javascript, gsap]
+source: https://coinbox.kz
 published: true
 sitemap: false
 excerpt_separator: "<!--more-->"
