@@ -8,7 +8,7 @@ alt: Chix
 work-year: 2024
 roles: [backend]
 tags: [golang, chi]
-source: https://github.com/eliofery/go-chix
+source: https://github.com/eliofery/chix-router
 published: true
 sitemap: false
 excerpt_separator: "<!--more-->"
@@ -42,7 +42,7 @@ func Handler(w http.ResponseWrite, r *http.Request) {
 Обработчик **Chix** роутера выглядит следующим образом:
 
 {% capture code %}
-func Handler(ctx *chix.Ctx) {
+func Handler(ctx *chix.Ctx) error {
   // ctx.ResponseWriter
   // ctx.Request
 }
@@ -59,4 +59,5 @@ func Handler(ctx *chix.Ctx) {
 
 <h3>Ссылки на проект</h3>
 
-- [Страница проекта](https://github.com/eliofery/go-chix){:target="_blank" rel="nofollow"}
+- [Страница проекта](https://github.com/eliofery/chix-router){:target="_blank" rel="nofollow"}
+- [Фреймворк на базе Chix роутера](https://github.com/eliofery/go-chix){:target="_blank" rel="nofollow"}
