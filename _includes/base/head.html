@@ -68,6 +68,27 @@
 
 <!-- todo вынести стили-->
 <style>
+  .main-section__title {
+    position: relative;
+  }
+
+  .main-section__title a {
+    display: block;
+  }
+
+  .main-slider__more {
+    position: absolute;
+    top: 85%;
+    left: 0;
+
+    color: rgba(var(--color-text), 0.7);
+    font-family: "Roboto", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    font-style: normal;
+    text-decoration: underline;
+  }
+
   .main-slider__slide.swiper-slide-active + .main-slider__slide.swiper-slide:last-child .main-slider__info {
     opacity: 1;
   }

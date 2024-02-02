@@ -2,10 +2,13 @@
   <div class="main-blog__container container">
     <div class="main-blog__wrap main-section__wrap">
       <h2 class="main-blog__title main-section__title title">
-        <a href="{{ site.baseurl }}/blog">Блог</a>
+        <a href="{{ site.baseurl }}/blog">
+          Блог
+          <i class="main-slider__more">Смотреть все статьи</i>
+        </a>
       </h2>
       <div class="main-blog__content main-section__content">
-        <h3 class="main-blog__subtitle main-blog__subtitle--article">Последние записи</h3>
+        <h3 class="main-blog__subtitle main-blog__subtitle--article">Последние статьи</h3>
         {% for post in site.posts limit: 4 offset: 0 %}
         <article class="main-blog__block card-article">
           <a class="card-article__link" href="{{ post.url }}">
